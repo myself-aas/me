@@ -1,0 +1,5 @@
+{
+  "name": "Dynamic Portfolio Website",
+  "description": "A dynamic portfolio website featuring projects and contact information.",
+  "requestFramePermissions": ["geolocation"]
+}
