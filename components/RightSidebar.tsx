@@ -13,6 +13,24 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
+// --- Quandl Widget ---
+const QuandlWidget = () => (
+  <div className="p-4 glass-card rounded-2xl mb-4">
+    <h3 className="font-bold text-sm mb-2">Quandl</h3>
+    <p className="text-xs text-gray-500 mb-3">Stock Market Data</p>
+    <a href="https://data.nasdaq.com/institutional-investors" target="_blank" rel="noopener noreferrer" className="text-blue-500 text-xs font-bold hover:underline">Visit Nasdaq Data</a>
+  </div>
+);
+
+// --- OkSurf Widget ---
+const OkSurfWidget = () => (
+  <div className="p-4 glass-card rounded-2xl mb-4">
+    <h3 className="font-bold text-sm mb-2">OkSurf</h3>
+    <p className="text-xs text-gray-500 mb-3">Free Google News with OG Images</p>
+    <a href="https://ok.surf/" target="_blank" rel="noopener noreferrer" className="text-blue-500 text-xs font-bold hover:underline">Visit OkSurf</a>
+  </div>
+);
+
 // --- YouTube Widget ---
 const YouTubeWidget = () => {
   const [videos, setVideos] = useState<any[]>([]);
@@ -346,6 +364,8 @@ export default function RightSidebar() {
       <WeatherWidget />
       <AnalyticsWidget />
       <HDXWidget />
+      <OkSurfWidget />
+      <QuandlWidget />
     </aside>
   );
 }

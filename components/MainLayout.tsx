@@ -31,7 +31,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <Footer />
       </main>
       {/* Desktop Right Sidebar */}
-      <div className={`hidden lg:block w-[350px] p-4 transition-all duration-300 ${isWidePage ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <div className={`hidden lg:block w-[350px] p-4 transition-all duration-300 ${isWidePage ? 'opacity-0 pointer-events-none' : 'opacity-100'} sticky top-0 h-screen overflow-y-auto`}>
         <RightSidebar />
       </div>
     </div>
