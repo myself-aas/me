@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     siteName: 'Ashif Ahmed Shuvo Portfolio',
     images: [
       {
-        url: 'https://ghchart.rshah.org/myself-aas.svg',
+        url: 'https://ghchart.rshah.org/myself-aas/2563eb.svg',
         width: 1200,
         height: 630,
         alt: 'Ashif Ahmed Shuvo GitHub Contribution Graph',
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Ashif Ahmed Shuvo | AI & ML Expert',
     description: 'Portfolio of Ashif Ahmed Shuvo, Machine Learning Enthusiast specializing in precision and sustainable agriculture.',
-    images: ['https://ghchart.rshah.org/myself-aas.svg'],
+    images: ['https://ghchart.rshah.org/myself-aas/2563eb.svg'],
   },
 };
 

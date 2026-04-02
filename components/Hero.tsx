@@ -10,14 +10,14 @@ export default function Hero() {
       {/* Cover Photo */}
       <div className="h-32 sm:h-48 w-full bg-slate-100 dark:bg-slate-900 relative overflow-hidden">
         <Image 
-          src="https://ghchart.rshah.org/myself-aas.svg" 
+          src="https://ghchart.rshah.org/myself-aas/2563eb.svg" 
           alt="GitHub Contribution Graph" 
           fill 
-          className="object-contain opacity-40 dark:opacity-30"
+          className="object-cover opacity-20 dark:opacity-20"
           priority
         />
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-black to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-white/90 dark:from-black/90 to-transparent" />
       </div>
 
       {/* Profile Info */}
