@@ -3,6 +3,8 @@
 import { MapPin, Link as LinkIcon, Calendar, Mail, GraduationCap, Download, Github, Linkedin, BookOpen } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import me from '@/public/me.png';
+import meCover from '@/public/me_cover.png';
 
 export default function Hero() {
   return (
@@ -10,10 +12,11 @@ export default function Hero() {
       {/* Cover Photo */}
       <div className="h-32 sm:h-48 w-full bg-slate-100 dark:bg-slate-900 relative overflow-hidden">
         <Image 
-          src="https://raw.githubusercontent.com/myself-aas/me/main/public/me_cover.png" 
+          src={meCover} 
           alt="Cover Photo" 
           fill 
           className="object-cover"
+          priority
         />
       </div>
 
@@ -23,10 +26,11 @@ export default function Hero() {
           {/* Avatar */}
           <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl border-4 border-white/50 dark:border-black/50 bg-gray-200/50 dark:bg-gray-800/50 -mt-14 sm:-mt-18 relative z-10 shadow-xl overflow-hidden backdrop-blur-sm">
             <Image 
-              src="https://raw.githubusercontent.com/myself-aas/me/main/public/me.png" 
+              src={me} 
               alt="Ashif Ahmed Shuvo" 
               fill 
               className="object-cover"
+              priority
             />
           </div>
           

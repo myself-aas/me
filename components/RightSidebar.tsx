@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { 
   Cloud, 
   MapPin, 
@@ -58,7 +59,6 @@ const YouTubeWidget = () => {
                 alt={video.title} 
                 fill 
                 className="rounded-xl object-cover"
-                referrerPolicy="no-referrer"
               />
             </div>
             <p className="text-xs font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-blue-500 transition-colors">{video.title}</p>
@@ -108,7 +108,6 @@ const MetMuseumWidget = () => {
           alt={artwork.title} 
           fill 
           className="rounded-xl object-cover"
-          referrerPolicy="no-referrer"
         />
       </div>
       <p className="text-xs font-bold text-gray-900 dark:text-white line-clamp-1">{artwork.title}</p>
@@ -278,9 +277,6 @@ const AnalyticsWidget = () => {
     </div>
   );
 };
-
-import Image from 'next/image';
-
 
 // --- Recommended Researchers Widget ---
 const RecommendedResearchers = () => {
