@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'Ashif Ahmed Shuvo | AI & ML Expert',
   description: 'Portfolio of Ashif Ahmed Shuvo, Machine Learning Enthusiast specializing in precision and sustainable agriculture.',
   icons: {
-    icon: '/me/me.png',
+    icon: 'https://github.com/myself-aas.png',
   },
   openGraph: {
     title: 'Ashif Ahmed Shuvo | AI & ML Expert',

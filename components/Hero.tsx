@@ -24,7 +24,7 @@ export default function Hero() {
           {/* Avatar */}
           <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl border-4 border-white/50 dark:border-black/50 bg-gray-200/50 dark:bg-gray-800/50 -mt-14 sm:-mt-18 relative z-10 shadow-xl overflow-hidden backdrop-blur-sm">
             <Image 
-              src="/me/me.png" 
+              src="https://github.com/myself-aas.png" 
               alt="Ashif Ahmed Shuvo" 
               fill 
               className="object-cover"
