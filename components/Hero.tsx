@@ -34,19 +34,6 @@ export default function Hero() {
             />
           </div>
           
-          {/* Action Buttons */}
-          <div className="flex flex-col gap-2 items-end">
-            <Link href="/contact" className="rounded-lg bg-blue-600/90 backdrop-blur-sm text-white px-6 py-2 font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg w-full text-center">
-              Contact Me
-            </Link>
-            <a 
-              href="Ashif_Ahmed_Shuvo.pdf" 
-              download 
-              className="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-lg border border-blue-600/50 bg-blue-50/30 dark:bg-blue-900/10 backdrop-blur-sm text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all w-full"
-            >
-              Download Resume <Download className="w-4 h-4" />
-            </a>
-          </div>
         </div>
 
         <div className="mt-6">
