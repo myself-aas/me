@@ -13,9 +13,11 @@ export default function Hero() {
           src="https://ghchart.rshah.org/myself-aas.svg" 
           alt="GitHub Contribution Graph" 
           fill 
-          className="object-contain"
+          className="object-contain opacity-40 dark:opacity-30"
           priority
         />
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-black to-transparent" />
       </div>
 
       {/* Profile Info */}
