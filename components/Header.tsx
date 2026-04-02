@@ -71,21 +71,12 @@ export default function Header() {
         </div>
 
         <div className="flex flex-col items-center xl:items-start gap-4 mb-4 w-full">
-          <div className="flex flex-wrap items-center justify-center gap-2 xl:px-4">
-            <a href="mailto:shuvo.1807016@bau.edu.bd" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-red-600 dark:hover:text-red-400 transition-colors p-2 hover:bg-white/50 dark:hover:bg-white/5 rounded-full backdrop-blur-sm border border-transparent hover:border-white/20">
-              <Mail className="h-5 w-5" />
-            </a>
-            <a href="https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en&oi=sra" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-600 dark:hover:text-blue-400 transition-colors p-2 hover:bg-white/50 dark:hover:bg-white/5 rounded-full backdrop-blur-sm border border-transparent hover:border-white/20">
-              <GraduationCap className="h-5 w-5" />
-            </a>
-            <a href="https://orcid.org/0009-0003-5734-1519" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-green-600 dark:hover:text-green-400 transition-colors p-2 hover:bg-white/50 dark:hover:bg-white/5 rounded-full backdrop-blur-sm border border-transparent hover:border-white/20">
-              <BookOpen className="h-5 w-5" />
-            </a>
+          <div className="flex xl:flex-row flex-col items-center gap-4 xl:px-4">
             <a href="https://github.com/myself-aas" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors p-2 hover:bg-white/50 dark:hover:bg-white/5 rounded-full backdrop-blur-sm border border-transparent hover:border-white/20">
-              <Github className="h-5 w-5" />
+              <Github className="h-6 w-6" />
             </a>
-            <a href="https://www.linkedin.com/in/me-aas" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-700 dark:hover:text-blue-500 transition-colors p-2 hover:bg-white/50 dark:hover:bg-white/5 rounded-full backdrop-blur-sm border border-transparent hover:border-white/20">
-              <Linkedin className="h-5 w-5" />
+            <a href="https://www.linkedin.com/in/me-aas" target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-gray-900 dark:hover:text-white transition-colors p-2 hover:bg-white/50 dark:hover:bg-white/5 rounded-full backdrop-blur-sm border border-transparent hover:border-white/20">
+              <Linkedin className="h-6 w-6" />
             </a>
           </div>
           
