@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { Github, Star, GitFork, Code, Search, X, ExternalLink } from 'lucide-react';
+import { Github, Star, GitFork, Code, Search, X, ExternalLink, Share2, Mail, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 
 interface Project {
@@ -23,6 +23,13 @@ export default function GitHubProjects({ isEmbedded = false }: { isEmbedded?: bo
   const [languages, setLanguages] = useState<string[]>(['All']);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [shareMenuOpen, setShareMenuOpen] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleClickOutside = () => setShareMenuOpen(null);
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     fetch('https://api.github.com/users/myself-aas/repos?sort=updated')
@@ -132,6 +139,11 @@ export default function GitHubProjects({ isEmbedded = false }: { isEmbedded?: bo
                         {topic}
                       </span>
                     ))}
+                    {project.topics.length > 2 && (
+                      <span className="rounded-full bg-gray-100/50 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-gray-800/50 dark:text-gray-400 backdrop-blur-sm">
+                        +{project.topics.length - 2} more
+                      </span>
+                    )}
                   </div>
                 )}
               </div>
@@ -147,12 +159,45 @@ export default function GitHubProjects({ isEmbedded = false }: { isEmbedded?: bo
                     {project.forks_count}
                   </span>
                 </div>
-                {project.language && (
-                  <span className="flex items-center gap-1 text-[10px] font-medium text-blue-600 dark:text-blue-400">
-                    <Code className="h-3 w-3" />
-                    {project.language}
-                  </span>
-                )}
+                <div className="flex items-center gap-2">
+                  {project.language && (
+                    <span className="flex items-center gap-1 text-[10px] font-medium text-blue-600 dark:text-blue-400">
+                      <Code className="h-3 w-3" />
+                      {project.language}
+                    </span>
+                  )}
+                  <div className="relative">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setShareMenuOpen(shareMenuOpen === project.id ? null : project.id);
+                      }}
+                      className="p-1.5 rounded-full hover:bg-white/50 dark:hover:bg-white/10 transition-colors"
+                    >
+                      <Share2 className="h-3 w-3 text-gray-500 dark:text-gray-400" />
+                    </button>
+                    {shareMenuOpen === project.id && (
+                      <div className="absolute right-0 bottom-full mb-2 w-32 rounded-xl border border-white/20 bg-white/90 p-2 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-black/90 z-20">
+                        <a
+                          href={`mailto:?subject=Check out this project: ${project.name}&body=Check out this project: ${project.html_url}`}
+                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Mail className="h-3 w-3" /> Email
+                        </a>
+                        <a
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(project.html_url)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          <Linkedin className="h-3 w-3" /> LinkedIn
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}

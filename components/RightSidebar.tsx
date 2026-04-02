@@ -13,6 +13,110 @@ import {
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
+// --- YouTube Widget ---
+const YouTubeWidget = () => {
+  const [videos, setVideos] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchYouTube = async () => {
+      try {
+        // Replace with your actual Channel ID. You can find it in your YouTube channel URL.
+        const CHANNEL_ID = 'UC7jrEOTQeD1s0VLJ8Y5jaSQ'; 
+        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`);
+        const data = await res.json();
+        if (data.items) {
+          setVideos(data.items.slice(0, 3));
+        }
+      } catch (err) {
+        console.error('YouTube API error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchYouTube();
+  }, []);
+
+  if (loading) return <div className="animate-pulse h-48 bg-white/20 dark:bg-black/20 rounded-2xl mb-4" />;
+  if (videos.length === 0) return null;
+
+  return (
+    <div className="p-4 glass-card rounded-2xl mb-4">
+      <h3 className="font-bold text-sm mb-3">YouTube Content</h3>
+      <div className="space-y-3">
+        {videos.map(video => (
+          <a 
+            key={video.guid} 
+            href={video.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block group"
+          >
+            <div className="relative w-full h-20 mb-1">
+              <Image 
+                src={video.thumbnail} 
+                alt={video.title} 
+                fill 
+                className="rounded-xl object-cover"
+                referrerPolicy="no-referrer"
+              />
+            </div>
+            <p className="text-xs font-bold text-gray-900 dark:text-white line-clamp-1 group-hover:text-blue-500 transition-colors">{video.title}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// --- Met Museum Widget ---
+const MetMuseumWidget = () => {
+  const [artwork, setArtwork] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchArtwork = async () => {
+      try {
+        // 1. Search for objects
+        const searchRes = await fetch('https://collectionapi.metmuseum.org/public/collection/v1/search?q=painting&hasImages=true');
+        const searchData = await searchRes.json();
+        if (!searchData.objectIDs) return;
+        const randomId = searchData.objectIDs[Math.floor(Math.random() * searchData.objectIDs.length)];
+
+        // 2. Get details
+        const objRes = await fetch(`https://collectionapi.metmuseum.org/public/collection/v1/objects/${randomId}`);
+        const objData = await objRes.json();
+        setArtwork(objData);
+      } catch (err) {
+        console.error('Met API error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchArtwork();
+  }, []);
+
+  if (loading) return <div className="animate-pulse h-48 bg-white/20 dark:bg-black/20 rounded-2xl mb-4" />;
+  if (!artwork || !artwork.primaryImageSmall) return null;
+
+  return (
+    <div className="p-4 glass-card rounded-2xl mb-4">
+      <h3 className="font-bold text-sm mb-3">Met Museum Spotlight</h3>
+      <div className="relative w-full h-40 mb-3">
+        <Image 
+          src={artwork.primaryImageSmall} 
+          alt={artwork.title} 
+          fill 
+          className="rounded-xl object-cover"
+          referrerPolicy="no-referrer"
+        />
+      </div>
+      <p className="text-xs font-bold text-gray-900 dark:text-white line-clamp-1">{artwork.title}</p>
+      <p className="text-[10px] text-gray-500">{artwork.artistDisplayName || 'Unknown Artist'}</p>
+    </div>
+  );
+};
+
 // --- Weather Widget (Open-Meteo) ---
 const WeatherWidget = () => {
   const [weather, setWeather] = useState<any>(null);
@@ -236,7 +340,9 @@ export default function RightSidebar() {
         </div>
       </div>
 
+      <YouTubeWidget />
       <RecommendedResearchers />
+      <MetMuseumWidget />
       <WeatherWidget />
       <AnalyticsWidget />
       <HDXWidget />
