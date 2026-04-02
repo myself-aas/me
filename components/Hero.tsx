@@ -10,10 +10,10 @@ export default function Hero() {
       {/* Cover Photo */}
       <div className="h-32 sm:h-48 w-full bg-slate-100 dark:bg-slate-900 relative overflow-hidden">
         <Image 
-          src="/me/me_cover.jpg" 
-          alt="Cover Photo" 
+          src="https://ghchart.rshah.org/myself-aas.svg" 
+          alt="GitHub Contribution Graph" 
           fill 
-          className="object-cover"
+          className="object-contain"
           priority
         />
       </div>
