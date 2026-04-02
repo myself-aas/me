@@ -40,7 +40,7 @@ export default function Hero() {
               Contact Me
             </Link>
             <a 
-              href="/resume.pdf" 
+              href="Ashif_Ahmed_Shuvo.pdf" 
               download 
               className="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-lg border border-blue-600/50 bg-blue-50/30 dark:bg-blue-900/10 backdrop-blur-sm text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all w-full"
             >
