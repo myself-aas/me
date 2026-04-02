@@ -14,7 +14,6 @@ export default function Hero() {
           alt="Cover Photo" 
           fill 
           className="object-cover"
-          referrerPolicy="no-referrer"
         />
       </div>
 
@@ -28,7 +27,6 @@ export default function Hero() {
               alt="Ashif Ahmed Shuvo" 
               fill 
               className="object-cover"
-              referrerPolicy="no-referrer"
             />
           </div>
           
