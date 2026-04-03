@@ -9,7 +9,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   
   // Pages that should have a wider layout to accommodate more columns
-  const isWidePage = ['/skills', '/projects'].includes(pathname);
+  const isWidePage = ['/skills', '/projects', '/feed'].includes(pathname);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-7xl justify-center">
@@ -31,7 +31,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <Footer />
       </main>
       {/* Desktop Right Sidebar */}
-      <div className={`hidden lg:block w-[350px] p-4 transition-all duration-300 ${isWidePage ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}>
+      <div className={`hidden lg:block w-[350px] p-4 transition-all duration-300 sticky top-0 h-screen overflow-y-auto scrollbar-hide ${isWidePage ? 'opacity-0 pointer-events-none' : 'opacity-100'}`} style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
         <RightSidebar />
       </div>
     </div>

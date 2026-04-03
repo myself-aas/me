@@ -17,7 +17,7 @@ const experiences = [
     organization: 'Accenture',
     date: 'Nov 2024',
     description: 'Successfully completed practical tasks in Project Understanding, Data Cleaning & Modeling, Data Visualization & Storytelling, Present to the Client.',
-    certificateUrl: '#', // Replace with actual URL from your resume
+    certificateUrl: 'https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/T6kdcdKSTfg2aotxT/hzmoNKtzvAzXsEqx8_T6kdcdKSTfg2aotxT_Xy4mT9WvsRry8ZLBN_1732273382997_completion_certificate.pdf', // Replace with actual URL from your resume
   },
   {
     type: 'work',
@@ -25,7 +25,7 @@ const experiences = [
     organization: 'Quantium',
     date: 'Sep 2024 - Nov 2024',
     description: 'Analyzed transaction data to identify benchmark stores and deliver insights for strategic commercial decisions.',
-    certificateUrl: '#', // Replace with actual URL from your resume
+    certificateUrl: 'https://forage-uploads-prod.s3.amazonaws.com/completion-certificates/32A6DqtsbF7LbKdcq/NkaC7knWtjSbi6aYv_32A6DqtsbF7LbKdcq_Xy4mT9WvsRry8ZLBN_1730903583679_completion_certificate.pdf', // Replace with actual URL from your resume
   },
   {
     type: 'work',
@@ -80,7 +80,7 @@ export default function Experience({ isEmbedded = false }: { isEmbedded?: boolea
     >
       {!isEmbedded && <h2 className="mb-12 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Experience & Education</h2>}
       
-      <div className={`grid grid-cols-1 gap-12 ${isEmbedded ? 'md:grid-cols-1 lg:grid-cols-2' : 'md:grid-cols-2'}`}>
+      <div className="grid grid-cols-1 gap-12">
         {/* Experience Column */}
         <div className="glass-card p-8 rounded-3xl">
           <div className="mb-8 flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
