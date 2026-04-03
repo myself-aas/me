@@ -16,7 +16,7 @@ interface Project {
   topics: string[];
 }
 
-export default function GitHubProjects({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function GitHubProjects({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('All');
@@ -60,6 +60,8 @@ export default function GitHubProjects({ isEmbedded = false }: { isEmbedded?: bo
     return matchesLanguage && matchesSearch;
   });
 
+  const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
+
   if (loading) return <div className="py-10 text-center text-gray-500">Loading projects...</div>;
 
   const content = (
@@ -71,47 +73,51 @@ export default function GitHubProjects({ isEmbedded = false }: { isEmbedded?: bo
         </div>
       )}
 
-      {/* Search Bar */}
-      <div className={`mx-auto mb-8 max-w-md ${isEmbedded ? 'px-4' : ''}`}>
-        <div className="relative">
-          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Search className="h-5 w-5 text-gray-400" />
+      {/* Search Bar - Only show if not limited (i.e., on main projects page) */}
+      {!limit && (
+        <div className={`mx-auto mb-8 max-w-md ${isEmbedded ? 'px-4' : ''}`}>
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <Search className="h-5 w-5 text-gray-400" />
+            </div>
+            <input
+              type="text"
+              className="block w-full pl-10 pr-3 py-3 border border-white/20 rounded-xl leading-5 bg-white/50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out dark:bg-black/50 dark:border-white/10 dark:text-white shadow-sm backdrop-blur-sm"
+              placeholder="Search projects..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-          <input
-            type="text"
-            className="block w-full pl-10 pr-3 py-3 border border-white/20 rounded-xl leading-5 bg-white/50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out dark:bg-black/50 dark:border-white/10 dark:text-white shadow-sm backdrop-blur-sm"
-            placeholder="Search projects..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
         </div>
-      </div>
+      )}
 
-      {/* Filter Buttons */}
-      <div className={`mb-8 flex flex-wrap justify-center gap-2 ${isEmbedded ? 'px-4' : ''}`}>
-        {languages.map((lang) => (
-          <motion.button
-            key={lang}
-            onClick={() => setFilter(lang)}
-            animate={{ 
-              scale: filter === lang ? 1.05 : 1,
-            }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all backdrop-blur-sm border ${
-              filter === lang
-                ? 'bg-blue-600/90 text-white dark:bg-blue-500/90 shadow-md border-transparent'
-                : 'bg-white/40 text-gray-700 hover:bg-white/60 dark:bg-black/40 dark:text-gray-300 dark:hover:bg-black/60 border-white/20 dark:border-white/10'
-            }`}
-          >
-            {lang}
-          </motion.button>
-        ))}
-      </div>
+      {/* Filter Buttons - Only show if not limited */}
+      {!limit && (
+        <div className={`mb-8 flex flex-wrap justify-center gap-2 ${isEmbedded ? 'px-4' : ''}`}>
+          {languages.map((lang) => (
+            <motion.button
+              key={lang}
+              onClick={() => setFilter(lang)}
+              animate={{ 
+                scale: filter === lang ? 1.05 : 1,
+              }}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className={`rounded-full px-4 py-1.5 text-xs font-medium transition-all backdrop-blur-sm border ${
+                filter === lang
+                  ? 'bg-blue-600/90 text-white dark:bg-blue-500/90 shadow-md border-transparent'
+                  : 'bg-white/40 text-gray-700 hover:bg-white/60 dark:bg-black/40 dark:text-gray-300 dark:hover:bg-black/60 border-white/20 dark:border-white/10'
+              }`}
+            >
+              {lang}
+            </motion.button>
+          ))}
+        </div>
+      )}
 
       <motion.div layout className="grid grid-cols-1 gap-4">
         <AnimatePresence>
-          {filteredProjects.map((project) => (
+          {displayedProjects.map((project) => (
             <motion.div
               key={project.id}
               layout

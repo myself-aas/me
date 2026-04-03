@@ -61,8 +61,10 @@ const skillCategories = [
   }
 ];
 
-export default function Skills({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
   const [selectedCategory, setSelectedCategory] = useState<typeof skillCategories[0] | null>(null);
+
+  const displayedCategories = limit ? skillCategories.slice(0, limit) : skillCategories;
 
   const content = (
     <motion.div
@@ -79,7 +81,7 @@ export default function Skills({ isEmbedded = false }: { isEmbedded?: boolean })
       )}
       
       <div className="grid grid-cols-1 gap-4">
-        {skillCategories.map((category, index) => (
+        {displayedCategories.map((category, index) => (
           <motion.div
             key={category.title}
             initial={{ opacity: 0, y: 20 }}

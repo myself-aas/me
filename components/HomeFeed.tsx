@@ -104,7 +104,7 @@ export default function HomeFeed() {
         <div className="flex flex-col">
           <ProfileDetails isEmbedded={true} />
           <div className="border-t border-gray-100 dark:border-gray-900">
-            <Skills isEmbedded={true} />
+            <Skills isEmbedded={true} limit={4} />
           </div>
         </div>
       </PortfolioSection>
@@ -116,7 +116,7 @@ export default function HomeFeed() {
         viewMoreHref="/projects"
         viewMoreLabel="Project Universe"
       >
-        <GitHubProjects isEmbedded={true} />
+        <GitHubProjects isEmbedded={true} limit={3} />
       </PortfolioSection>
 
       <PortfolioSection 
@@ -126,7 +126,7 @@ export default function HomeFeed() {
         viewMoreHref="/publications"
         viewMoreLabel="Complete Records"
       >
-        <Publications isEmbedded={true} />
+        <Publications isEmbedded={true} limit={3} />
       </PortfolioSection>
 
       <PortfolioSection 
@@ -136,7 +136,7 @@ export default function HomeFeed() {
         viewMoreHref="/experience"
         viewMoreLabel="Evolution of Work"
       >
-        <Experience isEmbedded={true} />
+        <Experience isEmbedded={true} limit={3} />
       </PortfolioSection>
 
       <PortfolioSection 
@@ -146,7 +146,7 @@ export default function HomeFeed() {
         viewMoreHref="/feed"
         viewMoreLabel="Initialize Full View"
       >
-        <BlueskyFeed />
+        <BlueskyFeed limit={3} />
       </PortfolioSection>
 
       <PortfolioSection title="Contact & Collaboration" icon={Mail} id="contact">

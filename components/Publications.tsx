@@ -66,7 +66,7 @@ const manualPublications: Publication[] = [
   },
 ];
 
-export default function Publications({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function Publications({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
   const [orcidPubs, setOrcidPubs] = useState<Publication[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'year' | 'impactFactor'>('impactFactor');
@@ -143,6 +143,8 @@ export default function Publications({ isEmbedded = false }: { isEmbedded?: bool
       return parseInt(b.year) - parseInt(a.year);
     });
 
+  const displayedPubs = limit ? filteredAndSortedPubs.slice(0, limit) : filteredAndSortedPubs;
+
   const generateCitation = (pub: Publication, format: 'APA' | 'MLA' | 'BibTeX') => {
     const authors = pub.authors || 'Shuvo, Ashif Ahmed et al.';
     const year = pub.year || new Date().getFullYear().toString();
@@ -203,54 +205,56 @@ export default function Publications({ isEmbedded = false }: { isEmbedded?: bool
         </div>
       )}
 
-      {/* Controls: Filter & Sort */}
-      <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row glass-card p-4 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm flex-wrap ${isEmbedded ? 'mx-4' : ''}`}>
-        <div className="flex flex-wrap items-center gap-4">
+      {/* Controls: Filter & Sort - Hide if limited */}
+      {!limit && (
+        <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row glass-card p-4 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm flex-wrap ${isEmbedded ? 'mx-4' : ''}`}>
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Filter className="h-4 w-4 text-gray-500" />
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value)}
+                className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
+              >
+                {uniqueTypes.map(type => (
+                  <option key={type} value={type} className="dark:bg-gray-900">{type}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex items-center gap-2 border-l border-white/20 dark:border-white/10 pl-4">
+              <span className="text-sm text-gray-500">Year:</span>
+              <select
+                value={filterYear}
+                onChange={(e) => setFilterYear(e.target.value)}
+                className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
+              >
+                {uniqueYears.map(year => (
+                  <option key={year} value={year} className="dark:bg-gray-900">{year}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          
           <div className="flex items-center gap-2">
-            <Filter className="h-4 w-4 text-gray-500" />
+            <ArrowUpDown className="h-4 w-4 text-gray-500" />
             <select
-              value={filterType}
-              onChange={(e) => setFilterType(e.target.value)}
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as 'year' | 'impactFactor')}
               className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
             >
-              {uniqueTypes.map(type => (
-                <option key={type} value={type} className="dark:bg-gray-900">{type}</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-center gap-2 border-l border-white/20 dark:border-white/10 pl-4">
-            <span className="text-sm text-gray-500">Year:</span>
-            <select
-              value={filterYear}
-              onChange={(e) => setFilterYear(e.target.value)}
-              className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
-            >
-              {uniqueYears.map(year => (
-                <option key={year} value={year} className="dark:bg-gray-900">{year}</option>
-              ))}
+              <option value="impactFactor" className="dark:bg-gray-900">Sort by Impact Factor</option>
+              <option value="year" className="dark:bg-gray-900">Sort by Year (Newest)</option>
             </select>
           </div>
         </div>
-        
-        <div className="flex items-center gap-2">
-          <ArrowUpDown className="h-4 w-4 text-gray-500" />
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as 'year' | 'impactFactor')}
-            className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
-          >
-            <option value="impactFactor" className="dark:bg-gray-900">Sort by Impact Factor</option>
-            <option value="year" className="dark:bg-gray-900">Sort by Year (Newest)</option>
-          </select>
-        </div>
-      </div>
+      )}
       
       {loading ? (
         <div className="text-center text-gray-500 py-10">Loading publications...</div>
       ) : (
         <div className="grid grid-cols-1 gap-6">
           <AnimatePresence>
-            {filteredAndSortedPubs.map((pub, index) => (
+            {displayedPubs.map((pub, index) => (
               <motion.div
                 key={index}
                 layout

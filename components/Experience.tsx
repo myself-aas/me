@@ -70,7 +70,10 @@ const education = [
   },
 ];
 
-export default function Experience({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function Experience({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
+  const displayedExperiences = limit ? experiences.slice(0, limit) : experiences;
+  const displayedEducation = limit ? education.slice(0, limit) : education;
+
   const content = (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -88,7 +91,7 @@ export default function Experience({ isEmbedded = false }: { isEmbedded?: boolea
             Experience
           </div>
           <div className="space-y-8 border-l-2 border-white/20 pl-6 dark:border-white/10">
-            {experiences.map((item, index) => (
+            {displayedExperiences.map((item, index) => (
               <div key={index} className="relative">
                 <div className="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white/50 bg-blue-600 dark:border-black/50 dark:bg-blue-400 shadow-sm"></div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">{item.title}</h3>
@@ -117,7 +120,7 @@ export default function Experience({ isEmbedded = false }: { isEmbedded?: boolea
             Education
           </div>
           <div className="space-y-8 border-l-2 border-white/20 pl-6 dark:border-white/10">
-            {education.map((item, index) => (
+            {displayedEducation.map((item, index) => (
               <div key={index} className="relative">
                 <div className="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white/50 bg-blue-600 dark:border-black/50 dark:bg-blue-400 shadow-sm"></div>
                 <h3 className="text-lg font-bold text-gray-900 dark:text-white">{item.title}</h3>

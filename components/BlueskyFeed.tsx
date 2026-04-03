@@ -35,7 +35,7 @@ interface BlueskyPost {
   reply?: any;
 }
 
-export default function BlueskyFeed() {
+export default function BlueskyFeed({ limit }: { limit?: number }) {
   const [posts, setPosts] = useState<BlueskyPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'all' | 'blog' | 'media'>('all');
@@ -152,35 +152,37 @@ export default function BlueskyFeed() {
     );
   }
 
-  const mainPosts = getFilteredPosts().slice(0, 10);
-  const bottomPosts = posts.slice(10, 20);
+  const mainPosts = limit ? getFilteredPosts().slice(0, limit) : getFilteredPosts().slice(0, 10);
+  const bottomPosts = limit ? [] : posts.slice(10, 20);
 
   return (
-    <div className="p-6 space-y-10 max-w-3xl mx-auto">
+    <div className={`p-6 space-y-10 max-w-3xl mx-auto ${limit ? 'p-0' : ''}`}>
       <main className="space-y-10">
-        {/* Tabs */}
-        <div className="flex justify-center sticky top-20 z-20">
-          <div className="flex gap-2 p-1.5 bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-gray-100 dark:border-gray-800 rounded-2xl shadow-lg">
-            <button 
-              onClick={() => setActiveTab('all')}
-              className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'all' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-            >
-              All Threads
-            </button>
-            <button 
-              onClick={() => setActiveTab('blog')}
-              className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'blog' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-            >
-              Research Blogs
-            </button>
-            <button 
-              onClick={() => setActiveTab('media')}
-              className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'media' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
-            >
-              Visual Gallery
-            </button>
+        {/* Tabs - Hide if limited */}
+        {!limit && (
+          <div className="flex justify-center sticky top-20 z-20">
+            <div className="flex gap-2 p-1.5 bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-gray-100 dark:border-gray-800 rounded-2xl shadow-lg">
+              <button 
+                onClick={() => setActiveTab('all')}
+                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'all' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+              >
+                All Threads
+              </button>
+              <button 
+                onClick={() => setActiveTab('blog')}
+                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'blog' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+              >
+                Research Blogs
+              </button>
+              <button 
+                onClick={() => setActiveTab('media')}
+                className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'media' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
+              >
+                Visual Gallery
+              </button>
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Main Feed */}
         <div id="main-feed">
@@ -203,8 +205,8 @@ export default function BlueskyFeed() {
           </AnimatePresence>
         </div>
 
-        {/* Bottom Feed / Archive */}
-        {bottomPosts.length > 0 && (
+        {/* Bottom Feed / Archive - Hide if limited */}
+        {!limit && bottomPosts.length > 0 && (
           <div className="pt-12 border-t border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-4 mb-8">
               <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800" />
