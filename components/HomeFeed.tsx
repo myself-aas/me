@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Download
 } from 'lucide-react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import About from './About';
 import Skills from './Skills';
@@ -27,12 +28,16 @@ const PortfolioSection = ({
   children, 
   title, 
   icon: Icon,
-  id
+  id,
+  viewMoreHref,
+  viewMoreLabel
 }: { 
   children: React.ReactNode, 
   title: string, 
   icon: any,
-  id?: string
+  id?: string,
+  viewMoreHref?: string,
+  viewMoreLabel?: string
 }) => (
   <section id={id} className="py-12 px-6 border-b border-gray-100 dark:border-gray-900 last:border-0 scroll-mt-16">
     <div className="flex items-center gap-3 mb-8">
@@ -50,6 +55,16 @@ const PortfolioSection = ({
       className="bg-white dark:bg-black/40 rounded-2xl border border-gray-100 dark:border-gray-900 shadow-sm overflow-hidden"
     >
       {children}
+      {viewMoreHref && (
+        <div className="border-t border-gray-100 dark:border-gray-900 p-4 bg-gray-50/30 dark:bg-white/5 flex justify-center">
+          <Link 
+            href={viewMoreHref}
+            className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors group"
+          >
+            {viewMoreLabel} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+          </Link>
+        </div>
+      )}
     </motion.div>
   </section>
 );
@@ -79,7 +94,13 @@ export default function HomeFeed() {
         <About isEmbedded={true} />
       </PortfolioSection>
 
-      <PortfolioSection title="Technical Analytics & Skills" icon={TrendingUp} id="skills">
+      <PortfolioSection 
+        title="Technical Analytics & Skills" 
+        icon={TrendingUp} 
+        id="skills"
+        viewMoreHref="/skills"
+        viewMoreLabel="Query More"
+      >
         <div className="flex flex-col">
           <ProfileDetails isEmbedded={true} />
           <div className="border-t border-gray-100 dark:border-gray-900">
@@ -88,19 +109,43 @@ export default function HomeFeed() {
         </div>
       </PortfolioSection>
 
-      <PortfolioSection title="Research Projects" icon={Folder} id="projects">
+      <PortfolioSection 
+        title="Research Projects" 
+        icon={Folder} 
+        id="projects"
+        viewMoreHref="/projects"
+        viewMoreLabel="Project Universe"
+      >
         <GitHubProjects isEmbedded={true} />
       </PortfolioSection>
 
-      <PortfolioSection title="Academic Publications" icon={BookOpen} id="publications">
+      <PortfolioSection 
+        title="Academic Publications" 
+        icon={BookOpen} 
+        id="publications"
+        viewMoreHref="/publications"
+        viewMoreLabel="Complete Records"
+      >
         <Publications isEmbedded={true} />
       </PortfolioSection>
 
-      <PortfolioSection title="Professional Experience" icon={Briefcase} id="experience">
+      <PortfolioSection 
+        title="Professional Experience" 
+        icon={Briefcase} 
+        id="experience"
+        viewMoreHref="/experience"
+        viewMoreLabel="Evolution of Work"
+      >
         <Experience isEmbedded={true} />
       </PortfolioSection>
 
-      <PortfolioSection title="Research Feed & Updates" icon={TrendingUp} id="feed">
+      <PortfolioSection 
+        title="Research Feed & Updates" 
+        icon={TrendingUp} 
+        id="feed"
+        viewMoreHref="/feed"
+        viewMoreLabel="Initialize Full View"
+      >
         <BlueskyFeed />
       </PortfolioSection>
 
