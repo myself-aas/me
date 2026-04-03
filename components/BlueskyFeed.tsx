@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageSquare, BookOpen, Image as ImageIcon, ExternalLink, Share2, Clock } from 'lucide-react';
+import { formatPostText } from '@/lib/utils/text';
 
 const HANDLE = "meaas.bsky.social";
 
@@ -100,7 +101,7 @@ export default function BlueskyFeed() {
         </div>
 
         <p className={`text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words ${isMini ? 'text-sm line-clamp-3' : 'text-base'}`}>
-          {p.record.text}
+          {formatPostText(p.record.text)}
         </p>
 
         {!isMini && p.embed?.images && (

@@ -15,6 +15,7 @@ import {
   BookOpen
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { formatPostText } from '@/lib/utils/text';
 
 // --- Bluesky Widget ---
 const BlueskyWidget = () => {
@@ -59,7 +60,9 @@ const BlueskyWidget = () => {
           const date = new Date(p.record.createdAt).toLocaleDateString();
           return (
             <div key={p.cid} className="border-b border-gray-100 dark:border-gray-800 last:border-0 pb-2 last:pb-0">
-              <p className="text-[11px] text-gray-700 dark:text-gray-300 line-clamp-2 mb-1">{p.record.text}</p>
+              <p className="text-[11px] text-gray-700 dark:text-gray-300 line-clamp-2 mb-1">
+                {formatPostText(p.record.text)}
+              </p>
               <div className="flex items-center justify-between text-[9px] text-gray-400">
                 <span>{date}</span>
                 <span className="flex items-center gap-1"><MessageSquare className="w-2 h-2" /> {p.replyCount || 0}</span>
@@ -416,7 +419,9 @@ const BlueskyArchiveWidget = () => {
 
   const renderMiniPost = (p: any) => (
     <div key={p.cid} className="border-b border-gray-100 dark:border-gray-800 last:border-0 pb-2 last:pb-0">
-      <p className="text-[10px] text-gray-700 dark:text-gray-300 line-clamp-2">{p.record.text}</p>
+      <p className="text-[10px] text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words">
+        {formatPostText(p.record.text)}
+      </p>
     </div>
   );
 
