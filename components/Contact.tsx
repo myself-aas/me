@@ -4,7 +4,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'motion/react';
-import { Send, CheckCircle2 } from 'lucide-react';
+import { Send, CheckCircle2, FileText } from 'lucide-react';
 import { useState } from 'react';
 
 const formSchema = z.object({
@@ -134,6 +134,17 @@ export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }
               {isSubmitting ? 'Sending...' : 'Send Message'}
               {!isSubmitting && <Send className="h-4 w-4" />}
             </button>
+
+            <div className="pt-4 border-t border-gray-100 dark:border-gray-900 mt-4">
+              <a 
+                href="/Ashif_Ahmed_Shuvo_Resume.pdf" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-blue-600 px-5 py-3 text-center text-sm font-bold text-blue-600 hover:bg-blue-600 hover:text-white transition-all dark:text-blue-400 shadow-sm hover:shadow-[0_0_12px_rgba(37,99,235,0.4)]"
+              >
+                View Full Resume <FileText className="h-4 w-4" />
+              </a>
+            </div>
           </form>
         )}
       </div>

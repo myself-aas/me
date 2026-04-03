@@ -12,10 +12,27 @@ import {
   TrendingUp,
   Activity,
   MessageSquare,
-  BookOpen
+  BookOpen,
+  FileText
 } from 'lucide-react';
 import { motion } from 'motion/react';
 import { formatPostText } from '@/lib/utils/text';
+
+// --- Resume Widget ---
+const ResumeWidget = () => {
+  return (
+    <div className="p-4 glass-card rounded-2xl mb-4 border border-blue-100/20 dark:border-blue-900/20">
+      <a 
+        href="/Ashif_Ahmed_Shuvo_Resume.pdf" 
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-center gap-2 w-full py-3 rounded-xl border-2 border-blue-600 text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-600 hover:text-white transition-all shadow-sm hover:shadow-[0_0_12px_rgba(37,99,235,0.4)] hover:-translate-y-0.5"
+      >
+        View Resume <FileText className="w-4 h-4" />
+      </a>
+    </div>
+  );
+};
 
 // --- Bluesky Widget ---
 const BlueskyWidget = () => {
@@ -485,6 +502,7 @@ export default function RightSidebar() {
         </div>
       </div>
 
+      <ResumeWidget />
       <YouTubeWidget />
       <BlueskyWidget />
       <RecommendedResearchers />

@@ -1,6 +1,6 @@
 'use client';
 
-import { MapPin, Link as LinkIcon, Calendar, Mail, GraduationCap, Download, Github, Linkedin, BookOpen } from 'lucide-react';
+import { MapPin, Link as LinkIcon, Calendar, Mail, GraduationCap, Download, Github, Linkedin, BookOpen, FileText } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -40,11 +40,12 @@ export default function Hero() {
               Contact Me
             </Link>
             <a 
-              href="/resume.pdf" 
-              download 
-              className="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-lg border border-blue-600/50 bg-blue-50/30 dark:bg-blue-900/10 backdrop-blur-sm text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-50/50 dark:hover:bg-blue-900/20 transition-all w-full"
+              href="/Ashif_Ahmed_Shuvo_Resume.pdf" 
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-lg border-2 border-blue-600 text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-600 hover:text-white transition-all w-full shadow-sm hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:-translate-y-0.5"
             >
-              Download Resume <Download className="w-4 h-4" />
+              View Resume <FileText className="w-4 h-4" />
             </a>
           </div>
         </div>
