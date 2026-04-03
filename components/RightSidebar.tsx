@@ -10,9 +10,74 @@ import {
   AlertCircle,
   ExternalLink,
   TrendingUp,
-  Activity
+  Activity,
+  MessageSquare
 } from 'lucide-react';
 import { motion } from 'motion/react';
+
+// --- Bluesky Widget ---
+const BlueskyWidget = () => {
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const HANDLE = "meaas.bsky.social";
+
+  useEffect(() => {
+    const fetchFeed = async () => {
+      try {
+        const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${HANDLE}&limit=5`);
+        const data = await res.json();
+        if (data.feed) {
+          // Filter out replies
+          setPosts(data.feed.filter((f: any) => !f.reply).slice(0, 3));
+        }
+      } catch (err) {
+        console.error('Bluesky API error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeed();
+  }, []);
+
+  if (loading) return <div className="animate-pulse h-48 bg-white/20 dark:bg-black/20 rounded-2xl mb-4" />;
+  if (posts.length === 0) return null;
+
+  return (
+    <div className="p-4 glass-card rounded-2xl mb-4 border border-blue-100/20 dark:border-blue-900/20">
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="font-bold text-sm flex items-center gap-2 text-blue-600 dark:text-blue-400">
+          <TrendingUp className="w-4 h-4" /> Latest Updates
+        </h3>
+        <a href={`https://bsky.app/profile/${HANDLE}`} target="_blank" rel="noopener noreferrer">
+          <ExternalLink className="w-3 h-3 text-gray-400 hover:text-blue-500" />
+        </a>
+      </div>
+      <div className="space-y-3">
+        {posts.map((item: any) => {
+          const p = item.post;
+          const date = new Date(p.record.createdAt).toLocaleDateString();
+          return (
+            <div key={p.cid} className="border-b border-gray-100 dark:border-gray-800 last:border-0 pb-2 last:pb-0">
+              <p className="text-[11px] text-gray-700 dark:text-gray-300 line-clamp-2 mb-1">{p.record.text}</p>
+              <div className="flex items-center justify-between text-[9px] text-gray-400">
+                <span>{date}</span>
+                <span className="flex items-center gap-1"><MessageSquare className="w-2 h-2" /> {p.replyCount || 0}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <a 
+        href={`https://bsky.app/profile/${HANDLE}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-3 block text-center py-1.5 text-[10px] font-bold text-blue-600 dark:text-blue-400 bg-blue-50/50 dark:bg-blue-900/20 rounded-lg hover:bg-blue-100 transition-all"
+      >
+        Follow on Bluesky
+      </a>
+    </div>
+  );
+};
 
 // --- YouTube Widget ---
 const YouTubeWidget = () => {
@@ -337,6 +402,7 @@ export default function RightSidebar() {
       </div>
 
       <YouTubeWidget />
+      <BlueskyWidget />
       <RecommendedResearchers />
       <MetMuseumWidget />
       <WeatherWidget />

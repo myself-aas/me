@@ -152,7 +152,7 @@ export default function BlueskyFeed() {
   const sidebarPosts = posts.slice(0, 3);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 p-6">
+    <div className="p-6 space-y-8">
       <main className="space-y-8">
         {/* Tabs */}
         <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-xl w-fit">
@@ -204,31 +204,6 @@ export default function BlueskyFeed() {
           </div>
         )}
       </main>
-
-      {/* Sticky Sidebar */}
-      <aside className="hidden lg:block">
-        <div className="sticky top-24 space-y-6">
-          <div className="p-5 bg-blue-50/50 dark:bg-blue-900/10 border border-blue-100/50 dark:border-blue-800/20 rounded-2xl">
-            <h3 className="font-bold text-blue-900 dark:text-blue-300 mb-2 flex items-center gap-2">
-              <MessageSquare className="w-4 h-4" /> Latest Updates
-            </h3>
-            <p className="text-xs text-blue-700/70 dark:text-blue-400/70 mb-4">
-              Real-time thoughts and research updates from my Bluesky feed.
-            </p>
-            <div className="space-y-4">
-              {sidebarPosts.map(post => renderPost(post, true))}
-            </div>
-            <a 
-              href={`https://bsky.app/profile/${HANDLE}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-4 block text-center py-2 text-xs font-bold text-blue-600 dark:text-blue-400 hover:bg-blue-100 dark:hover:bg-blue-900/30 rounded-lg transition-all"
-            >
-              Follow on Bluesky
-            </a>
-          </div>
-        </div>
-      </aside>
     </div>
   );
 }
