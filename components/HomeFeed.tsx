@@ -75,10 +75,6 @@ export default function HomeFeed() {
         </div>
       </div>
 
-      <PortfolioSection title="Research Feed & Updates" icon={TrendingUp} id="feed">
-        <BlueskyFeed />
-      </PortfolioSection>
-
       <PortfolioSection title="About Me" icon={User} id="about">
         <About isEmbedded={true} />
       </PortfolioSection>
@@ -102,6 +98,10 @@ export default function HomeFeed() {
 
       <PortfolioSection title="Professional Experience" icon={Briefcase} id="experience">
         <Experience isEmbedded={true} />
+      </PortfolioSection>
+
+      <PortfolioSection title="Research Feed & Updates" icon={TrendingUp} id="feed">
+        <BlueskyFeed />
       </PortfolioSection>
 
       <PortfolioSection title="Contact & Collaboration" icon={Mail} id="contact">

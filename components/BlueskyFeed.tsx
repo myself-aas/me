@@ -155,25 +155,27 @@ export default function BlueskyFeed() {
     <div className="p-6 space-y-8">
       <main className="space-y-8">
         {/* Tabs */}
-        <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-xl w-fit">
-          <button 
-            onClick={() => setActiveTab('all')}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'all' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Threads
-          </button>
-          <button 
-            onClick={() => setActiveTab('blog')}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'blog' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Blogs
-          </button>
-          <button 
-            onClick={() => setActiveTab('media')}
-            className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'media' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
-          >
-            Gallery
-          </button>
+        <div className="flex justify-center">
+          <div className="flex gap-2 p-1 bg-gray-100 dark:bg-gray-900 rounded-xl w-fit">
+            <button 
+              onClick={() => setActiveTab('all')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'all' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              Threads
+            </button>
+            <button 
+              onClick={() => setActiveTab('blog')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'blog' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              Blogs
+            </button>
+            <button 
+              onClick={() => setActiveTab('media')}
+              className={`px-4 py-2 rounded-lg text-sm font-bold transition-all ${activeTab === 'media' ? 'bg-white dark:bg-gray-800 text-blue-600 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
+            >
+              Gallery
+            </button>
+          </div>
         </div>
 
         {/* Main Feed */}
@@ -184,11 +186,12 @@ export default function BlueskyFeed() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
             >
               {mainPosts.length > 0 ? (
                 mainPosts.map(post => renderPost(post))
               ) : (
-                <div className="py-12 text-center text-gray-500 italic">No posts found in this category.</div>
+                <div className="col-span-full py-12 text-center text-gray-500 italic">No posts found in this category.</div>
               )}
             </motion.div>
           </AnimatePresence>

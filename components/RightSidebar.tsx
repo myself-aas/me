@@ -11,7 +11,8 @@ import {
   ExternalLink,
   TrendingUp,
   Activity,
-  MessageSquare
+  MessageSquare,
+  BookOpen
 } from 'lucide-react';
 import { motion } from 'motion/react';
 
@@ -382,6 +383,84 @@ const RecommendedResearchers = () => {
   );
 };
 
+// --- Bluesky Archive Widget ---
+const BlueskyArchiveWidget = () => {
+  const [posts, setPosts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const HANDLE = "meaas.bsky.social";
+
+  useEffect(() => {
+    const fetchFeed = async () => {
+      try {
+        const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${HANDLE}&limit=30`);
+        const data = await res.json();
+        if (data.feed) {
+          // Filter out replies
+          setPosts(data.feed.filter((f: any) => !f.reply));
+        }
+      } catch (err) {
+        console.error('Bluesky API error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchFeed();
+  }, []);
+
+  if (loading) return <div className="animate-pulse h-64 bg-white/20 dark:bg-black/20 rounded-2xl mb-4" />;
+  if (posts.length === 0) return null;
+
+  const blogPosts = posts.filter(p => p.post.record.text.includes('#blog')).slice(0, 2);
+  const mediaPosts = posts.filter(p => p.post.embed?.images).slice(0, 2);
+  const threadPosts = posts.slice(0, 2);
+
+  const renderMiniPost = (p: any) => (
+    <div key={p.cid} className="border-b border-gray-100 dark:border-gray-800 last:border-0 pb-2 last:pb-0">
+      <p className="text-[10px] text-gray-700 dark:text-gray-300 line-clamp-2">{p.record.text}</p>
+    </div>
+  );
+
+  return (
+    <div className="p-4 glass-card rounded-2xl mb-4">
+      <h3 className="font-bold text-sm mb-4 flex items-center gap-2">
+        <BookOpen className="w-4 h-4 text-blue-500" /> Research Archive
+      </h3>
+      
+      <div className="space-y-4">
+        <div>
+          <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Threads</h4>
+          <div className="space-y-2">
+            {threadPosts.map(item => renderMiniPost(item.post))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Blogs</h4>
+          <div className="space-y-2">
+            {blogPosts.map(item => renderMiniPost(item.post))}
+          </div>
+        </div>
+
+        <div>
+          <h4 className="text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">Gallery</h4>
+          <div className="space-y-2">
+            {mediaPosts.map(item => renderMiniPost(item.post))}
+          </div>
+        </div>
+      </div>
+
+      <a 
+        href={`https://bsky.app/profile/${HANDLE}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-4 block text-center text-[10px] text-blue-500 font-bold hover:underline"
+      >
+        Explore Full Archive
+      </a>
+    </div>
+  );
+};
+
 export default function RightSidebar() {
   return (
     <aside className="w-full space-y-4">
@@ -408,6 +487,7 @@ export default function RightSidebar() {
       <WeatherWidget />
       <AnalyticsWidget />
       <HDXWidget />
+      <BlueskyArchiveWidget />
     </aside>
   );
 }
