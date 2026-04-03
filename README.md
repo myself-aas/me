@@ -2,8 +2,6 @@
 
 A dynamic, production-grade research portfolio built with Next.js 15, showcasing expertise in AI, Computer Vision, and Precision Agriculture.
 
-![Portfolio Banner](https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6)
-
 ## 🚀 Overview
 
 This portfolio is designed to provide a comprehensive view of my academic and professional journey. It integrates real-time data from GitHub, ORCID, and Bluesky to keep the content fresh and relevant. The application features a modern, responsive design with a focus on readability and smooth user interactions.
