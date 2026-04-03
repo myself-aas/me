@@ -40,7 +40,7 @@ export default function Hero() {
               Contact Me
             </Link>
             <a 
-              href="/Ashif_Ahmed_Shuvo_Resume.pdf" 
+              href="/me/Ashif_Ahmed_Shuvo_Resume.pdf" 
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-lg border-2 border-blue-600 text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-600 hover:text-white transition-all w-full shadow-sm hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:-translate-y-0.5"
