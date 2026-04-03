@@ -27,7 +27,6 @@ export default function Header() {
     { name: 'Research Feed', href: '/feed', icon: Rss },
     { name: 'Publications', href: '/publications', icon: BookOpen },
     { name: 'Projects', href: '/projects', icon: Folder },
-    { name: 'Contact', href: '/contact', icon: Mail },
   ];
 
   return (
@@ -109,7 +108,7 @@ export default function Header() {
 
       {/* Mobile Bottom Navigation */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/60 dark:bg-black/60 backdrop-blur-xl border-t border-white/20 dark:border-white/10 flex justify-around items-center h-16 px-2">
-        {[navItems[0], navItems[1], navItems[4], navItems[5], navItems[6], navItems[7]].map((item) => {
+        {[navItems[0], navItems[1], navItems[4], navItems[5], navItems[6]].map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link 

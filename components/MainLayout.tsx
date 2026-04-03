@@ -9,7 +9,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   
   // Pages that should hide the right sidebar
-  const hideSidebar = ['/skills', '/projects', '/feed'].includes(pathname);
+  const hideSidebar = false;
   
   // Pages that should have a wider layout (none currently as per single-column request)
   const isWidePage = false;
@@ -25,11 +25,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         {children}
         
         {/* Mobile Right Sidebar (Visible on small screens, hidden on large) */}
-        {!hideSidebar && (
-          <div className="lg:hidden p-4 border-t border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20 backdrop-blur-md">
-            <RightSidebar />
-          </div>
-        )}
+        <div className="lg:hidden p-4 border-t border-white/20 dark:border-white/10 bg-white/20 dark:bg-black/20 backdrop-blur-md">
+          <RightSidebar />
+        </div>
         
         <Footer />
       </main>
