@@ -9,7 +9,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const pathname = usePathname();
   
   // Pages that should have a wider layout to accommodate more columns
-  const isWidePage = ['/skills', '/projects'].includes(pathname);
+  const isWidePage = ['/skills', '/projects', '/feed'].includes(pathname);
 
   return (
     <div className="mx-auto flex min-h-screen max-w-7xl justify-center">
