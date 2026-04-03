@@ -21,6 +21,7 @@ import Publications from './Publications';
 import Experience from './Experience';
 import Contact from './Contact';
 import ProfileDetails from './ProfileDetails';
+import BlueskyFeed from './BlueskyFeed';
 
 const PortfolioSection = ({ 
   children, 
@@ -73,6 +74,10 @@ export default function HomeFeed() {
           </div>
         </div>
       </div>
+
+      <PortfolioSection title="Research Feed & Updates" icon={TrendingUp} id="feed">
+        <BlueskyFeed />
+      </PortfolioSection>
 
       <PortfolioSection title="About Me" icon={User} id="about">
         <About isEmbedded={true} />

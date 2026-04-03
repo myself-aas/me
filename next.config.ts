@@ -48,6 +48,18 @@ const nextConfig: NextConfig = {
         port: '',
         pathname: '/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.bsky.app',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'github.com',
+        port: '',
+        pathname: '/**',
+      },
     ],
   },
   output: 'export',
