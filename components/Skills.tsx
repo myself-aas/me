@@ -78,7 +78,7 @@ export default function Skills({ isEmbedded = false }: { isEmbedded?: boolean })
         </div>
       )}
       
-      <div className={`grid grid-cols-1 gap-4 ${isEmbedded ? 'sm:grid-cols-1 md:grid-cols-2' : 'sm:grid-cols-2 md:grid-cols-3'}`}>
+      <div className="grid grid-cols-1 gap-4">
         {skillCategories.map((category, index) => (
           <motion.div
             key={category.title}

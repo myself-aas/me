@@ -109,7 +109,7 @@ export default function GitHubProjects({ isEmbedded = false }: { isEmbedded?: bo
         ))}
       </div>
 
-      <motion.div layout className={`grid grid-cols-1 gap-4 ${isEmbedded ? 'sm:grid-cols-1 md:grid-cols-2' : 'sm:grid-cols-2 md:grid-cols-3'}`}>
+      <motion.div layout className="grid grid-cols-1 gap-4">
         <AnimatePresence>
           {filteredProjects.map((project) => (
             <motion.div
