@@ -10,12 +10,26 @@ This portfolio is designed to provide a comprehensive view of my academic and pr
 
 - **Dynamic Home Feed:** A curated overview of my work with "View More" deep dives into specific areas.
 - **GitHub Integration:** Automatically fetches and displays featured open-source projects.
-- **ORCID Sync:** Real-time synchronization with ORCID for an up-to-date list of academic publications.
+- **ORCID record:** every public work on ORCID [0009-0003-5734-1519](https://orcid.org/0009-0003-5734-1519) is read while the site is built and written into the publications page.
 - **Research Feed:** A live feed of updates and insights powered by Bluesky.
 - **Technical Analytics:** Detailed breakdown of skills across AI, Data Science, and Agriculture.
 - **Interactive Layout:** Triple-column design on desktop with independent sidebar scrolling and a clean mobile navigation.
 - **Dark Mode Support:** Seamless transition between light and dark themes.
 - **Contact System:** Integrated contact form and dynamic collaboration triggers.
+
+## 📚 Publications data
+
+The publications page holds the whole public ORCID record, not a hand-picked subset. ORCID's API sends no
+CORS headers, so a browser cannot read it: the record is fetched on the server while the site is generated
+and baked into the static HTML, which also means the works are there for crawlers and for readers without
+JavaScript.
+
+- Only works with **public** visibility can be returned; anything set to limited or private stays on ORCID.
+- If the build has no network, the page falls back to the curated list and says so on the page.
+- Public reads need no token. `ORCID_ACCESS_TOKEN` is optional and only raises the anonymous rate limit;
+  if it is set and refused, the build retries without it.
+
+The build log prints `[orcid] read N works from 0009-0003-5734-1519` on success.
 
 ## 🛠️ Tech Stack
 

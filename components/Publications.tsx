@@ -3,11 +3,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
-import { useRemote } from '@/lib/remote';
-import { loadWorks, type Publication } from '@/lib/sources/orcid';
+import { ORCID_ID, ORCID_PROFILE, type Publication } from '@/lib/sources/orcid';
 import { BookOpen, ExternalLink, FileText, Share2, Linkedin, Link as LinkIcon, Filter, ArrowUpDown, Quote, Copy, Check } from 'lucide-react';
-
-const NO_WORKS: Publication[] = [];
 
 const manualPublications: Publication[] = [
   {
@@ -17,7 +14,7 @@ const manualPublications: Publication[] = [
     source: 'Smart Agricultural Technology',
     authors: 'Shuvo, Ashif Ahmed, Bhuian, Wahada Jinnat Oishy, Rahman, Afzal, Iqbal, Abdullah',
     impactFactor: 5.7,
-    type: 'Journal Article',
+    type: 'Journal article',
     doi: '10.1016/j.atech.2025.101072'
   },
   {
@@ -60,9 +57,18 @@ const manualPublications: Publication[] = [
   },
 ];
 
-export default function Publications({ limit }: { limit?: number }) {
-  const remote = useRemote(loadWorks);
-  const orcidPubs = remote.status === 'ready' ? remote.data : NO_WORKS;
+export default function Publications({
+  works,
+  limit,
+  readAt = null,
+}: {
+  /** Every work on the ORCID record, read at build time. */
+  works: Publication[];
+  limit?: number;
+  /** When the record was read; null when it could not be. */
+  readAt?: string | null;
+}) {
+  const orcidPubs = works;
 
   const [sortBy, setSortBy] = useState<'year' | 'impactFactor'>('impactFactor');
   const [filterType, setFilterType] = useState<string>('All');
@@ -96,7 +102,9 @@ export default function Publications({ limit }: { limit?: number }) {
       if (sortBy === 'impactFactor') {
         return (b.impactFactor || 0) - (a.impactFactor || 0);
       }
-      return parseInt(b.year) - parseInt(a.year);
+      // Undated works sort last rather than producing NaN comparisons.
+      const year = (publication: Publication) => Number.parseInt(publication.year, 10) || 0;
+      return year(b) - year(a);
     });
 
   const displayedPubs = limit ? filteredAndSortedPubs.slice(0, limit) : filteredAndSortedPubs;
@@ -151,6 +159,47 @@ export default function Publications({ limit }: { limit?: number }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
+      {!limit && (
+        <p className="datum mb-6 max-w-[62ch]">
+          {readAt ? (
+            <>
+              Read from{' '}
+              <a
+                href={ORCID_PROFILE}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-signal hover:underline"
+              >
+                ORCID {ORCID_ID}
+              </a>{' '}
+              on{' '}
+              {new Date(readAt).toLocaleDateString('en-GB', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric',
+              })}
+              : {combinedPubs.length} {combinedPubs.length === 1 ? 'work' : 'works'} on the record —{' '}
+              everything ORCID publishes. Works set to limited visibility stay private and cannot
+              appear here.
+            </>
+          ) : (
+            <>
+              The ORCID record could not be read when this page was built, so only the curated list
+              is shown. Everything on the record is at{' '}
+              <a
+                href={ORCID_PROFILE}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-signal hover:underline"
+              >
+                orcid.org/{ORCID_ID}
+              </a>
+              .
+            </>
+          )}
+        </p>
+      )}
+
       {/* Controls: Filter & Sort - Hide if limited */}
       {!limit && (
         <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row sheet-panel p-4 rounded-[2px] border border-rule flex-wrap `}>
@@ -205,11 +254,8 @@ export default function Publications({ limit }: { limit?: number }) {
           </div>
         </div>
       )}
-      
-      {remote.status === 'pending' ? (
-        <div className="text-center text-ink-soft py-10">Loading publications...</div>
-      ) : (
-        <div className="grid grid-cols-1 gap-6">
+
+      <div className="grid grid-cols-1 gap-6">
           <AnimatePresence>
             {displayedPubs.map((pub, index) => (
               <motion.div
@@ -353,8 +399,7 @@ export default function Publications({ limit }: { limit?: number }) {
               </motion.div>
             ))}
           </AnimatePresence>
-        </div>
-      )}
+      </div>
     </motion.div>
   );
 

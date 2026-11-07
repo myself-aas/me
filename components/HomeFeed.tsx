@@ -10,8 +10,9 @@ import Experience from './Experience';
 import Contact from './Contact';
 import ProfileDetails from './ProfileDetails';
 import BlueskyFeed from './BlueskyFeed';
+import type { Publication } from '@/lib/sources/orcid';
 
-export default function HomeFeed() {
+export default function HomeFeed({ publications }: { publications: Publication[] }) {
   // Section anchors on the home feed are replaced with clean paths on load.
   useEffect(() => {
     if (window.location.hash) {
@@ -57,7 +58,7 @@ export default function HomeFeed() {
           viewMore: { href: '/publications', label: 'All publications' },
         }}
       >
-        <Publications limit={3} />
+        <Publications works={publications} limit={3} />
       </Section>
 
       <Section
