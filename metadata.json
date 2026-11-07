@@ -1,6 +1,6 @@
 {
-  "name": "My Dynamic Portfolio",
-  "description": "My dynamic portfolio website featuring projects and contact information.",
+  "name": "Ashif Ahmed Shuvo Portfolio",
+  "description": "Research portfolio of Ashif Ahmed Shuvo, an AI and machine learning researcher working on computer vision and remote sensing.",
   "requestFramePermissions": [
     "geolocation"
   ]

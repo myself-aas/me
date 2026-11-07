@@ -23,6 +23,7 @@ export default function Header() {
   const pathname = usePathname();
 
   React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 

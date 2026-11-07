@@ -62,11 +62,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
-  output: 'export',
+  output: 'standalone',
   // GitHub Pages serves the exported directory, so every route ends in a slash.
   // Keeping links and canonicals in that form avoids a redirect hop per page.
   trailingSlash: true,
-  basePath: '/me',
   transpilePackages: ['motion'],
   webpack: (config, {dev}) => {
     // HMR is disabled in AI Studio via DISABLE_HMR env var.
