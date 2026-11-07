@@ -30,22 +30,61 @@ const WORKS_ENDPOINT = `https://pub.orcid.org/v3.0/${ORCID_ID}/works`;
 
 async function readWorks(): Promise<Publication[]> {
   const token = process.env.ORCID_ACCESS_TOKEN?.trim();
-
+  const headers: Record<string, string> = { Accept: 'application/json' };
   if (token) {
-    try {
-      const payload = await getJson(WORKS_ENDPOINT, AbortSignal.timeout(15_000), {
-        headers: { Accept: 'application/json', Authorization: `Bearer ${token}` },
-      });
-      return parseWorks(payload);
-    } catch (error) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  let works: Publication[] = [];
+  try {
+    const payload = await getJson(WORKS_ENDPOINT, AbortSignal.timeout(15_000), { headers });
+    works = parseWorks(payload);
+  } catch (error) {
+    if (token) {
       console.warn('[orcid] token read refused, retrying anonymously:', error);
+      const payload = await getJson(WORKS_ENDPOINT, AbortSignal.timeout(15_000), {
+        headers: { Accept: 'application/json' },
+      });
+      works = parseWorks(payload);
+    } else {
+      throw error;
     }
   }
 
-  const payload = await getJson(WORKS_ENDPOINT, AbortSignal.timeout(15_000), {
-    headers: { Accept: 'application/json' },
-  });
-  return parseWorks(payload);
+  // Attempt to enrich author/contributor information for each work from ORCID public record
+  try {
+    const enriched = await Promise.all(
+      works.map(async (work) => {
+        if (!work.putCode) return work;
+        try {
+          const detailUrl = `https://pub.orcid.org/v3.0/${ORCID_ID}/work/${work.putCode}`;
+          const detail = await getJson(detailUrl, AbortSignal.timeout(8_000), {
+            headers: { Accept: 'application/json' },
+          });
+          const contributors = (detail as Record<string, any>)?.contributors?.contributor || [];
+          const seen = new Set<string>();
+          const names: string[] = [];
+          for (const c of contributors) {
+            const name = c?.['credit-name']?.value?.trim();
+            if (name && !seen.has(name.toLowerCase())) {
+              seen.add(name.toLowerCase());
+              names.push(name);
+            }
+          }
+          if (names.length > 0) {
+            return { ...work, authors: names.join(', ') };
+          }
+        } catch {
+          // If individual detail fetch fails or times out, proceed with base summary
+        }
+        return work;
+      })
+    );
+    return enriched;
+  } catch (enrichError) {
+    console.warn('[orcid] error during contributor enrichment:', enrichError);
+    return works;
+  }
 }
 
 export async function readOrcidRecord(): Promise<OrcidRecord> {

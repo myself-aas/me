@@ -8,12 +8,22 @@ import { BookOpen, ExternalLink, FileText, Share2, Linkedin, Link as LinkIcon, F
 
 const manualPublications: Publication[] = [
   {
+    title: 'HEART-Net: An ultra-lightweight multimodal neural network for on-device cattle live-weight estimation and precision phytogenic dosing',
+    year: '2026',
+    url: 'https://doi.org/10.1016/j.atech.2026.102587',
+    source: 'Smart Agricultural Technology',
+    authors: 'Ashif Ahmed Shuvo, Sakibul Hasan, Abir Anjum, Asaduzzaman Shahed, Mohammad Al-Mamun',
+    impactFactor: 7.2,
+    type: 'Journal article',
+    doi: '10.1016/j.atech.2026.102587'
+  },
+  {
     title: 'EinsteinNet and State-of-the-Art ML Models for Android-Based Orange Classification: Integration, Evaluation, and Deployment',
     year: '2025',
     url: 'https://doi.org/10.1016/j.atech.2025.101072',
     source: 'Smart Agricultural Technology',
-    authors: 'Shuvo, Ashif Ahmed, Bhuian, Wahada Jinnat Oishy, Rahman, Afzal, Iqbal, Abdullah',
-    impactFactor: 5.7,
+    authors: 'Ashif Ahmed Shuvo, Wahada Jinnat Oishy Bhuian, Afzal Rahman, Abdullah Iqbal',
+    impactFactor: 7.2,
     type: 'Journal article',
     doi: '10.1016/j.atech.2025.101072'
   },
@@ -22,7 +32,7 @@ const manualPublications: Publication[] = [
     year: '2025',
     url: 'https://doi.org/10.2139/ssrn.5248271',
     source: 'SSRN',
-    authors: 'Shuvo, Ashif Ahmed',
+    authors: 'Ashif Ahmed Shuvo',
     impactFactor: 0,
     type: 'Preprint',
     doi: '10.2139/ssrn.5248271'
@@ -32,26 +42,47 @@ const manualPublications: Publication[] = [
     year: '2025',
     url: 'https://doi.org/10.2139/ssrn.5183017',
     source: 'SSRN',
-    authors: 'Shuvo, Ashif Ahmed, Bhuian, Wahada Jinnat Oishy, Rahman, Afzal and Iqbal, Abdullah',
+    authors: 'Ashif Ahmed Shuvo, Wahada Jinnat Oishy Bhuian, Afzal Rahman, Abdullah Iqbal',
     impactFactor: 0,
     type: 'Preprint',
     doi: '10.2139/ssrn.5183017'
+  },
+  {
+    title: 'Orange Fruit Image Dataset for Classification',
+    year: '2026',
+    url: 'https://data.mendeley.com/datasets/zk4hzhtcdd/2',
+    source: 'Mendeley Data',
+    authors: 'Ashif Shuvo, Most.Subrina Afrin Monika, Wahada Jinnat Oishy Bhuian',
+    impactFactor: 0,
+    type: 'Dataset',
+    doi: '10.17632/ZK4HZHTCDD.2'
+  },
+  {
+    title: 'CatalystLab: AI-Powered Research Brainstorming and Parallel Literature Discovery Platform',
+    year: '2026',
+    url: 'https://github.com/myself-aas/CatalystLab',
+    source: 'Github',
+    authors: 'Ashif Ahmed Shuvo',
+    impactFactor: 0,
+    type: 'Software',
+    doi: '10.5281/ZENODO.19362937'
+  },
+  {
+    title: 'SmartHerbo: A Privacy-First, On-Device Hybrid Neural-Biometric System for Precision Bovine Weight Estimation and Metabolic Nutritional Scaling',
+    year: '2026',
+    url: 'https://github.com/myself-aas/Smart-Herbo',
+    source: 'Github',
+    authors: 'Ashif Ahmed Shuvo',
+    impactFactor: 0,
+    type: 'Software',
+    doi: '10.5281/ZENODO.19362814'
   },
   {
     title: 'Forecasting Wheat Flour Prices in Bangladesh to 2030: A Bayesian-Optimized XGBoost Framework with Structural Break Detection, Ensemble Methods, and Comprehensive Robustness Validation',
     year: '2026',
     url: '#',
     source: 'Manuscript under preparation',
-    authors: 'Shuvo, Ashif Ahmed, Monika, Subrina Afrin, Turza, Mahadi Abser, Iqbal, Md. Asif, Begum, Ismat Ara, Alam, Mohammad Jahangir',
-    impactFactor: 0,
-    type: 'Manuscript'
-  },
-  {
-    title: 'Deep Learning-Based Weight Prediction for Indigenous Pabna Cattle: A Comparative Analysis of Seven CNN Architectures with TensorFlow.js Deployment and Metabolically-Scaled Phytogenic Supplement Integration (Smart-Herbo)',
-    year: '2026',
-    url: '#',
-    source: 'Manuscript under preparation',
-    authors: 'Shuvo, Ashif Ahmed, Hasan, Sakibul, Anjum, Abir, Shahed, Asaduzzaman, Al-Mamun, Mohammad, Al-Mamun, Mohammad',
+    authors: 'Ashif Ahmed Shuvo, Subrina Afrin Monika, Mahadi Abser Turza, Md. Asif Iqbal, Ismat Ara Begum, Mohammad Jahangir Alam',
     impactFactor: 0,
     type: 'Manuscript'
   },
@@ -77,16 +108,31 @@ export default function Publications({
   const [activeCite, setActiveCite] = useState<number | null>(null);
   const [copiedCitation, setCopiedCitation] = useState<string | null>(null);
 
-  // Merge ORCID pubs with manual ones, avoiding duplicates by title
+  // Helper to normalize title for fuzzy matching between ORCID and manual record
+  const normalizeTitle = (t: string) => t.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+  // Merge ORCID pubs with manual ones, avoiding duplicates by normalized title
   const combinedPubs = [...orcidPubs];
   manualPublications.forEach((manualPub) => {
-    const exists = combinedPubs.some((p) => p.title.toLowerCase() === manualPub.title.toLowerCase());
-    if (!exists) {
+    const manualNorm = normalizeTitle(manualPub.title);
+    const existingIndex = combinedPubs.findIndex((p) => {
+      const pNorm = normalizeTitle(p.title);
+      return pNorm === manualNorm || (p.doi && manualPub.doi && p.doi.toLowerCase() === manualPub.doi.toLowerCase());
+    });
+
+    if (existingIndex === -1) {
       combinedPubs.push(manualPub);
     } else {
-      // If it exists in ORCID, update it with our rich manual metadata (like IF and authors)
-      const index = combinedPubs.findIndex((p) => p.title.toLowerCase() === manualPub.title.toLowerCase());
-      combinedPubs[index] = { ...combinedPubs[index], ...manualPub };
+      // Keep ORCID live data and overlay rich manual metadata (e.g. Impact Factor or refined authors if missing)
+      const existing = combinedPubs[existingIndex];
+      combinedPubs[existingIndex] = {
+        ...existing,
+        ...manualPub,
+        // Prefer live ORCID authors if available, fallback to manual authors
+        authors: existing.authors || manualPub.authors,
+        // Ensure impactFactor from manual record is preserved
+        impactFactor: manualPub.impactFactor || existing.impactFactor || 0,
+      };
     }
   });
 
@@ -216,7 +262,7 @@ export default function Publications({
                 className="bg-transparent text-sm font-medium text-ink focus:outline-none cursor-pointer"
               >
                 {uniqueTypes.map(type => (
-                  <option key={type} value={type} className="bg-band">{type}</option>
+                  <option key={type} value={type} className="bg-paper text-ink">{type}</option>
                 ))}
               </select>
             </div>
@@ -231,7 +277,7 @@ export default function Publications({
                 className="bg-transparent text-sm font-medium text-ink focus:outline-none cursor-pointer"
               >
                 {uniqueYears.map(year => (
-                  <option key={year} value={year} className="bg-band">{year}</option>
+                  <option key={year} value={year} className="bg-paper text-ink">{year}</option>
                 ))}
               </select>
             </div>
@@ -248,8 +294,8 @@ export default function Publications({
               onChange={(e) => setSortBy(e.target.value as 'year' | 'impactFactor')}
               className="bg-transparent text-sm font-medium text-ink focus:outline-none cursor-pointer"
             >
-              <option value="impactFactor" className="bg-band">Sort by Impact Factor</option>
-              <option value="year" className="bg-band">Sort by Year (Newest)</option>
+              <option value="impactFactor" className="bg-paper text-ink">Sort by Impact Factor</option>
+              <option value="year" className="bg-paper text-ink">Sort by Year (Newest)</option>
             </select>
           </div>
         </div>
@@ -383,7 +429,7 @@ export default function Publications({
                         href={pub.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-[2px] bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-ink dark:text-ink dark:hover:bg-band"
+                        className="inline-flex items-center gap-2 rounded-[2px] bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-signal hover:text-paper"
                       >
                         Read Paper
                         <ExternalLink className="h-4 w-4" />

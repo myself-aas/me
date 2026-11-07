@@ -28,6 +28,7 @@ export type Publication = {
   impactFactor?: number;
   /** Last time the ORCID entry changed, for ordering entries with no year. */
   updated?: string;
+  putCode?: number;
 };
 
 /** ORCID work types, as the record writes them, in words. */
@@ -92,7 +93,24 @@ function nested(value: unknown, ...keys: string[]): unknown {
 function doiOf(summary: Fields): string {
   const entries = asArray(nested(summary, 'external-ids', 'external-id')).map(record);
   const doi = entries.find((entry) => entry['external-id-type'] === 'doi');
-  return doi ? text(doi['external-id-value']) : '';
+  if (doi) return text(doi['external-id-value']);
+  const ssrn = entries.find((entry) => entry['external-id-type'] === 'ssrn');
+  if (ssrn) return text(ssrn['external-id-value']);
+  return '';
+}
+
+const JOURNAL_IMPACT_FACTORS: Record<string, number> = {
+  'smart agricultural technology': 7.2,
+  'smart agric. technol.': 7.2,
+  'computers and electronics in agriculture': 7.7,
+  'precision agriculture': 5.4,
+  'remote sensing of environment': 11.1,
+};
+
+export function getJournalImpactFactor(journalTitle?: string): number {
+  if (!journalTitle) return 0;
+  const normalized = journalTitle.toLowerCase().trim();
+  return JOURNAL_IMPACT_FACTORS[normalized] || 0;
 }
 
 /**
@@ -108,20 +126,22 @@ function toPublication(summary: Fields): Publication | null {
   const externalUrl = text(nested(summary, 'url', 'value'));
   const path = text(summary.path);
   const year = text(nested(summary, 'publication-date', 'year', 'value'));
+  const putCode = typeof summary['put-code'] === 'number' ? summary['put-code'] : undefined;
   // `last-modified-date` arrives as epoch milliseconds, the rest as ISO strings.
   const modified = nested(summary, 'last-modified-date', 'value');
+  const journalSource = text(nested(summary, 'journal-title', 'value'), 'ORCID record');
 
   return {
     title,
     year: year || 'Undated',
     type: typeLabel(text(summary.type)),
-    source: text(nested(summary, 'journal-title', 'value'), 'ORCID record'),
+    source: journalSource,
     url:
       externalUrl ||
       (doi ? `https://doi.org/${doi}` : path ? `https://orcid.org${path}` : ORCID_PROFILE),
     doi: doi || undefined,
-    // ORCID publishes no impact factor; the curated list supplies one where it exists.
-    impactFactor: 0,
+    impactFactor: getJournalImpactFactor(journalSource),
+    putCode,
     updated:
       typeof modified === 'number'
         ? new Date(modified).toISOString()

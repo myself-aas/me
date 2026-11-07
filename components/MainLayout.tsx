@@ -3,6 +3,7 @@
 import Header from './Header';
 import Footer from './Footer';
 import RightSidebar from './RightSidebar';
+import PageTransition from './PageTransition';
 
 /**
  * Three rails: the contents, the record itself, and the instruments reading the
@@ -14,7 +15,9 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Header />
 
       <main className="flex w-full min-w-0 max-w-[760px] flex-col border-rule bg-paper pb-14 pt-12 md:border-x md:pb-0 md:pt-0">
-        {children}
+        <PageTransition>
+          {children}
+        </PageTransition>
 
         <div className="border-t border-rule px-5 py-8 lg:hidden">
           <RightSidebar />

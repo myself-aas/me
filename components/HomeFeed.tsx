@@ -3,16 +3,25 @@
 import { useEffect } from 'react';
 import Section from './Section';
 import About from './About';
+import LiveProjectsShowcase from './LiveProjectsShowcase';
 import Skills from './Skills';
 import GitHubProjects from './GitHubProjects';
 import Publications from './Publications';
 import Experience from './Experience';
 import Contact from './Contact';
 import ProfileDetails from './ProfileDetails';
-import BlueskyFeed from './BlueskyFeed';
+import UnifiedSocialFeed from './UnifiedSocialFeed';
+import ThoughtsSection from './ThoughtsSection';
 import type { Publication } from '@/lib/sources/orcid';
+import type { Thought } from '@/lib/thoughts';
 
-export default function HomeFeed({ publications }: { publications: Publication[] }) {
+export default function HomeFeed({
+  publications,
+  thoughts = [],
+}: {
+  publications: Publication[];
+  thoughts?: Thought[];
+}) {
   // Section anchors on the home feed are replaced with clean paths on load.
   useEffect(() => {
     if (window.location.hash) {
@@ -24,6 +33,20 @@ export default function HomeFeed({ publications }: { publications: Publication[]
     <div className="flex flex-col">
       <Section feed={{ title: 'About the work', id: 'about' }}>
         <About />
+      </Section>
+
+      <Section feed={{ title: 'Live applications', id: 'live-projects' }}>
+        <LiveProjectsShowcase />
+      </Section>
+
+      <Section
+        feed={{
+          title: 'Thoughts',
+          id: 'thoughts',
+          viewMore: { href: '/thoughts', label: 'All thoughts' },
+        }}
+      >
+        <ThoughtsSection initialThoughts={thoughts} limit={3} />
       </Section>
 
       <Section
@@ -73,12 +96,12 @@ export default function HomeFeed({ publications }: { publications: Publication[]
 
       <Section
         feed={{
-          title: 'Research log',
+          title: 'Research log & social dispatches',
           id: 'feed',
-          viewMore: { href: '/feed', label: 'Full log' },
+          viewMore: { href: '/feed', label: 'Full feed' },
         }}
       >
-        <BlueskyFeed limit={3} />
+        <UnifiedSocialFeed limit={3} />
       </Section>
 
       <Section feed={{ title: 'Write to me', id: 'contact' }}>

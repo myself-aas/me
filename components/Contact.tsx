@@ -47,7 +47,7 @@ export default function Contact() {
     <motion.div
       transition={{ duration: 0.5 }}
     >
-      <div className="rounded-[2px] border border-rule bg-band p-8 dark:border-rule">
+      <div className="rounded-[2px] border border-rule bg-band p-8">
         {isSuccess ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -78,7 +78,7 @@ export default function Contact() {
                 id="name"
                 autoComplete="name"
                 enterKeyHint="next"
-                className="block w-full rounded-[2px] border border-rule bg-band p-3 text-sm text-ink focus:border-signal focus:ring-signal dark:border-rule bg-band/50 dark:text-paper dark:placeholder-gray-400 dark:focus:border-signal dark:focus:ring-signal"
+                className="block w-full rounded-[2px] border border-rule bg-paper p-3 text-sm text-ink placeholder:text-ink-soft focus:border-signal focus:ring-signal"
                 placeholder="John Doe"
               />
               {errors.name && <p className="mt-1 text-sm text-signal">{errors.name.message}</p>}
@@ -95,7 +95,7 @@ export default function Contact() {
                 autoComplete="email"
                 inputMode="email"
                 enterKeyHint="next"
-                className="block w-full rounded-[2px] border border-rule bg-band p-3 text-sm text-ink focus:border-signal focus:ring-signal dark:border-rule bg-band/50 dark:text-paper dark:placeholder-gray-400 dark:focus:border-signal dark:focus:ring-signal"
+                className="block w-full rounded-[2px] border border-rule bg-paper p-3 text-sm text-ink placeholder:text-ink-soft focus:border-signal focus:ring-signal"
                 placeholder="john@example.com"
               />
               {errors.email && <p className="mt-1 text-sm text-signal">{errors.email.message}</p>}
@@ -111,7 +111,7 @@ export default function Contact() {
                 rows={5}
                 autoComplete="off"
                 enterKeyHint="send"
-                className="block w-full rounded-[2px] border border-rule bg-band p-3 text-sm text-ink focus:border-signal focus:ring-signal dark:border-rule bg-band/50 dark:text-paper dark:placeholder-gray-400 dark:focus:border-signal dark:focus:ring-signal"
+                className="block w-full rounded-[2px] border border-rule bg-paper p-3 text-sm text-ink placeholder:text-ink-soft focus:border-signal focus:ring-signal"
                 placeholder="Your message here..."
               ></textarea>
               {errors.message && <p className="mt-1 text-sm text-signal">{errors.message.message}</p>}
@@ -120,7 +120,7 @@ export default function Contact() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex w-full items-center justify-center gap-2 rounded-[2px] bg-signal px-5 py-3 text-center text-sm font-medium text-paper hover:bg-signal-deep focus:outline-none focus:ring-4 focus:ring-signal disabled:opacity-70 dark:bg-signal dark:hover:bg-signal-deep transition-all"
+              className="flex w-full items-center justify-center gap-2 rounded-[2px] bg-signal px-5 py-3 text-center text-sm font-medium text-paper hover:bg-signal-deep focus:outline-none focus:ring-4 focus:ring-signal disabled:opacity-70 transition-all cursor-pointer"
             >
               {isSubmitting ? 'Sending...' : 'Send Message'}
               {!isSubmitting && <Send className="h-4 w-4" />}

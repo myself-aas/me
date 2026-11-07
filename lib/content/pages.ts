@@ -51,6 +51,19 @@ export const PAGES: Record<string, PageRecord> = {
     schema: [profilePageSchema, personSchema],
   },
 
+  '/thoughts': {
+    path: '/thoughts',
+    title: 'Ashif Ahmed Shuvo | Thoughts & Notes',
+    description:
+      'Longer notes, technical write-ups, and ongoing personal thoughts on field computer vision, agro-meteorology, and applied machine learning.',
+    heading: 'Thoughts',
+    subheading: 'Essays, field notes, and technical write-ups written in Markdown',
+    intro: [
+      'A collection of longer-form technical writing, field essays, and architectural reflections. Whereas papers follow the rigorous constraints of peer review and social media posts capture fleeting day-to-day moments, these thoughts dive into the messy realities of agricultural AI, hardware trade-offs, and empirical discoveries.',
+      'Written as Markdown files directly in the repository, each piece explores problems encountered while developing models that survive outdoors under tropical sun, canopy shadows, and edge compute limits.',
+    ],
+  },
+
   '/skills': {
     path: '/skills',
     title: 'Ashif Ahmed Shuvo | Skills & Tech Stack',

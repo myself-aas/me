@@ -16,9 +16,9 @@
 
   --color-paper: #efefe9;
   --color-band: #e6e7dd;
-  --color-ink: #1a211c;
-  --color-ink-soft: #55605a;
-  --color-rule: #c3c7ba;
+  --color-ink: #141a16;
+  --color-ink-soft: #36423c;
+  --color-rule: #b8bcae;
 
   --color-signal: #ae1454;
   --color-signal-deep: #840d3f;
@@ -29,11 +29,11 @@
 }
 
 html.dark {
-  --color-paper: #121916;
-  --color-band: #1a231e;
-  --color-ink: #e7e9df;
-  --color-ink-soft: #9aa59b;
-  --color-rule: #2c352f;
+  --color-paper: #0f1512;
+  --color-band: #18201a;
+  --color-ink: #eef0e6;
+  --color-ink-soft: #b2bebc;
+  --color-rule: #38453d;
 
   --color-signal: #e2548c;
   --color-signal-deep: #f07aa6;

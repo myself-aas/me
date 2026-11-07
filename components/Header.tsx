@@ -1,15 +1,15 @@
-'use client';
-
 import * as React from 'react';
 import { useTheme } from 'next-themes';
-import { Moon, Sun, Github, Linkedin, Mail } from 'lucide-react';
+import { Moon, Sun, Github, Linkedin, Mail, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { motion, AnimatePresence } from 'motion/react';
 
 /** The contents of the record, in the order a reader moves through it. */
 const CONTENTS = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
+  { name: 'Thoughts', href: '/thoughts' },
   { name: 'Skills', href: '/skills' },
   { name: 'Experience', href: '/experience' },
   { name: 'Research Feed', href: '/feed' },
@@ -20,12 +20,19 @@ const CONTENTS = [
 export default function Header() {
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const pathname = usePathname();
 
   React.useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
+
+  // Close menu when pathname changes
+  React.useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setIsMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -54,7 +61,7 @@ export default function Header() {
                     isActive ? 'text-signal' : 'text-ink-soft hover:text-ink'
                   }`}
                 >
-                  <span className={`figure text-[0.6875rem] ${isActive ? 'text-signal' : 'text-ink-soft/70'}`}>
+                  <span className={`figure text-[0.6875rem] ${isActive ? 'text-signal font-semibold' : 'text-ink-soft'}`}>
                     {String(index + 1).padStart(2, '0')}
                   </span>
                   <span className="hidden font-sans text-[0.875rem] tracking-[0.005em] xl:block">
@@ -112,49 +119,134 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Small screens: a masthead rule and the contents along the bottom edge. */}
-      <div className="fixed inset-x-0 top-0 z-40 flex h-12 items-center justify-between border-b border-rule bg-paper px-5 md:hidden">
-        <Link href="/" className="font-serif text-[0.9375rem] tracking-[-0.01em]">
-          Ashif Ahmed Shuvo
-        </Link>
-        <button
-          type="button"
-          onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-          aria-label="Switch between light and dark theme"
-          className="text-ink-soft transition-colors hover:text-ink"
-        >
-          {!mounted ? (
-            <span className="block h-4 w-4" />
-          ) : theme === 'dark' ? (
-            <Sun className="h-4 w-4" aria-hidden="true" />
-          ) : (
-            <Moon className="h-4 w-4" aria-hidden="true" />
-          )}
-        </button>
+      {/* Small screens: Masthead with Hamburger and GitHub link */}
+      <div className="fixed inset-x-0 top-0 z-50 flex h-14 items-center justify-between border-b border-rule bg-paper px-5 md:hidden">
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            className="group flex flex-col items-start gap-1.5 p-1 transition-colors hover:text-signal"
+          >
+            <motion.div 
+              className="h-[2px] bg-current rounded-full"
+              initial={false}
+              animate={isMenuOpen ? { rotate: 45, y: 4, width: 22 } : { rotate: 0, y: 0, width: 22 }}
+              transition={{ duration: 0.2 }}
+            />
+            <motion.div 
+              className="h-[2px] bg-current rounded-full"
+              initial={false}
+              animate={isMenuOpen ? { rotate: -45, y: -4, width: 22 } : { rotate: 0, y: 0, width: 14 }}
+              transition={{ duration: 0.2 }}
+            />
+          </button>
+          <Link href="/" className="font-serif text-[0.9375rem] font-medium tracking-[-0.01em] text-ink">
+            Ashif Ahmed Shuvo
+          </Link>
+        </div>
+
+        <div className="flex items-center gap-4">
+          <a
+            href="https://github.com/myself-aas"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub profile"
+            className="text-ink-soft transition-colors hover:text-ink"
+          >
+            <Github className="h-5 w-5" />
+          </a>
+          <button
+            type="button"
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            aria-label="Switch theme"
+            className="text-ink-soft transition-colors hover:text-ink"
+          >
+            {!mounted ? (
+              <span className="block h-5 w-5" />
+            ) : theme === 'dark' ? (
+              <Sun className="h-5 w-5" aria-hidden="true" />
+            ) : (
+              <Moon className="h-5 w-5" aria-hidden="true" />
+            )}
+          </button>
+        </div>
       </div>
 
-      <nav
-        aria-label="Contents"
-        className="fixed inset-x-0 bottom-0 z-40 flex h-14 items-stretch justify-between border-t border-rule bg-paper px-2 md:hidden"
-      >
-        {[CONTENTS[0], CONTENTS[1], CONTENTS[5], CONTENTS[6], CONTENTS[4]].map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              aria-current={isActive ? 'page' : undefined}
-              className={`flex flex-1 items-center justify-center border-b-2 px-1 text-center font-sans text-[0.6875rem] leading-tight transition-colors ${
-                isActive
-                  ? 'border-signal text-signal'
-                  : 'border-transparent text-ink-soft hover:text-ink'
-              }`}
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsMenuOpen(false)}
+              className="fixed inset-0 z-40 bg-ink/20 backdrop-blur-sm md:hidden"
+            />
+            <motion.nav
+              initial={{ x: '-100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '-100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed inset-y-0 left-0 z-40 w-4/5 max-w-sm bg-paper border-r border-rule pt-14 md:hidden"
             >
-              {item.name}
-            </Link>
-          );
-        })}
-      </nav>
+              <div className="flex flex-col h-full overflow-y-auto px-5 py-8">
+                <div className="datum mb-6 border-b border-rule pb-2">Contents</div>
+                <div className="flex flex-col gap-1">
+                  {CONTENTS.map((item, index) => {
+                    const isActive = pathname === item.href;
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className={`flex items-baseline gap-4 border-b border-rule/50 py-4 transition-colors ${
+                          isActive ? 'text-signal' : 'text-ink-soft hover:text-ink'
+                        }`}
+                      >
+                        <span className={`figure text-xs ${isActive ? 'text-signal' : 'text-ink-soft/50'}`}>
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                        <span className="font-sans text-lg font-medium">
+                          {item.name}
+                        </span>
+                      </Link>
+                    );
+                  })}
+                  <Link
+                    href="/contact"
+                    className="flex items-center gap-4 py-6 mt-4 text-ink hover:text-signal transition-colors border-t border-rule"
+                  >
+                    <Mail className="h-5 w-5" />
+                    <span className="font-sans text-lg font-medium">Contact</span>
+                  </Link>
+                </div>
+                
+                <div className="mt-auto pt-8 border-t border-rule flex items-center gap-6">
+                  <a
+                    href="https://github.com/myself-aas"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ink-soft hover:text-ink transition-colors flex items-center gap-2"
+                  >
+                    <Github className="h-5 w-5" />
+                    <span className="text-sm">GitHub</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/me-aas"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-ink-soft hover:text-ink transition-colors flex items-center gap-2"
+                  >
+                    <Linkedin className="h-5 w-5" />
+                    <span className="text-sm">LinkedIn</span>
+                  </a>
+                </div>
+              </div>
+            </motion.nav>
+          </>
+        )}
+      </AnimatePresence>
     </>
   );
 }

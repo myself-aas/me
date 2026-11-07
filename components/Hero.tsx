@@ -49,12 +49,17 @@ export default function Hero() {
     <div className="border-b border-rule">
       <div className="px-5 pb-10 pt-8 md:px-10 md:pt-12">
         <div className="flex items-start justify-between gap-8">
-          <h1 className="max-w-[21ch]">
+          <motion.h1
+            className="max-w-[21ch]"
+            initial={reduceMotion ? undefined : { opacity: 0, y: 12 }}
+            animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
             <span className="datum block">Ashif Ahmed Shuvo</span>
             <span className="mt-4 block font-serif text-[clamp(2.3rem,5.6vw,3.5rem)] font-[560] leading-[1.03] tracking-[-0.025em] text-ink">
               Models that hold up in a field, not just on a benchmark.
             </span>
-          </h1>
+          </motion.h1>
 
           <Image
             src="https://github.com/myself-aas.png"
@@ -66,12 +71,17 @@ export default function Hero() {
           />
         </div>
 
-        <p className="measure mt-6 text-[1.0625rem] leading-[1.6] text-ink-soft">
+        <motion.p
+          className="measure mt-6 text-[1.0625rem] leading-[1.6] text-ink-soft"
+          initial={reduceMotion ? undefined : { opacity: 0, y: 10 }}
+          animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+        >
           Uneven light, overlapping leaves, cheap cameras, small labelled sets: that is the working
           condition for the models I build. The same habit goes into predicting the price of wheat
           flour or the weight of cattle from a photograph — the output has to answer a question
           someone can act on.
-        </p>
+        </motion.p>
 
         <dl className="mt-10 border-b border-rule">
           {RECORDS.map((record, index) => (
