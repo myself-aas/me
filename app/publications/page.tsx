@@ -11,7 +11,7 @@ export default function PublicationsPage() {
   return (
     <>
       <JsonLd nodes={PAGES['/publications'].schema ?? []} />
-      <Section page={PAGES['/publications']} width="medium" className="bg-gray-100 dark:bg-gray-900/50 min-h-screen">
+      <Section page={PAGES['/publications']} width="medium" className="bg-band min-h-screen">
         <Publications />
       </Section>
     </>

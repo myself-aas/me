@@ -1,6 +1,7 @@
 import type {Metadata, Viewport} from 'next';
 import './globals.css'; // Global styles
 import { ThemeProvider } from '@/components/ThemeProvider';
+import { sans, serif } from './fonts';
 import MainLayout from '@/components/MainLayout';
 import JsonLd from '@/components/JsonLd';
 import { SITE_DESCRIPTION, SITE_TITLE, SITE_URL } from '@/lib/seo';
@@ -57,18 +58,18 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#000000' },
+    { media: '(prefers-color-scheme: light)', color: '#efefe9' },
+    { media: '(prefers-color-scheme: dark)', color: '#121916' },
   ],
 };
 
 export default function RootLayout({children}: {children: React.ReactNode}) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={`${serif.variable} ${sans.variable}`} suppressHydrationWarning>
       <head>
         <JsonLd nodes={[personSchema, websiteSchema]} />
       </head>
-      <body className="antialiased min-h-screen bg-white dark:bg-black text-black dark:text-white" suppressHydrationWarning>
+      <body className="min-h-screen" suppressHydrationWarning>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <MainLayout>
             {children}

@@ -29,7 +29,7 @@ export default function Copy({
                   <Link
                     key={segmentIndex}
                     href={segment.href}
-                    className="text-blue-600 hover:underline dark:text-blue-400"
+                    className="text-signal hover:underline"
                   >
                     {segment.label}
                   </Link>

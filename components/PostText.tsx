@@ -23,7 +23,7 @@ export default function PostText({ text }: { text: string }) {
               href={part}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline break-all"
+              className="text-signal hover:underline break-all"
               onClick={(event) => event.stopPropagation()}
             >
               {part}
@@ -38,7 +38,7 @@ export default function PostText({ text }: { text: string }) {
               href={`https://bsky.app/search?q=${encodeURIComponent(tag)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-500 hover:underline"
+              className="text-signal hover:underline"
               onClick={(event) => event.stopPropagation()}
             >
               {part}

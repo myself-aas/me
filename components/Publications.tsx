@@ -148,16 +148,15 @@ export default function Publications({ limit }: { limit?: number }) {
 
   const content = (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
       {/* Controls: Filter & Sort - Hide if limited */}
       {!limit && (
-        <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row glass-card p-4 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm flex-wrap `}>
+        <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row sheet-panel p-4 rounded-[2px] border border-rule flex-wrap `}>
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-gray-500" aria-hidden="true" />
+              <Filter className="h-4 w-4 text-ink-soft" aria-hidden="true" />
               <label htmlFor="publication-type-filter" className="sr-only">
                 Filter publications by type
               </label>
@@ -165,32 +164,32 @@ export default function Publications({ limit }: { limit?: number }) {
                 id="publication-type-filter"
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
-                className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
+                className="bg-transparent text-sm font-medium text-ink focus:outline-none cursor-pointer"
               >
                 {uniqueTypes.map(type => (
-                  <option key={type} value={type} className="dark:bg-gray-900">{type}</option>
+                  <option key={type} value={type} className="bg-band">{type}</option>
                 ))}
               </select>
             </div>
-            <div className="flex items-center gap-2 border-l border-white/20 dark:border-white/10 pl-4">
-              <label htmlFor="publication-year-filter" className="text-sm text-gray-500">
+            <div className="flex items-center gap-2 border-l border-rule pl-4">
+              <label htmlFor="publication-year-filter" className="text-sm text-ink-soft">
                 Year:
               </label>
               <select
                 id="publication-year-filter"
                 value={filterYear}
                 onChange={(e) => setFilterYear(e.target.value)}
-                className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
+                className="bg-transparent text-sm font-medium text-ink focus:outline-none cursor-pointer"
               >
                 {uniqueYears.map(year => (
-                  <option key={year} value={year} className="dark:bg-gray-900">{year}</option>
+                  <option key={year} value={year} className="bg-band">{year}</option>
                 ))}
               </select>
             </div>
           </div>
           
           <div className="flex items-center gap-2">
-            <ArrowUpDown className="h-4 w-4 text-gray-500" aria-hidden="true" />
+            <ArrowUpDown className="h-4 w-4 text-ink-soft" aria-hidden="true" />
             <label htmlFor="publication-sort" className="sr-only">
               Sort publications
             </label>
@@ -198,17 +197,17 @@ export default function Publications({ limit }: { limit?: number }) {
               id="publication-sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'year' | 'impactFactor')}
-              className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
+              className="bg-transparent text-sm font-medium text-ink focus:outline-none cursor-pointer"
             >
-              <option value="impactFactor" className="dark:bg-gray-900">Sort by Impact Factor</option>
-              <option value="year" className="dark:bg-gray-900">Sort by Year (Newest)</option>
+              <option value="impactFactor" className="bg-band">Sort by Impact Factor</option>
+              <option value="year" className="bg-band">Sort by Year (Newest)</option>
             </select>
           </div>
         </div>
       )}
       
       {remote.status === 'pending' ? (
-        <div className="text-center text-gray-500 py-10">Loading publications...</div>
+        <div className="text-center text-ink-soft py-10">Loading publications...</div>
       ) : (
         <div className="grid grid-cols-1 gap-6">
           <AnimatePresence>
@@ -216,42 +215,41 @@ export default function Publications({ limit }: { limit?: number }) {
               <motion.div
                 key={index}
                 layout
-                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95 }}
                 transition={{ duration: 0.4 }}
-                className="group relative flex flex-col rounded-2xl border border-white/20 bg-white/40 p-6 shadow-sm transition hover:shadow-md backdrop-blur-md dark:border-white/10 dark:bg-black/40"
+                className="group relative flex flex-col rounded-[2px] border border-rule bg-band p-6 transition dark:border-rule"
               >
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
                   <div className="flex-1">
                     <div className="mb-3 flex flex-wrap items-center gap-2 text-xs font-medium">
-                      <span className="inline-flex items-center gap-1 rounded-full bg-blue-50 px-2.5 py-1 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400">
+                      <span className="inline-flex items-center gap-1 rounded-[2px] bg-signal-wash px-2.5 py-1 text-signal">
                         <BookOpen className="h-3 w-3" />
                         {pub.type || 'Publication'}
                       </span>
-                      <span className="text-gray-500 dark:text-gray-400">• {pub.year}</span>
+                      <span className="text-ink-soft dark:text-ink-soft">• {pub.year}</span>
                       {pub.impactFactor && pub.impactFactor > 0 ? (
-                        <span className="inline-flex items-center gap-1 rounded-full bg-green-50 px-2.5 py-1 text-green-600 dark:bg-green-900/30 dark:text-green-400">
+                        <span className="inline-flex items-center gap-1 rounded-[2px] bg-band px-2.5 py-1 text-teal">
                           IF: {pub.impactFactor}
                         </span>
                       ) : null}
                     </div>
                     
-                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight mb-2">
+                    <h2 className="text-lg font-semibold text-ink leading-tight mb-2">
                       {pub.title}
                     </h2>
                     
                     {pub.authors && (
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+                      <p className="text-sm text-ink-soft mb-3">
                         {pub.authors}
                       </p>
                     )}
                     
-                    <div className="text-sm font-medium text-gray-800 dark:text-gray-300">
+                    <div className="text-sm font-medium text-ink">
                       {pub.source}
                     </div>
                     {pub.doi && (
-                      <div className="text-xs text-gray-500 dark:text-gray-500 mt-1">
+                      <div className="text-xs text-ink-soft dark:text-ink-soft mt-1">
                         DOI: {pub.doi}
                       </div>
                     )}
@@ -265,7 +263,7 @@ export default function Publications({ limit }: { limit?: number }) {
                           setActiveCite(activeCite === index ? null : index);
                           setActiveShare(null);
                         }}
-                        className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-full transition-colors dark:hover:bg-green-900/30 dark:hover:text-green-400"
+                        className="p-2 text-ink-soft hover:text-teal hover:bg-band rounded-[2px] transition-colors"
                         aria-label="Cite"
                         title="Cite this publication"
                       >
@@ -278,22 +276,22 @@ export default function Publications({ limit }: { limit?: number }) {
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute right-0 mt-2 w-56 rounded-xl border border-gray-200 bg-white p-2 shadow-lg dark:border-gray-800 dark:bg-gray-900 z-20"
+                            className="absolute right-0 mt-2 w-56 rounded-[2px] border border-rule bg-paper p-2 bg-band z-20"
                           >
-                            <div className="px-3 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wider border-b border-gray-100 dark:border-gray-800 mb-1">
+                            <div className="datum mb-1 border-b border-rule px-3 py-2">
                               Copy Citation
                             </div>
                             {(['APA', 'MLA', 'BibTeX'] as const).map((format) => (
                               <button 
                                 key={format}
                                 onClick={() => copyCitation(pub, format)} 
-                                className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+                                className="flex w-full items-center justify-between rounded-[2px] px-3 py-2 text-sm text-ink hover:bg-band"
                               >
                                 <span>{format}</span>
                                 {copiedCitation === format ? (
-                                  <Check className="h-4 w-4 text-green-500" />
+                                  <Check className="h-4 w-4 text-teal" />
                                 ) : (
-                                  <Copy className="h-4 w-4 text-gray-400" />
+                                  <Copy className="h-4 w-4 text-ink-soft" />
                                 )}
                               </button>
                             ))}
@@ -309,7 +307,7 @@ export default function Publications({ limit }: { limit?: number }) {
                           setActiveShare(activeShare === index ? null : index);
                           setActiveCite(null);
                         }}
-                        className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-full transition-colors dark:hover:bg-blue-900/30 dark:hover:text-blue-400"
+                        className="p-2 text-ink-soft hover:text-signal hover:bg-signal-wash rounded-[2px] transition-colors"
                         aria-label="Share"
                       >
                         <Share2 className="h-5 w-5" />
@@ -321,13 +319,13 @@ export default function Publications({ limit }: { limit?: number }) {
                             initial={{ opacity: 0, y: 10, scale: 0.95 }}
                             animate={{ opacity: 1, y: 0, scale: 1 }}
                             exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            className="absolute right-0 mt-2 w-48 rounded-xl border border-gray-200 bg-white p-2 shadow-lg dark:border-gray-800 dark:bg-gray-900 z-10"
+                            className="absolute right-0 mt-2 w-48 rounded-[2px] border border-rule bg-paper p-2 bg-band z-10"
                           >
-                            <button onClick={() => handleShare('linkedin', pub)} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
-                              <Linkedin className="h-4 w-4 text-blue-700" /> LinkedIn
+                            <button onClick={() => handleShare('linkedin', pub)} className="flex w-full items-center gap-2 rounded-[2px] px-3 py-2 text-sm text-ink hover:bg-band">
+                              <Linkedin className="h-4 w-4 text-signal-deep" /> LinkedIn
                             </button>
-                            <button onClick={() => handleShare('copy', pub)} className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">
-                              <LinkIcon className="h-4 w-4 text-gray-500" /> Copy Link
+                            <button onClick={() => handleShare('copy', pub)} className="flex w-full items-center gap-2 rounded-[2px] px-3 py-2 text-sm text-ink hover:bg-band">
+                              <LinkIcon className="h-4 w-4 text-ink-soft" /> Copy Link
                             </button>
                           </motion.div>
                         )}
@@ -339,13 +337,13 @@ export default function Publications({ limit }: { limit?: number }) {
                         href={pub.url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 rounded-full bg-gray-900 px-5 py-2.5 text-sm font-medium text-white transition-colors hover:bg-gray-800 dark:bg-white dark:text-gray-900 dark:hover:bg-gray-100"
+                        className="inline-flex items-center gap-2 rounded-[2px] bg-ink px-5 py-2.5 text-sm font-medium text-paper transition-colors hover:bg-ink dark:text-ink dark:hover:bg-band"
                       >
                         Read Paper
                         <ExternalLink className="h-4 w-4" />
                       </a>
                     ) : (
-                      <span className="inline-flex items-center gap-2 rounded-full bg-gray-100 px-5 py-2.5 text-sm font-medium text-gray-500 dark:bg-gray-800 dark:text-gray-400">
+                      <span className="inline-flex items-center gap-2 rounded-[2px] bg-band px-5 py-2.5 text-sm font-medium text-ink-soft dark:text-ink-soft">
                         <FileText className="h-4 w-4" />
                         In Prep
                       </span>

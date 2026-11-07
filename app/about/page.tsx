@@ -11,7 +11,7 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd nodes={PAGES['/about'].schema ?? []} />
-      <Section page={PAGES['/about']} width="prose" align="left">
+      <Section page={PAGES['/about']} width="prose">
         <About />
       </Section>
     </>

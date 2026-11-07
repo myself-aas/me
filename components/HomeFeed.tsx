@@ -1,16 +1,6 @@
 'use client';
 
-import {
-  ArrowRight,
-  User,
-  Folder,
-  BookOpen,
-  Briefcase,
-  Mail,
-  TrendingUp,
-} from 'lucide-react';
 import { useEffect } from 'react';
-import Link from 'next/link';
 import Section from './Section';
 import About from './About';
 import Skills from './Skills';
@@ -30,41 +20,21 @@ export default function HomeFeed() {
   }, []);
 
   return (
-    <div className="flex flex-col bg-white dark:bg-black">
-      {/* Introduction */}
-      <div className="px-6 py-12 border-b border-gray-100 dark:border-gray-900 bg-blue-50/30 dark:bg-blue-900/5">
-        <div className="max-w-3xl">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">Research & Innovation in AI</h2>
-          <p className="text-lg text-gray-600 dark:text-gray-400 leading-relaxed">
-            Welcome to my research portfolio. I am dedicated to bridging the gap between advanced artificial intelligence and practical applications in precision agriculture. My work focuses on developing robust computer vision models and data-driven systems that empower sustainable farming practices.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            <Link href="/publications" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-black font-bold hover:opacity-90 transition-all">
-              View Publications <ArrowRight className="w-4 h-4" aria-hidden="true" />
-            </Link>
-            <Link href="/projects" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-800 font-bold hover:bg-gray-50 dark:hover:bg-gray-900 transition-all">
-              Explore Projects
-            </Link>
-          </div>
-        </div>
-      </div>
-
-      <Section feed={{ title: 'About Me', icon: User, id: 'about' }}>
+    <div className="flex flex-col">
+      <Section feed={{ title: 'About the work', id: 'about' }}>
         <About />
       </Section>
 
       <Section
         feed={{
-          title: 'Technical Analytics & Skills',
-          icon: TrendingUp,
+          title: 'Tools and skills',
           id: 'skills',
-          viewMore: { href: '/skills', label: 'Explore all technical skills' },
+          viewMore: { href: '/skills', label: 'All skills' },
         }}
-        padded={false}
       >
         <div className="flex flex-col">
           <ProfileDetails />
-          <div className="border-t border-gray-100 dark:border-gray-900 p-6">
+          <div className="border-t border-rule">
             <Skills limit={4} />
           </div>
         </div>
@@ -72,10 +42,9 @@ export default function HomeFeed() {
 
       <Section
         feed={{
-          title: 'Research Projects',
-          icon: Folder,
+          title: 'Code and projects',
           id: 'projects',
-          viewMore: { href: '/projects', label: 'Browse all research projects' },
+          viewMore: { href: '/projects', label: 'All projects' },
         }}
       >
         <GitHubProjects limit={3} />
@@ -83,10 +52,9 @@ export default function HomeFeed() {
 
       <Section
         feed={{
-          title: 'Academic Publications',
-          icon: BookOpen,
+          title: 'Publications',
           id: 'publications',
-          viewMore: { href: '/publications', label: 'See all publications' },
+          viewMore: { href: '/publications', label: 'All publications' },
         }}
       >
         <Publications limit={3} />
@@ -94,10 +62,9 @@ export default function HomeFeed() {
 
       <Section
         feed={{
-          title: 'Professional Experience',
-          icon: Briefcase,
+          title: 'Experience and education',
           id: 'experience',
-          viewMore: { href: '/experience', label: 'See full experience and education' },
+          viewMore: { href: '/experience', label: 'Full record' },
         }}
       >
         <Experience limit={3} />
@@ -105,16 +72,15 @@ export default function HomeFeed() {
 
       <Section
         feed={{
-          title: 'Research Feed & Updates',
-          icon: TrendingUp,
+          title: 'Research log',
           id: 'feed',
-          viewMore: { href: '/feed', label: 'Read the full research feed' },
+          viewMore: { href: '/feed', label: 'Full log' },
         }}
       >
         <BlueskyFeed limit={3} />
       </Section>
 
-      <Section feed={{ title: 'Contact & Collaboration', icon: Mail, id: 'contact' }} card={false}>
+      <Section feed={{ title: 'Write to me', id: 'contact' }}>
         <Contact />
       </Section>
     </div>

@@ -1,156 +1,138 @@
 'use client';
 
-import { MapPin, Link as LinkIcon, Calendar, Mail, GraduationCap, Download, Github, Linkedin, BookOpen, FileText } from 'lucide-react';
-import Link from 'next/link';
 import Image from 'next/image';
+import Link from 'next/link';
+import { motion, useReducedMotion } from 'motion/react';
+
+/**
+ * The masthead, set as a specimen label: who, what the work claims, and the
+ * four records that make the claim checkable.
+ *
+ * This is the one place the page moves on arrival — the rules sweep out and the
+ * records settle behind them. Everything below is still.
+ */
+
+const RECORDS = [
+  {
+    label: 'Field',
+    value: 'Food engineering, then agro-meteorology at Bangladesh Agricultural University',
+  },
+  {
+    label: 'Instruments',
+    value: 'RGB cameras, weather-station series, satellite indices, PyTorch',
+  },
+  {
+    label: 'Records',
+    value: 'Five papers and preprints, public repositories, a research log on Bluesky',
+  },
+  {
+    label: 'Coordinates',
+    value: '24.75° N, 90.40° E · Mymensingh, Bangladesh',
+  },
+];
+
+const LINKS = [
+  { label: 'Write to me', href: '/contact', external: false },
+  { label: 'Résumé', href: '/me/Ashif_Ahmed_Shuvo_Resume.pdf', external: true },
+  {
+    label: 'Google Scholar',
+    href: 'https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en',
+    external: true,
+  },
+  { label: 'ORCID', href: 'https://orcid.org/0009-0003-5734-1519', external: true },
+];
 
 export default function Hero() {
+  const reduceMotion = useReducedMotion();
+
   return (
-    <div className="flex flex-col border-b border-gray-200 dark:border-gray-800 bg-white/40 dark:bg-black/40 backdrop-blur-md">
-      {/* Cover Photo */}
-      <div className="h-32 sm:h-48 w-full bg-slate-100 dark:bg-slate-900 relative overflow-hidden">
-        <Image
-          src="https://ghchart.rshah.org/myself-aas.svg"
-          alt="GitHub contribution graph for myself-aas"
-          width={1200}
-          height={360}
-          className="h-full w-full object-contain opacity-40 dark:opacity-30"
-          priority
-        />
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-white dark:from-black to-transparent" />
+    <div className="border-b border-rule">
+      <div className="px-5 pb-10 pt-8 md:px-10 md:pt-12">
+        <div className="flex items-start justify-between gap-8">
+          <h1 className="max-w-[21ch]">
+            <span className="datum block">Ashif Ahmed Shuvo</span>
+            <span className="mt-4 block font-serif text-[clamp(2.3rem,5.6vw,3.5rem)] font-[560] leading-[1.03] tracking-[-0.025em] text-ink">
+              Models that hold up in a field, not just on a benchmark.
+            </span>
+          </h1>
+
+          <Image
+            src="https://github.com/myself-aas.png"
+            alt="Portrait of Ashif Ahmed Shuvo"
+            width={208}
+            height={208}
+            priority
+            className="hidden h-[104px] w-[104px] shrink-0 border border-rule object-cover grayscale sm:block"
+          />
+        </div>
+
+        <p className="measure mt-6 text-[1.0625rem] leading-[1.6] text-ink-soft">
+          Uneven light, overlapping leaves, cheap cameras, small labelled sets: that is the working
+          condition for the models I build. The same habit goes into predicting the price of wheat
+          flour or the weight of cattle from a photograph — the output has to answer a question
+          someone can act on.
+        </p>
+
+        <dl className="mt-10 border-b border-rule">
+          {RECORDS.map((record, index) => (
+            <div
+              key={record.label}
+              className="relative grid grid-cols-1 gap-x-8 border-t border-rule py-3 sm:grid-cols-[8rem_1fr]"
+            >
+              <motion.span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-px origin-left bg-rule"
+                initial={reduceMotion ? undefined : { scaleX: 0 }}
+                animate={reduceMotion ? undefined : { scaleX: 1 }}
+                transition={{
+                  duration: 0.5,
+                  delay: 0.1 + index * 0.08,
+                  ease: [0.3, 0.6, 0.2, 1],
+                }}
+              />
+              <dt className="datum">{record.label}</dt>
+              <dd className="mt-1 text-[0.9375rem] leading-[1.5] text-ink sm:mt-0">{record.value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        <ul className="mt-9 flex flex-wrap items-baseline gap-x-7 gap-y-3">
+          {LINKS.map((link) => (
+            <li key={link.label}>
+              {link.external ? (
+                <a
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rail-link text-ink underline decoration-rule underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  href={link.href}
+                  className="rail-link text-signal underline decoration-signal/40 underline-offset-4 transition-colors hover:decoration-signal"
+                >
+                  {link.label}
+                </Link>
+              )}
+            </li>
+          ))}
+        </ul>
       </div>
 
-      {/* Profile Info */}
-      <div className="px-6 pb-8 relative">
-        <div className="flex justify-between items-start pt-4">
-          {/* Avatar */}
-          <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl border-4 border-white/50 dark:border-black/50 bg-gray-200/50 dark:bg-gray-800/50 -mt-14 sm:-mt-18 relative z-10 shadow-xl overflow-hidden backdrop-blur-sm">
-            <Image
-              src="https://github.com/myself-aas.png"
-              alt="Portrait of Ashif Ahmed Shuvo"
-              width={144}
-              height={144}
-              className="h-full w-full object-cover"
-              priority
-            />
-          </div>
-          
-          {/* Action Buttons */}
-          <div className="flex flex-col gap-2 items-end">
-            <Link href="/contact" className="rounded-lg bg-blue-600/90 backdrop-blur-sm text-white px-6 py-2 font-bold hover:bg-blue-700 transition-all shadow-md hover:shadow-lg w-full text-center">
-              Contact Me
-            </Link>
-            <a 
-              href="/me/Ashif_Ahmed_Shuvo_Resume.pdf" 
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-6 py-2 rounded-lg border-2 border-blue-600 text-blue-600 dark:text-blue-400 font-bold hover:bg-blue-600 hover:text-white transition-all w-full shadow-sm hover:shadow-[0_0_15px_rgba(37,99,235,0.4)] hover:-translate-y-0.5"
-            >
-              View Resume <FileText className="w-4 h-4" />
-            </a>
-          </div>
-        </div>
-
-        <div className="mt-6">
-          <div className="flex items-center gap-3">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white tracking-tight">Ashif Ahmed Shuvo</h1>
-            <span className="px-2 py-0.5 rounded-full bg-blue-100/50 dark:bg-blue-900/30 backdrop-blur-sm text-blue-600 dark:text-blue-400 text-xs font-bold uppercase tracking-wider">Researcher</span>
-          </div>
-          <p className="text-gray-600 dark:text-gray-400 text-lg mt-1 font-medium italic">AI & Machine Learning Specialist</p>
-        </div>
-
-        <div className="mt-4 text-[16px] text-gray-700 dark:text-gray-300 leading-relaxed max-w-2xl">
-          Specializing in <span className="font-semibold text-blue-600 dark:text-blue-400">precision agriculture</span>, computer vision, and data-driven decision-making. 🌾🤖 Currently exploring PhD opportunities to further research in sustainable AI solutions.
-        </div>
-
-        <div className="mt-6 border-t border-gray-100/50 dark:border-gray-900/50 pt-6">
-          <div className="flex flex-col items-center gap-6">
-            <div className="flex flex-col sm:flex-row items-center gap-4 text-gray-500 text-sm">
-              <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4 text-blue-500"/> 
-                <span>Based in Bangladesh (Open to Relocation)</span>
-              </div>
-              <div className="hidden sm:block w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-700" />
-              <div className="flex items-center gap-2">
-                <Mail className="w-4 h-4 text-blue-500"/> 
-                <span>shuvo.1807016@bau.edu.bd</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <a 
-                href="mailto:shuvo.1807016@bau.edu.bd" 
-                aria-label="Email Ashif Ahmed Shuvo"
-                className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
-                title="Email"
-              >
-                <Mail className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en&oi=sra" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="Google Scholar profile (opens in a new tab)"
-                className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
-                title="Google Scholar"
-              >
-                <GraduationCap className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://orcid.org/0009-0003-5734-1519" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="ORCID record (opens in a new tab)"
-                className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
-                title="ORCID"
-              >
-                <BookOpen className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://github.com/myself-aas" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="GitHub profile (opens in a new tab)"
-                className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
-                title="GitHub"
-              >
-                <Github className="w-5 h-5" />
-              </a>
-              <a 
-                href="https://www.linkedin.com/in/me-aas" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                aria-label="LinkedIn profile (opens in a new tab)"
-                className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-500 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
-                title="LinkedIn"
-              >
-                <Linkedin className="w-5 h-5" />
-              </a>
-            </div>
-          </div>
-          
-          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/20 dark:border-white/10 backdrop-blur-md">
-              <div className="p-2 rounded-lg bg-blue-50/50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
-                <GraduationCap className="w-5 h-5"/>
-              </div>
-              <div>
-                <p className="text-gray-900 dark:text-white font-bold">B.Sc. in Food Engineering</p>
-                <p className="text-xs text-gray-500">Bangladesh Agricultural University (BAU)</p>
-              </div>
-            </div>
-            <div className="flex items-start gap-3 p-4 rounded-2xl bg-white/40 dark:bg-white/5 border border-white/20 dark:border-white/10 backdrop-blur-md">
-              <div className="p-2 rounded-lg bg-blue-50/50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400">
-                <GraduationCap className="w-5 h-5"/>
-              </div>
-              <div>
-                <p className="text-gray-900 dark:text-white font-bold">M.Sc. in AgroMeteorology (Pursuing)</p>
-                <p className="text-xs text-gray-500">Bangladesh Agricultural University (BAU)</p>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div className="border-t border-rule px-5 py-4 md:px-10">
+        <Image
+          src="https://ghchart.rshah.org/myself-aas.svg"
+          alt="GitHub contribution graph for myself-aas: commits across public repositories over the last twelve months"
+          width={1200}
+          height={120}
+          className="h-14 w-full object-contain object-left opacity-70 [filter:grayscale(1)_contrast(1.2)]"
+        />
+        <p className="datum mt-2">
+          Commits to public repositories over the last twelve months. The rest of the record is
+          below.
+        </p>
       </div>
     </div>
   );

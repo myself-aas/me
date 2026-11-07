@@ -2,27 +2,153 @@
 
 @custom-variant dark (&:is(.dark *));
 
-html {
-  scroll-behavior: smooth;
+/*
+ * Field record.
+ *
+ * Paper and ink first; colour is reserved for what it measures. Light theme is
+ * a herbarium sheet, not warm cream. Dark theme is a wet field at night. The
+ * one saturated accent is the magenta that vegetation turns in a false-colour
+ * infrared composite; ochre stands in for soil, teal for water.
+ */
+@theme {
+  --font-serif: var(--font-source-serif), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-plex-sans), system-ui, -apple-system, sans-serif;
+
+  --color-paper: #efefe9;
+  --color-band: #e6e7dd;
+  --color-ink: #1a211c;
+  --color-ink-soft: #55605a;
+  --color-rule: #c3c7ba;
+
+  --color-signal: #ae1454;
+  --color-signal-deep: #840d3f;
+  --color-signal-wash: #f0dbe2;
+
+  --color-ochre: #8a5f19;
+  --color-teal: #17585c;
 }
 
-body {
-  @apply bg-gray-50 text-gray-900 transition-colors duration-300 dark:bg-gray-950 dark:text-gray-50;
-  background-image: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
-                    radial-gradient(circle at 0% 0%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
-  background-attachment: fixed;
+html.dark {
+  --color-paper: #121916;
+  --color-band: #1a231e;
+  --color-ink: #e7e9df;
+  --color-ink-soft: #9aa59b;
+  --color-rule: #2c352f;
+
+  --color-signal: #e2548c;
+  --color-signal-deep: #f07aa6;
+  --color-signal-wash: #331a25;
+
+  --color-ochre: #d3a35c;
+  --color-teal: #4fa8ac;
+
+  color-scheme: dark;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    font-optical-sizing: auto;
+    font-variant-numeric: lining-nums;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-serif);
+    font-weight: 560;
+    letter-spacing: -0.012em;
+    line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  a {
+    text-underline-offset: 0.18em;
+  }
+
+  ::selection {
+    background: var(--color-signal);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-family: var(--font-sans);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }
 
 @layer utilities {
-  .glass {
-    @apply bg-white/40 backdrop-blur-md border border-white/20 shadow-sm dark:bg-black/40 dark:border-white/10;
+  /* A second paper tone. Grouping is done with surface, not borders. */
+  .sheet-panel {
+    background-color: var(--color-band);
   }
-  
-  .glass-card {
-    @apply bg-white/60 backdrop-blur-lg border border-white/30 shadow-lg dark:bg-gray-900/40 dark:border-white/10;
+
+  /* A rule that carries information: a record boundary or a table header. */
+  .hairline {
+    border-top: 1px solid var(--color-rule);
   }
-  
-  .glass-nav {
-    @apply bg-white/70 backdrop-blur-xl border-b border-white/20 dark:bg-black/70 dark:border-white/10;
+
+  /* Field labels and data rows. */
+  .datum {
+    font-family: var(--font-sans);
+    font-size: 0.8125rem;
+    line-height: 1.45;
+    letter-spacing: 0.005em;
+    color: var(--color-ink-soft);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  .figure {
+    font-family: var(--font-sans);
+    font-variant-numeric: tabular-nums lining-nums;
+    letter-spacing: -0.01em;
+  }
+
+  /* Prose measure: 66 characters, the shortest comfortable serif line. */
+  .measure {
+    max-width: 66ch;
+  }
+
+  .rail-link {
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    letter-spacing: 0.01em;
   }
 }
