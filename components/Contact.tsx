@@ -6,6 +6,8 @@ import * as z from 'zod';
 import { motion } from 'motion/react';
 import { Send, CheckCircle2, FileText } from 'lucide-react';
 import { useState } from 'react';
+import PageHeader from './PageHeader';
+import type { PageRecord } from '@/lib/content/pages';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -15,7 +17,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function Contact({ page, isEmbedded = false }: { page?: PageRecord; isEmbedded?: boolean }) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -62,14 +64,7 @@ export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {!isEmbedded && (
-        <div className="mb-12 text-center">
-          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Get in Touch</h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Have a question or want to work together? Send me a message.
-          </p>
-        </div>
-      )}
+      {page && <PageHeader page={page} />}
 
       <div className={`${isEmbedded ? 'p-0' : 'rounded-3xl border border-white/20 bg-white/40 p-8 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-black/40'}`}>
         {isSuccess ? (

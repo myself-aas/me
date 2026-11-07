@@ -1,14 +1,10 @@
 import type { Metadata } from 'next';
 import AccessibilityContent from './AccessibilityContent';
 import { pageMetadata } from '@/lib/seo';
+import { PAGES } from '@/lib/content/pages';
 
-export const metadata: Metadata = pageMetadata({
-  title: 'Ashif Ahmed Shuvo | Accessibility',
-  description:
-    'Accessibility commitments behind this portfolio: WCAG 2.1 AA targets, keyboard and screen reader support, and how to report a barrier you hit.',
-  path: '/accessibility',
-});
+export const metadata: Metadata = pageMetadata(PAGES['/accessibility']);
 
 export default function AccessibilityPage() {
-  return <AccessibilityContent />;
+  return <AccessibilityContent page={PAGES['/accessibility']} />;
 }

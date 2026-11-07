@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { motion } from 'motion/react';
+import Copy from '@/components/Copy';
+import type { PageRecord } from '@/lib/content/pages';
 
-export default function AdsInfoContent() {
+export default function AdsInfoContent({ page }: { page: PageRecord }) {
   return (
     <div className="p-6 md:p-12">
       <motion.div
@@ -11,13 +13,9 @@ export default function AdsInfoContent() {
         animate={{ opacity: 1, y: 0 }}
         className="glass-card p-8 rounded-3xl border border-white/20"
       >
-        <h1 className="text-3xl font-bold mb-6 tracking-tight">Ads Info</h1>
+        <h1 className="text-3xl font-bold mb-6 tracking-tight">{page.heading}</h1>
         <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed">
-          <p>
-            This website does not display third-party advertisements and does not run an ad network, an affiliate
-            script or a retargeting pixel. There is nothing on the page that earns money from your attention while you
-            read.
-          </p>
+          <Copy paragraphs={page.intro ?? []} />
 
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-8">1. Why there are no ads</h2>
           <p>

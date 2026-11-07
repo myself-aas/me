@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { Github, Star, GitFork, Code, Search, X, ExternalLink, Share2, Mail, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import PageHeader from './PageHeader';
+import type { PageRecord } from '@/lib/content/pages';
 
 interface Project {
   id: number;
@@ -17,7 +19,15 @@ interface Project {
   topics: string[];
 }
 
-export default function GitHubProjects({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
+export default function GitHubProjects({
+  page,
+  isEmbedded = false,
+  limit,
+}: {
+  page?: PageRecord;
+  isEmbedded?: boolean;
+  limit?: number;
+}) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<string>('All');
@@ -63,46 +73,7 @@ export default function GitHubProjects({ isEmbedded = false, limit }: { isEmbedd
 
   const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
 
-  const pageHeader = !isEmbedded && (
-    <header className="mb-12">
-      <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Featured Projects</h1>
-      <p className="mt-2 text-gray-600 dark:text-gray-400">
-        Open source contributions and personal projects
-      </p>
-      <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-        <p>
-          Everything listed here is public code. The cards are loaded live from the GitHub API when the page opens,
-          so the list reflects whatever was pushed most recently rather than a snapshot that goes stale: stars,
-          forks, primary language and topics all come straight from each repository record.
-        </p>
-        <p>
-          The work clusters around applied machine learning for agriculture and the tooling that supports it. You
-          will find segmentation and detection experiments for crop and disease recognition, notebooks that walk
-          through a dataset or a training run, small utilities for sensor and weather data, and this website itself,
-          which is a Next.js static export deployed to GitHub Pages.
-        </p>
-        <p>
-          Each card shows the language GitHub reports as primary, which is not always the language the interesting
-          part is written in: a Python training script can sit behind a TypeScript demo. Where a repository has a
-          paper or a write-up attached, the description links to it. Repositories that are archived or no longer
-          maintained stay in the list so the record is complete, but the card will show the last push date.
-        </p>
-        <p>
-          Use the search field to filter by repository name or description, or pick a language to narrow the list.
-          Selecting a card opens the full description, topics and links to the repository and its homepage. If a
-          project looks relevant to something you are working on, the{" "}
-          <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
-            contact page
-          </Link>{" "}
-          is the fastest way to reach me, and the{" "}
-          <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
-            publications page
-          </Link>{" "}
-          covers the peer-reviewed side of the same work.
-        </p>
-      </div>
-    </header>
-  );
+  const pageHeader = page && <PageHeader page={page} />;
 
   if (loading) {
     return (

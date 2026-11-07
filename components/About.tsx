@@ -2,9 +2,11 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import PageHeader from './PageHeader';
+import type { PageRecord } from '@/lib/content/pages';
 import { GraduationCap, Target, Lightbulb, Award } from 'lucide-react';
 
-export default function About({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function About({ page, isEmbedded = false }: { page?: PageRecord; isEmbedded?: boolean }) {
   const highlights = [
     {
       icon: GraduationCap,
@@ -41,7 +43,7 @@ export default function About({ isEmbedded = false }: { isEmbedded?: boolean }) 
         transition={{ duration: 0.5 }}
         className="max-w-3xl"
       >
-        {!isEmbedded && <h1 className="mb-8 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">About My Journey</h1>}
+        {page && <PageHeader page={page} align="left" />}
         
         <div className={`space-y-6 ${isEmbedded ? 'text-base' : 'text-lg'} text-gray-600 dark:text-gray-300 leading-relaxed font-serif`}>
           <p className="first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-left first-letter:text-blue-600">

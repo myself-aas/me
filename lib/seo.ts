@@ -15,24 +15,8 @@ export const OG_IMAGE = `${SITE_URL}/og-image.png`;
 export const OG_IMAGE_ALT = 'Ashif Ahmed Shuvo — AI and machine learning research portfolio';
 export const CONTACT_EMAIL = 'shuvo.1807016@bau.edu.bd';
 
-/** Public pages, used for the sitemap, llms.txt checks and title consistency. */
-export const PAGES = [
-  { path: '/', title: SITE_TITLE },
-  { path: '/about', title: 'Ashif Ahmed Shuvo | About Me & My Research' },
-  { path: '/skills', title: 'Ashif Ahmed Shuvo | Skills & Tech Stack' },
-  { path: '/experience', title: 'Ashif Ahmed Shuvo | Experience & Education' },
-  { path: '/projects', title: 'Ashif Ahmed Shuvo | Projects & Open Source Code' },
-  { path: '/publications', title: 'Ashif Ahmed Shuvo | Publications' },
-  { path: '/feed', title: 'Ashif Ahmed Shuvo | Research Feed' },
-  { path: '/contact', title: 'Ashif Ahmed Shuvo | Contact' },
-  { path: '/accessibility', title: 'Ashif Ahmed Shuvo | Accessibility' },
-  { path: '/privacy', title: 'Ashif Ahmed Shuvo | Privacy Policy' },
-  { path: '/cookies', title: 'Ashif Ahmed Shuvo | Cookie Policy' },
-  { path: '/terms', title: 'Ashif Ahmed Shuvo | Terms of Service' },
-  { path: '/ads-info', title: 'Ashif Ahmed Shuvo | Advertising Policy' },
-] as const;
-
-type PageMetadataInput = {
+/** The part of a page record that decides a document's metadata. */
+type PageIdentity = {
   /** Full document title, always prefixed with the site owner's name. */
   title: string;
   /** 120-160 characters, unique per page. */
@@ -42,10 +26,10 @@ type PageMetadataInput = {
 };
 
 /**
- * Builds canonical, Open Graph and Twitter metadata for a single page so the
- * same values are never duplicated by hand in twelve different files.
+ * Builds canonical, Open Graph and Twitter metadata from a page record, so the
+ * record is the only place a title or description is written.
  */
-export function pageMetadata({ title, description, path }: PageMetadataInput): Metadata {
+export function pageMetadata({ title, description, path }: PageIdentity): Metadata {
   // Routes are exported with trailing slashes (see next.config.ts).
   const canonical = path === '/' ? `${SITE_URL}/` : `${SITE_URL}${path}/`;
 

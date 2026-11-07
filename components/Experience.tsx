@@ -2,6 +2,8 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
+import PageHeader from './PageHeader';
+import type { PageRecord } from '@/lib/content/pages';
 import { Briefcase, GraduationCap, ExternalLink } from 'lucide-react';
 
 const experiences = [
@@ -71,7 +73,15 @@ const education = [
   },
 ];
 
-export default function Experience({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
+export default function Experience({
+  page,
+  isEmbedded = false,
+  limit,
+}: {
+  page?: PageRecord;
+  isEmbedded?: boolean;
+  limit?: number;
+}) {
   const displayedExperiences = limit ? experiences.slice(0, limit) : experiences;
   const displayedEducation = limit ? education.slice(0, limit) : education;
 
@@ -82,41 +92,8 @@ export default function Experience({ isEmbedded = false, limit }: { isEmbedded?:
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {!isEmbedded && (
-        <header className="mb-12">
-          <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
-            Experience &amp; Education
-          </h1>
-          <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            <p>
-              A chronological view of where the work has been done. On the research side that means agricultural
-              engineering and agrometeorology at Bangladesh Agricultural University, long days in the field with
-              instruments under a Bangladesh summer, and the modelling that turns those readings into something a
-              grower or a research station can act on.
-            </p>
-            <p>
-              The industry entries come from structured programmes run with employers such as British Airways and
-              Accenture, where the tasks were commercial rather than academic: cleaning messy spreadsheets, building a
-              model against a deadline, and explaining the result to people who would never read the code. Each entry
-              with a certificate links to the issuer&apos;s own PDF so a claim can be checked without taking my word for
-              it.
-            </p>
-            <p>
-              The education column lists the degrees in progress and completed, from the B.Sc. in Food Engineering
-              through the current M.Sc. in AgroMeteorology. For what came out of that work, see the{" "}
-              <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
-                publications page
-              </Link>
-              ; for the tools used to produce it, the{" "}
-              <Link href="/skills" className="text-blue-600 hover:underline dark:text-blue-400">
-                skills page
-              </Link>
-              .
-            </p>
-          </div>
-        </header>
-      )}
-      
+      {page && <PageHeader page={page} />}
+
       <div className="grid grid-cols-1 gap-12">
         {/* Experience Column */}
         <div className="glass-card p-8 rounded-3xl">

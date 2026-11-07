@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { motion } from 'motion/react';
+import Copy from '@/components/Copy';
+import type { PageRecord } from '@/lib/content/pages';
 
-export default function TermsContent() {
+export default function TermsContent({ page }: { page: PageRecord }) {
   return (
     <div className="p-6 md:p-12">
       <motion.div
@@ -11,13 +13,9 @@ export default function TermsContent() {
         animate={{ opacity: 1, y: 0 }}
         className="glass-card p-8 rounded-3xl border border-white/20"
       >
-        <h1 className="text-3xl font-bold mb-6 tracking-tight">Terms of Service</h1>
+        <h1 className="text-3xl font-bold mb-6 tracking-tight">{page.heading}</h1>
         <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed">
-          <p>
-            These terms describe how you may use this portfolio and the material published on it. By browsing the site
-            you accept them; if you do not, please close the tab. They are written to be readable rather than
-            adversarial.
-          </p>
+          <Copy paragraphs={page.intro ?? []} />
 
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-8">1. What this site is</h2>
           <p>

@@ -14,9 +14,6 @@ export const metadata: Metadata = {
   authors: [{ name: 'Ashif Ahmed Shuvo', url: SITE_URL }],
   creator: 'Ashif Ahmed Shuvo',
   publisher: 'Ashif Ahmed Shuvo',
-  alternates: {
-    canonical: SITE_URL,
-  },
   robots: {
     index: true,
     follow: true,

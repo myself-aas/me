@@ -1,4 +1,4 @@
-import { CONTACT_EMAIL, SITE_NAME, SITE_URL } from './seo';
+import { CONTACT_EMAIL, SITE_NAME, SITE_URL } from './seo.ts';
 
 const PERSON_ID = `${SITE_URL}/#person`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
@@ -45,7 +45,7 @@ export const websiteSchema = {
   publisher: { '@id': PERSON_ID },
 };
 
-const profilePageSchema = {
+export const profilePageSchema = {
   '@type': 'ProfilePage',
   '@id': `${SITE_URL}/about#page`,
   url: `${SITE_URL}/about`,
@@ -55,7 +55,7 @@ const profilePageSchema = {
   mainEntity: { '@id': PERSON_ID },
 };
 
-const contactPageSchema = {
+export const contactPageSchema = {
   '@type': 'ContactPage',
   '@id': `${SITE_URL}/contact#page`,
   url: `${SITE_URL}/contact`,
@@ -70,7 +70,7 @@ const contactPageSchema = {
   },
 };
 
-const collectionPageSchema = (path: string, name: string, description: string) => ({
+export const collectionPageSchema = (path: string, name: string, description: string) => ({
   '@type': 'CollectionPage',
   '@id': `${SITE_URL}${path}#page`,
   url: `${SITE_URL}${path}`,
@@ -79,33 +79,6 @@ const collectionPageSchema = (path: string, name: string, description: string) =
   isPartOf: { '@id': WEBSITE_ID },
   about: { '@id': PERSON_ID },
 });
-
-/** Page-level schema blocks, keyed by route. */
-export const PAGE_SCHEMA: Record<string, unknown[]> = {
-  '/about': [profilePageSchema],
-  '/contact': [contactPageSchema],
-  '/publications': [
-    collectionPageSchema(
-      '/publications',
-      'Publications by Ashif Ahmed Shuvo',
-      'Peer-reviewed publications and writings on precision agriculture, spectroscopy and applied machine learning.',
-    ),
-  ],
-  '/projects': [
-    collectionPageSchema(
-      '/projects',
-      'Projects by Ashif Ahmed Shuvo',
-      'Open-source research code and side projects, fetched live from GitHub.',
-    ),
-  ],
-  '/feed': [
-    collectionPageSchema(
-      '/feed',
-      'Research feed of Ashif Ahmed Shuvo',
-      'Short research updates, notes and links published through Bluesky.',
-    ),
-  ],
-};
 
 /** Wraps one or more schema nodes into a single JSON-LD payload. */
 export function jsonLdDocument(nodes: unknown[]) {

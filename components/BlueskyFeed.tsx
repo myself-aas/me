@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import PageHeader from './PageHeader';
+import type { PageRecord } from '@/lib/content/pages';
 import { MessageSquare, BookOpen, Image as ImageIcon, ExternalLink, Share2, Clock } from 'lucide-react';
 import { formatPostText } from '@/lib/utils/text';
 
@@ -36,7 +38,7 @@ interface BlueskyPost {
   reply?: any;
 }
 
-export default function BlueskyFeed({ limit }: { limit?: number }) {
+export default function BlueskyFeed({ page, limit }: { page?: PageRecord; limit?: number }) {
   const [posts, setPosts] = useState<BlueskyPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<'all' | 'blog' | 'media'>('all');
@@ -143,47 +145,7 @@ export default function BlueskyFeed({ limit }: { limit?: number }) {
     );
   };
 
-  const pageHeader = !limit && (
-    <header className="text-center">
-      <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Research Feed</h1>
-      <p className="mt-2 text-gray-600 dark:text-gray-400">
-        Short updates, notes and links, published first on Bluesky.
-      </p>
-      <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-        <p>
-          A project rarely arrives as a finished paper. Between submissions there are experiments that failed, figures
-          worth keeping, datasets that behaved differently than expected and papers from other groups worth passing
-          on. This page collects those notes in the order they were posted, pulled live from the public Bluesky API,
-          so it doubles as a log of what the week actually looked like, mistakes included.
-        </p>
-        <p>
-          Threads tagged as blog posts walk through a problem and how I approached it, usually with a chart or a
-          sample image from the model under test. The visual gallery collects posts that carry media, which is the
-          quickest way to see what the computer vision work actually looks like on real field photographs: dusty
-          leaves, uneven shade, overlapping canopy and all the noise a clean benchmark dataset leaves out. When a
-          post names a number, treat it as provisional until the code is published.
-        </p>
-        <p>
-          Nothing here is peer reviewed, and early results can change once more folds of data are added. Anything
-          that survives review ends up on the{" "}
-          <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
-            publications page
-          </Link>{" "}
-          instead; the code behind an experiment usually lands on the{" "}
-          <Link href="/projects" className="text-blue-600 hover:underline dark:text-blue-400">
-            projects page
-          </Link>
-          . Posts are unlisted and unfiltered, so a passing note about a conference deadline sits next to a chart
-          from a model run; that is deliberate, since the timeline is more honest than a curated highlights page.
-          If a thread raises a question, reply to it there, or send a message through the{" "}
-          <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
-            contact form
-          </Link>
-          .
-        </p>
-      </div>
-    </header>
-  );
+  const pageHeader = page && <PageHeader page={page} />;
 
   if (loading) {
     return (

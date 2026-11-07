@@ -1,14 +1,10 @@
 import type { Metadata } from 'next';
 import AdsInfoContent from './AdsInfoContent';
 import { pageMetadata } from '@/lib/seo';
+import { PAGES } from '@/lib/content/pages';
 
-export const metadata: Metadata = pageMetadata({
-  title: 'Ashif Ahmed Shuvo | Advertising Policy',
-  description:
-    'Advertising and sponsorship policy for this portfolio: whether ads are served, how sponsored content is labelled, and how it affects editorial choices.',
-  path: '/ads-info',
-});
+export const metadata: Metadata = pageMetadata(PAGES['/ads-info']);
 
 export default function AdsInfoPage() {
-  return <AdsInfoContent />;
+  return <AdsInfoContent page={PAGES['/ads-info']} />;
 }

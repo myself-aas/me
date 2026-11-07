@@ -3,6 +3,8 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import PageHeader from './PageHeader';
+import type { PageRecord } from '@/lib/content/pages';
 import { BookOpen, ExternalLink, FileText, Share2, Linkedin, Link as LinkIcon, Filter, ArrowUpDown, Quote, Copy, Check } from 'lucide-react';
 
 interface Publication {
@@ -67,7 +69,15 @@ const manualPublications: Publication[] = [
   },
 ];
 
-export default function Publications({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
+export default function Publications({
+  page,
+  isEmbedded = false,
+  limit,
+}: {
+  page?: PageRecord;
+  isEmbedded?: boolean;
+  limit?: number;
+}) {
   const [orcidPubs, setOrcidPubs] = useState<Publication[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortBy, setSortBy] = useState<'year' | 'impactFactor'>('impactFactor');
@@ -197,49 +207,7 @@ export default function Publications({ isEmbedded = false, limit }: { isEmbedded
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {!isEmbedded && (
-        <header className="mb-12">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Publications &amp; Writings</h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">
-              Automatically synced with ORCID (0009-0003-5734-1519)
-            </p>
-          </div>
-          <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            <p>
-              This list is mirrored from my public ORCID record, so it matches what a search committee or journal
-              editor would find if they looked me up there. Each entry carries the citation, the venue, the year and,
-              where the journal reports one, the impact factor.
-            </p>
-            <p>
-              The work sits at the meeting point of food engineering, agrometeorology and machine learning: near
-              infrared and spectral methods for quality assessment, computer vision for crop and plant phenotyping,
-              and statistical modelling of environmental data that affects what a field actually yields. Several
-              entries are conference papers or preprints, which is normal for a field that moves faster than a
-              journal cycle.
-            </p>
-            <p>
-              Impact factor is a property of the journal, not of the paper, so treat that column as a rough signal of
-              reach rather than a measure of quality; several of the smaller venues are the more interesting reads.
-              Conference entries usually have a DOI but no volume or issue, which is why those fields are blank.
-              Preprints are labelled as such and may later appear under a different venue.
-            </p>
-            <p>
-              Filter by publication type or year when you are looking for something specific, or sort by impact
-              factor when you want the most cited venues first. If a paper is paywalled and you need a copy for
-              review, ask through the{" "}
-              <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
-                contact page
-              </Link>{" "}
-              and I will send the accepted manuscript. The code behind most of these results is on the{" "}
-              <Link href="/projects" className="text-blue-600 hover:underline dark:text-blue-400">
-                projects page
-              </Link>
-              .
-            </p>
-          </div>
-        </header>
-      )}
+      {page && <PageHeader page={page} />}
 
       {/* Controls: Filter & Sort - Hide if limited */}
       {!limit && (

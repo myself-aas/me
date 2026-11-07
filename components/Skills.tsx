@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
+import PageHeader from './PageHeader';
+import type { PageRecord } from '@/lib/content/pages';
 import { Code2, Cpu, Database, Cloud, Palette, Microscope, Globe, Wrench, Leaf, X } from 'lucide-react';
 
 const skillCategories = [
@@ -62,7 +64,15 @@ const skillCategories = [
   }
 ];
 
-export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
+export default function Skills({
+  page,
+  isEmbedded = false,
+  limit,
+}: {
+  page?: PageRecord;
+  isEmbedded?: boolean;
+  limit?: number;
+}) {
   const [selectedCategory, setSelectedCategory] = useState<typeof skillCategories[0] | null>(null);
 
   const displayedCategories = limit ? skillCategories.slice(0, limit) : skillCategories;
@@ -74,44 +84,8 @@ export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boo
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {!isEmbedded && (
-        <header className="mb-12">
-          <div className="text-center">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Technical Skills</h1>
-            <p className="mt-2 text-gray-600 dark:text-gray-400">Comprehensive toolkit across AI, Agriculture, and Software Engineering</p>
-          </div>
-          <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            <p>
-              This is the toolbox rather than a claim of mastery: nine groups covering the languages I write,
-              the architectures I have trained, the libraries I reach for first, the statistics behind the results,
-              and the domain knowledge that makes the models useful in a field instead of a notebook.
-            </p>
-            <p>
-              Python and PyTorch carry most of the modelling work, with R for the analysis and reporting that
-              journals expect. The vision stack is deliberately broad, from U-Net and DeepLabV3+ for segmentation
-              through Swin and Vision Transformers to plain ResNet baselines, because a simple model that trains on a
-              small labelled set often beats an elegant one that needs ten times the annotations. Each list also names
-              the libraries I have actually shipped with, not the ones I have merely read about.
-            </p>
-            <p>
-              On the domain side: near infrared spectroscopy, remote sensing indices, agrometeorological variables
-              and the IoT hardware that collects them. I list the specific instruments and tools below each category
-              so that a reviewer can check a claim rather than take the summary at face value. Select a category to
-              see the full list, the way I would describe it to a collaborator who asked what I can actually finish on
-              my own. If you want to see the work these skills produced, start with the{" "}
-              <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
-                publications
-              </Link>{" "}
-              and{" "}
-              <Link href="/experience" className="text-blue-600 hover:underline dark:text-blue-400">
-                experience
-              </Link>{" "}
-              pages.
-            </p>
-          </div>
-        </header>
-      )}
-      
+      {page && <PageHeader page={page} />}
+
       <div className="grid grid-cols-1 gap-4">
         {displayedCategories.map((category, index) => (
           <motion.div

@@ -13,6 +13,7 @@ import {
   TrendingUp,
   Download
 } from 'lucide-react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'motion/react';
 import About from './About';
@@ -70,6 +71,13 @@ const PortfolioSection = ({
 );
 
 export default function HomeFeed() {
+  // Section anchors on the home feed are replaced with clean paths on load.
+  useEffect(() => {
+    if (window.location.hash) {
+      window.history.replaceState(null, '', window.location.pathname);
+    }
+  }, []);
+
   return (
     <div className="flex flex-col bg-white dark:bg-black">
       {/* Introduction */}
