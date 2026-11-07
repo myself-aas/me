@@ -1,0 +1,42 @@
+# Ashif Ahmed Shuvo — Research Portfolio
+
+> Personal research portfolio of Ashif Ahmed Shuvo, an AI and machine learning researcher working on
+> computer vision, remote sensing and data-driven precision agriculture. Based in Bangladesh,
+> affiliated with Bangladesh Agricultural University (BSc Food Engineering, MSc AgroMeteorology in progress).
+
+## Primary pages
+
+- [Home](https://myself-aas.github.io/me/): introduction, research focus and recent activity.
+- [About](https://myself-aas.github.io/me/about): background, research direction and goals.
+- [Skills](https://myself-aas.github.io/me/skills): programming languages, frameworks, analysis methods and domain expertise.
+- [Experience](https://myself-aas.github.io/me/experience): research and industry roles, education, certificates.
+- [Publications](https://myself-aas.github.io/me/publications): peer-reviewed papers and writings with abstracts and impact factors.
+- [Projects](https://myself-aas.github.io/me/projects): open-source repositories, fetched live from GitHub.
+- [Research Feed](https://myself-aas.github.io/me/feed): short updates published through Bluesky.
+- [Contact](https://myself-aas.github.io/me/contact): collaboration and speaking enquiries.
+
+## Policies
+
+- [Accessibility](https://myself-aas.github.io/me/accessibility)
+- [Privacy Policy](https://myself-aas.github.io/me/privacy)
+- [Cookie Policy](https://myself-aas.github.io/me/cookies)
+- [Terms of Service](https://myself-aas.github.io/me/terms)
+- [Advertising Policy](https://myself-aas.github.io/me/ads-info)
+
+## Canonical profiles
+
+- GitHub: https://github.com/myself-aas
+- ORCID: https://orcid.org/0009-0003-5734-1519
+- Google Scholar: https://scholar.google.com/citations?user=ROhDpNAAAAAJ
+- LinkedIn: https://www.linkedin.com/in/me-aas
+
+## Optional
+
+- [Sitemap](https://myself-aas.github.io/me/sitemap.xml)
+- [RSS/feed source](https://bsky.app/profile/aas.bsky.social)
+
+## Notes for agents
+
+Machine-readable listing of every public page is available in `sitemap.xml`. Pages are static HTML;
+content changes when publications, repositories or research updates change. Contact for reuse:
+shuvo.1807016@bau.edu.bd.

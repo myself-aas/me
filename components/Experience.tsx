@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import { Briefcase, GraduationCap, ExternalLink } from 'lucide-react';
 
 const experiences = [
@@ -70,42 +71,37 @@ const education = [
   },
 ];
 
-export default function Experience({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
+export default function Experience({ limit }: { limit?: number }) {
   const displayedExperiences = limit ? experiences.slice(0, limit) : experiences;
   const displayedEducation = limit ? education.slice(0, limit) : education;
 
   const content = (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {!isEmbedded && <h2 className="mb-12 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Experience & Education</h2>}
-      
       <div className="grid grid-cols-1 gap-12">
         {/* Experience Column */}
-        <div className="glass-card p-8 rounded-3xl">
-          <div className="mb-8 flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
-            <Briefcase className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+        <div className="sheet-panel p-8 rounded-[2px]">
+          <h2 className="mb-8 flex items-center gap-3 text-2xl font-semibold text-ink">
+            <Briefcase className="h-6 w-6 text-signal" aria-hidden="true" />
             Experience
-          </div>
-          <div className="space-y-8 border-l-2 border-white/20 pl-6 dark:border-white/10">
+          </h2>
+          <div className="space-y-8 border-l-2 border-rule pl-6 dark:border-rule">
             {displayedExperiences.map((item, index) => (
               <div key={index} className="relative">
-                <div className="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white/50 bg-blue-600 dark:border-black/50 dark:bg-blue-400 shadow-sm"></div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{item.title}</h3>
-                <div className="mb-2 text-sm font-medium text-blue-600 dark:text-blue-400">{item.organization} | {item.date}</div>
-                <p className="text-gray-600 dark:text-gray-400 mb-3">{item.description}</p>
+                <div className="absolute -left-[33px] top-1 h-4 w-4 rounded-[2px] border-4 border-rule bg-signal"></div>
+                <h3 className="text-lg font-bold text-ink">{item.title}</h3>
+                <div className="mb-2 text-sm font-medium text-signal">{item.organization} | {item.date}</div>
+                <p className="text-ink-soft mb-3">{item.description}</p>
                 {item.certificateUrl && (
                   <a 
                     href={item.certificateUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-signal hover:text-signal-deep hover:text-signal transition-colors"
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    Certificate of Completion
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    Certificate of completion — {item.title}
                   </a>
                 )}
               </div>
@@ -114,27 +110,27 @@ export default function Experience({ isEmbedded = false, limit }: { isEmbedded?:
         </div>
 
         {/* Education Column */}
-        <div className="glass-card p-8 rounded-3xl">
-          <div className="mb-8 flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
-            <GraduationCap className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+        <div className="sheet-panel p-8 rounded-[2px]">
+          <h2 className="mb-8 flex items-center gap-3 text-2xl font-semibold text-ink">
+            <GraduationCap className="h-6 w-6 text-signal" aria-hidden="true" />
             Education
-          </div>
-          <div className="space-y-8 border-l-2 border-white/20 pl-6 dark:border-white/10">
+          </h2>
+          <div className="space-y-8 border-l-2 border-rule pl-6 dark:border-rule">
             {displayedEducation.map((item, index) => (
               <div key={index} className="relative">
-                <div className="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-4 border-white/50 bg-blue-600 dark:border-black/50 dark:bg-blue-400 shadow-sm"></div>
-                <h3 className="text-lg font-bold text-gray-900 dark:text-white">{item.title}</h3>
-                <div className="mb-1 text-sm font-medium text-blue-600 dark:text-blue-400">{item.organization}</div>
-                <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">{item.date}</div>
+                <div className="absolute -left-[33px] top-1 h-4 w-4 rounded-[2px] border-4 border-rule bg-signal"></div>
+                <h3 className="text-lg font-bold text-ink">{item.title}</h3>
+                <div className="mb-1 text-sm font-medium text-signal">{item.organization}</div>
+                <div className="text-sm text-ink-soft dark:text-ink-soft mb-2">{item.date}</div>
                 {item.certificateUrl && (
                   <a 
                     href={item.certificateUrl} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
+                    className="inline-flex items-center gap-1 text-sm font-medium text-signal hover:text-signal-deep hover:text-signal transition-colors"
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    Certificate of Completion
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    Certificate of completion — {item.title}
                   </a>
                 )}
               </div>
@@ -145,13 +141,5 @@ export default function Experience({ isEmbedded = false, limit }: { isEmbedded?:
     </motion.div>
   );
 
-  if (isEmbedded) return <div className="p-6">{content}</div>;
-
-  return (
-    <section id="experience" className="py-20">
-      <div className="container mx-auto max-w-5xl px-4">
-        {content}
-      </div>
-    </section>
-  );
+  return content;
 }

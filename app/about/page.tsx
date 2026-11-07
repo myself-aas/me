@@ -1,5 +1,19 @@
+import type { Metadata } from 'next';
 import About from '@/components/About';
+import Section from '@/components/Section';
+import JsonLd from '@/components/JsonLd';
+import { pageMetadata } from '@/lib/seo';
+import { PAGES } from '@/lib/content/pages';
+
+export const metadata: Metadata = pageMetadata(PAGES['/about']);
 
 export default function AboutPage() {
-  return <About />;
+  return (
+    <>
+      <JsonLd nodes={PAGES['/about'].schema ?? []} />
+      <Section page={PAGES['/about']} width="prose">
+        <About />
+      </Section>
+    </>
+  );
 }

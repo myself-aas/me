@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
 import AccessibilityContent from './AccessibilityContent';
+import Section from '@/components/Section';
+import { pageMetadata } from '@/lib/seo';
+import { PAGES } from '@/lib/content/pages';
 
-export const metadata: Metadata = {
-  title: 'Accessibility Statement | My App',
-  description: 'Learn about my commitment to web accessibility and adherence to WCAG 2.1 standards.',
-};
+export const metadata: Metadata = pageMetadata(PAGES['/accessibility']);
 
 export default function AccessibilityPage() {
-  return <AccessibilityContent />;
+  return (
+    <Section page={PAGES['/accessibility']} width="prose">
+      <AccessibilityContent />
+    </Section>
+  );
 }

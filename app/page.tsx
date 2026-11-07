@@ -1,22 +1,19 @@
-'use client';
+import type { Metadata } from 'next';
 import Hero from '@/components/Hero';
 import HomeFeed from '@/components/HomeFeed';
-import { useEffect } from 'react';
+import { readOrcidRecord } from '@/lib/orcid-record';
+import { pageMetadata } from '@/lib/seo';
+import { PAGES } from '@/lib/content/pages';
 
-export default function Home() {
-  useEffect(() => {
-    if (window.location.hash) {
-      window.history.replaceState(null, '', window.location.pathname);
-    }
-  }, []);
+export const metadata: Metadata = pageMetadata(PAGES['/']);
+
+export default async function Home() {
+  const record = await readOrcidRecord();
 
   return (
     <div className="w-full">
-      <div className="sticky top-0 z-30 bg-white/80 dark:bg-black/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 px-6 py-4 hidden md:block">
-        <h2 className="text-xl font-bold tracking-tight">Ashif Ahmed Shuvo</h2>
-      </div>
       <Hero />
-      <HomeFeed />
+      <HomeFeed publications={record.works} />
     </div>
   );
 }

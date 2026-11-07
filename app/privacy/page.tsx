@@ -1,11 +1,15 @@
 import type { Metadata } from 'next';
 import PrivacyContent from './PrivacyContent';
+import Section from '@/components/Section';
+import { pageMetadata } from '@/lib/seo';
+import { PAGES } from '@/lib/content/pages';
 
-export const metadata: Metadata = {
-  title: 'Privacy Policy | My App',
-  description: 'Learn how we collect, use, and protect your personal information.',
-};
+export const metadata: Metadata = pageMetadata(PAGES['/privacy']);
 
 export default function PrivacyPage() {
-  return <PrivacyContent />;
+  return (
+    <Section page={PAGES['/privacy']} width="prose">
+      <PrivacyContent />
+    </Section>
+  );
 }

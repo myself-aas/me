@@ -1,9 +1,15 @@
 'use client';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 import { motion } from 'motion/react';
 import { TrendingUp } from 'lucide-react';
 
+/**
+ * Static proficiency bars.
+ *
+ * Previously rendered with recharts, which pulled a ~385 KB chart bundle into
+ * the first load of the home page for five bars. Plain markup keeps the same
+ * information at no JavaScript cost and gives assistive technology real text.
+ */
 const data = [
   { name: 'Python', value: 40 },
   { name: 'R', value: 30 },
@@ -12,39 +18,52 @@ const data = [
   { name: 'SQL', value: 25 },
 ];
 
-const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
+const COLORS = ['#AE1454', '#8A5F19', '#17585C', '#55605A', '#1A211C'];
 
-export default function ProfileDetails({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function ProfileDetails() {
   return (
-    <div className={`${isEmbedded ? 'p-6' : 'p-4 border-b border-gray-200 dark:border-gray-800'} bg-blue-50/30 dark:bg-blue-900/10`}>
-      <div className="flex items-center gap-2 mb-4 text-blue-500 text-xs font-bold uppercase tracking-wider">
-        <TrendingUp className="w-4 h-4" /> Featured: Skill Analytics
+    <div className="p-6 bg-signal-wash/30 bg-signal-wash">
+      <div className="datum mb-4 flex items-center gap-2 text-signal">
+        <TrendingUp className="w-4 h-4" aria-hidden="true" /> Featured: Skill Analytics
       </div>
-      <h3 className="text-lg font-bold mb-4">Technical Proficiency</h3>
-      <div className="h-64 w-full">
-        <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-            <XAxis dataKey="name" stroke="#9CA3AF" fontSize={12} />
-            <YAxis stroke="#9CA3AF" fontSize={12} />
-            <Tooltip 
-              contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', color: '#F9FAFB' }}
-              itemStyle={{ color: '#F9FAFB' }}
-            />
-            <Bar dataKey="value">
-              {data.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Bar>
-          </BarChart>
-        </ResponsiveContainer>
-      </div>
-      
+      <h2 className="text-lg font-bold mb-4">Technical Proficiency</h2>
+
+      <figure className="mb-6">
+        <figcaption className="sr-only">
+          Relative proficiency across the five most used languages, scaled 0 to 40.
+        </figcaption>
+        <ul className="space-y-3">
+          {data.map((entry, index) => (
+            <li key={entry.name} className="flex items-center gap-3">
+              <span className="w-16 shrink-0 text-sm font-medium text-ink">
+                {entry.name}
+              </span>
+              <span className="h-3 flex-1 overflow-hidden rounded-[2px] bg-band bg-ink/10">
+                <span
+                  className="block h-full rounded-[2px]"
+                  style={{
+                    width: `${(entry.value / 40) * 100}%`,
+                    backgroundColor: COLORS[index % COLORS.length],
+                  }}
+                />
+              </span>
+              <span className="w-8 shrink-0 text-right text-xs tabular-nums text-ink-soft dark:text-ink-soft">
+                {entry.value}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </figure>
+
       <div className="mt-6">
-        <h3 className="text-lg font-bold mb-2">Important Links</h3>
+        <h2 className="text-lg font-bold mb-2">Important Links</h2>
         <div className="flex flex-col gap-2">
-          <a href="https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en&oi=sra" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">Google Scholar</a>
-          <a href="https://github.com/myself-aas" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">GitHub Profile</a>
+          <a href="https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en&oi=sra" target="_blank" rel="noopener noreferrer" className="text-signal hover:underline">
+            Google Scholar profile
+          </a>
+          <a href="https://github.com/myself-aas" target="_blank" rel="noopener noreferrer" className="text-signal hover:underline">
+            GitHub profile
+          </a>
         </div>
       </div>
     </div>

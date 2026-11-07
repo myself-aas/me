@@ -19,12 +19,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          # 22 is required: the prebuild page-record check runs node --experimental-strip-types.
+          node-version: "22"
           cache: "npm"
       - name: Install dependencies
         run: npm ci
       - name: Build
         run: npm run build
+        env:
+          # Optional. Public reads need no token; this only raises ORCID's rate limit.
+          ORCID_ACCESS_TOKEN: ${{ secrets.ORCID_ACCESS_TOKEN }}
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:

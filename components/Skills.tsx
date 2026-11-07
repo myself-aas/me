@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Link from 'next/link';
 import { Code2, Cpu, Database, Cloud, Palette, Microscope, Globe, Wrench, Leaf, X } from 'lucide-react';
 
 const skillCategories = [
@@ -61,39 +62,25 @@ const skillCategories = [
   }
 ];
 
-export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boolean, limit?: number }) {
+export default function Skills({ limit }: { limit?: number }) {
   const [selectedCategory, setSelectedCategory] = useState<typeof skillCategories[0] | null>(null);
 
   const displayedCategories = limit ? skillCategories.slice(0, limit) : skillCategories;
 
   const content = (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {!isEmbedded && (
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Technical Skills</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Comprehensive toolkit across AI, Agriculture, and Software Engineering</p>
-        </div>
-      )}
-      
       <div className="grid grid-cols-1 gap-4">
         {displayedCategories.map((category, index) => (
           <motion.div
             key={category.title}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            whileHover={{ y: -5 }}
             transition={{ duration: 0.3, delay: index * 0.1 }}
             onClick={() => setSelectedCategory(category)}
-            className="flex cursor-pointer flex-col rounded-2xl border border-white/20 bg-white/40 p-5 shadow-sm transition-all hover:shadow-md backdrop-blur-md dark:border-white/10 dark:bg-black/40"
+            className="flex cursor-pointer flex-col rounded-[2px] border border-rule bg-band p-5 transition-all dark:border-rule"
           >
-            <div className="mb-4 flex items-center gap-3 text-base font-semibold text-gray-900 dark:text-white">
-              <div className="shrink-0 rounded-lg bg-blue-100/50 p-2 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 backdrop-blur-sm">
+            <div className="mb-4 flex items-center gap-3 text-base font-semibold text-ink">
+              <div className="shrink-0 rounded-[2px] bg-signal-wash p-2 text-signal">
                 {category.icon}
               </div>
               <span className="line-clamp-2 leading-tight">{category.title}</span>
@@ -102,13 +89,13 @@ export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boo
               {category.skills.slice(0, 6).map((skill) => (
                 <span
                   key={skill}
-                  className="rounded-full bg-white/50 px-2.5 py-0.5 text-xs font-medium text-gray-700 dark:bg-gray-800/50 dark:text-gray-300 break-words backdrop-blur-sm border border-white/20 dark:border-white/10"
+                  className="rounded-[2px] bg-band px-2.5 py-0.5 text-xs font-medium text-ink bg-band/50 break-words border border-rule"
                 >
                   {skill}
                 </span>
               ))}
               {category.skills.length > 6 && (
-                <span className="rounded-full bg-white/30 px-2.5 py-0.5 text-xs font-medium text-gray-500 dark:bg-gray-900/30 dark:text-gray-400 backdrop-blur-sm">
+                <span className="rounded-[2px] bg-band px-2.5 py-0.5 text-xs font-medium text-ink-soft bg-band/30 dark:text-ink-soft">
                   +{category.skills.length - 6} more
                 </span>
               )}
@@ -121,15 +108,7 @@ export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boo
 
   return (
     <>
-      {isEmbedded ? (
-        <div className="p-6">{content}</div>
-      ) : (
-        <section id="skills" className="py-20">
-          <div className="container mx-auto max-w-6xl px-4">
-            {content}
-          </div>
-        </section>
-      )}
+      {content}
 
       {/* Modal */}
       <AnimatePresence>
@@ -140,39 +119,39 @@ export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boo
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedCategory(null)}
-              className="absolute inset-0 bg-black/20 backdrop-blur-md"
+              className="absolute inset-0 bg-band"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-black/80"
+              className="relative w-full max-w-2xl overflow-hidden rounded-[2px] border border-rule bg-paper dark:border-rule"
             >
-              <div className="flex items-center justify-between border-b border-white/20 px-6 py-4 dark:border-white/10">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
-                  <div className="rounded-lg bg-blue-100/50 p-2 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 backdrop-blur-sm">
+              <div className="flex items-center justify-between border-b border-rule px-6 py-4 dark:border-rule">
+                <h2 className="text-xl font-bold text-ink flex items-center gap-3">
+                  <div className="rounded-[2px] bg-signal-wash p-2 text-signal">
                     {selectedCategory.icon}
                   </div>
                   {selectedCategory.title}
-                </h3>
+                </h2>
                 <button
                   onClick={() => setSelectedCategory(null)}
-                  className="rounded-full p-2 text-gray-500 hover:bg-white/50 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-black/50 dark:hover:text-gray-200 transition-colors"
+                  className="rounded-[2px] p-2 text-ink-soft hover:bg-band hover:text-ink dark:text-ink-soft transition-colors"
                 >
                   <X className="h-5 w-5" />
                 </button>
               </div>
               
               <div className="p-6">
-                <p className="text-base text-gray-700 dark:text-gray-300 mb-6 font-medium">
+                <p className="text-base text-ink mb-6 font-medium">
                   {selectedCategory.description}
                 </p>
 
                 <div>
-                  <h4 className="text-sm font-bold text-gray-900 dark:text-white mb-4 uppercase tracking-wider">Skills & Technologies</h4>
+                  <h4 className="mb-4 font-sans text-[0.8125rem] text-ink-soft">Skills & Technologies</h4>
                   <div className="flex flex-wrap gap-2">
                     {selectedCategory.skills.map(skill => (
-                      <span key={skill} className="rounded-full bg-blue-50/50 px-4 py-1.5 text-sm font-semibold text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 border border-blue-100/50 dark:border-blue-800/50 backdrop-blur-sm">
+                      <span key={skill} className="rounded-[2px] bg-signal-wash/50 px-4 py-1.5 text-sm font-semibold text-signal-deep bg-signal-wash text-signal border border-rule">
                         {skill}
                       </span>
                     ))}

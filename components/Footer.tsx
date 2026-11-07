@@ -1,23 +1,34 @@
 import Link from 'next/link';
 
+const POLICIES = [
+  { href: '/terms', label: 'Terms' },
+  { href: '/privacy', label: 'Privacy' },
+  { href: '/cookies', label: 'Cookies' },
+  { href: '/accessibility', label: 'Accessibility' },
+  { href: '/ads-info', label: 'Ads' },
+];
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-  
+
   return (
-    <footer className="w-full px-6 py-8 border-t border-gray-200/50 dark:border-gray-800/50 bg-white/30 dark:bg-black/30 backdrop-blur-md">
-      <div className="flex flex-col items-center justify-center gap-6 text-center">
-        <div className="flex flex-wrap justify-center gap-x-6 gap-y-2 text-xs font-medium text-gray-500 dark:text-gray-400">
-          <Link href="/terms" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms of Service</Link>
-          <Link href="/privacy" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</Link>
-          <Link href="/cookies" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Cookie Policy</Link>
-          <Link href="/accessibility" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Accessibility</Link>
-          <Link href="/ads-info" className="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Ads info</Link>
-        </div>
-        
-        <div className="text-xs text-gray-400 dark:text-gray-500 font-medium">
-          © {currentYear} Ashif Ahmed Shuvo. All rights reserved.
-        </div>
-      </div>
+    <footer className="mt-auto border-t border-rule px-5 py-8 md:px-10">
+      <ul className="flex flex-wrap gap-x-6 gap-y-2">
+        {POLICIES.map((policy) => (
+          <li key={policy.href}>
+            <Link
+              href={policy.href}
+              className="rail-link text-ink-soft transition-colors hover:text-signal"
+            >
+              {policy.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+      <p className="datum mt-5 max-w-[58ch]">
+        © {currentYear} Ashif Ahmed Shuvo. Papers and code are read live from ORCID, GitHub and
+        Bluesky; the instruments rail shows what those services returned.
+      </p>
     </footer>
   );
 }
