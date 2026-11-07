@@ -2,11 +2,9 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
-import PageHeader from './PageHeader';
-import type { PageRecord } from '@/lib/content/pages';
 import { GraduationCap, Target, Lightbulb, Award } from 'lucide-react';
 
-export default function About({ page, isEmbedded = false }: { page?: PageRecord; isEmbedded?: boolean }) {
+export default function About() {
   const highlights = [
     {
       icon: GraduationCap,
@@ -43,9 +41,7 @@ export default function About({ page, isEmbedded = false }: { page?: PageRecord;
         transition={{ duration: 0.5 }}
         className="max-w-3xl"
       >
-        {page && <PageHeader page={page} align="left" />}
-        
-        <div className={`space-y-6 ${isEmbedded ? 'text-base' : 'text-lg'} text-gray-600 dark:text-gray-300 leading-relaxed font-serif`}>
+        <div className={`space-y-6 text-lg text-gray-600 dark:text-gray-300 leading-relaxed font-serif`}>
           <p className="first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-left first-letter:text-blue-600">
             I am an AI & ML expert with a strong foundation in <span className="text-gray-900 dark:text-white font-semibold">Food Engineering</span>, currently advancing my expertise through an M.Sc. in <span className="text-gray-900 dark:text-white font-semibold">AgroMeteorology</span> at Bangladesh Agricultural University. My research is driven by a passion for precision and sustainable agriculture.
           </p>
@@ -86,13 +82,5 @@ export default function About({ page, isEmbedded = false }: { page?: PageRecord;
     </div>
   );
 
-  if (isEmbedded) return <div className="p-6">{content}</div>;
-
-  return (
-    <section id="about" className="py-20">
-      <div className="container mx-auto max-w-4xl px-4">
-        {content}
-      </div>
-    </section>
-  );
+  return content;
 }

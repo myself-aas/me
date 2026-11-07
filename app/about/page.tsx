@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import About from '@/components/About';
+import Section from '@/components/Section';
 import JsonLd from '@/components/JsonLd';
 import { pageMetadata } from '@/lib/seo';
 import { PAGES } from '@/lib/content/pages';
@@ -10,7 +11,9 @@ export default function AboutPage() {
   return (
     <>
       <JsonLd nodes={PAGES['/about'].schema ?? []} />
-      <About page={PAGES['/about']} />
+      <Section page={PAGES['/about']} width="prose" align="left">
+        <About />
+      </Section>
     </>
   );
 }

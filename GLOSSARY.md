@@ -16,7 +16,7 @@ The prose that sits between a page's heading and its data, explaining what the r
 and inline links only; a page's body is not an intro.
 _Avoid_: description (that is the meta description), body, blurb, copy
 
-**Embedded**:
-A content module rendered inside the home feed rather than on its own route. An embedded module carries no page
-record, so it renders no heading and no intro.
-_Avoid_: inline, preview, widget view
+**Feed section**:
+One titled block of the home feed: the heading, the card, the content it holds, and the link to the route that
+carries the rest of it. The feed is a list of these, and a content module never learns which one it is standing in.
+_Avoid_: feed item, tile, widget, card

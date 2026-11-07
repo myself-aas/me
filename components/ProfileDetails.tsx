@@ -20,9 +20,9 @@ const data = [
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
 
-export default function ProfileDetails({ isEmbedded = false }: { isEmbedded?: boolean }) {
+export default function ProfileDetails() {
   return (
-    <div className={`${isEmbedded ? 'p-6' : 'p-4 border-b border-gray-200 dark:border-gray-800'} bg-blue-50/30 dark:bg-blue-900/10`}>
+    <div className="p-6 bg-blue-50/30 dark:bg-blue-900/10">
       <div className="flex items-center gap-2 mb-4 text-blue-500 text-xs font-bold uppercase tracking-wider">
         <TrendingUp className="w-4 h-4" aria-hidden="true" /> Featured: Skill Analytics
       </div>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Publications from '@/components/Publications';
+import Section from '@/components/Section';
 import JsonLd from '@/components/JsonLd';
 import { pageMetadata } from '@/lib/seo';
 import { PAGES } from '@/lib/content/pages';
@@ -10,7 +11,9 @@ export default function PublicationsPage() {
   return (
     <>
       <JsonLd nodes={PAGES['/publications'].schema ?? []} />
-      <Publications page={PAGES['/publications']} />
+      <Section page={PAGES['/publications']} width="medium" className="bg-gray-100 dark:bg-gray-900/50 min-h-screen">
+        <Publications />
+      </Section>
     </>
   );
 }

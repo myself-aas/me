@@ -3,8 +3,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
-import PageHeader from './PageHeader';
-import type { PageRecord } from '@/lib/content/pages';
 import { Code2, Cpu, Database, Cloud, Palette, Microscope, Globe, Wrench, Leaf, X } from 'lucide-react';
 
 const skillCategories = [
@@ -64,15 +62,7 @@ const skillCategories = [
   }
 ];
 
-export default function Skills({
-  page,
-  isEmbedded = false,
-  limit,
-}: {
-  page?: PageRecord;
-  isEmbedded?: boolean;
-  limit?: number;
-}) {
+export default function Skills({ limit }: { limit?: number }) {
   const [selectedCategory, setSelectedCategory] = useState<typeof skillCategories[0] | null>(null);
 
   const displayedCategories = limit ? skillCategories.slice(0, limit) : skillCategories;
@@ -84,8 +74,6 @@ export default function Skills({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {page && <PageHeader page={page} />}
-
       <div className="grid grid-cols-1 gap-4">
         {displayedCategories.map((category, index) => (
           <motion.div
@@ -127,15 +115,7 @@ export default function Skills({
 
   return (
     <>
-      {isEmbedded ? (
-        <div className="p-6">{content}</div>
-      ) : (
-        <section id="skills" className="py-20">
-          <div className="container mx-auto max-w-6xl px-4">
-            {content}
-          </div>
-        </section>
-      )}
+      {content}
 
       {/* Modal */}
       <AnimatePresence>

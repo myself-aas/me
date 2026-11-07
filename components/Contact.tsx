@@ -6,8 +6,7 @@ import * as z from 'zod';
 import { motion } from 'motion/react';
 import { Send, CheckCircle2, FileText } from 'lucide-react';
 import { useState } from 'react';
-import PageHeader from './PageHeader';
-import type { PageRecord } from '@/lib/content/pages';
+import { sendMessage } from '@/lib/sources/formspree';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
@@ -17,7 +16,7 @@ const formSchema = z.object({
 
 type FormData = z.infer<typeof formSchema>;
 
-export default function Contact({ page, isEmbedded = false }: { page?: PageRecord; isEmbedded?: boolean }) {
+export default function Contact() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
@@ -33,24 +32,11 @@ export default function Contact({ page, isEmbedded = false }: { page?: PageRecor
   const onSubmit = async (data: FormData) => {
     setIsSubmitting(true);
     try {
-      const response = await fetch('https://formspree.io/f/xjgpopka', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'application/json'
-        },
-        body: JSON.stringify(data)
-      });
-
-      if (response.ok) {
-        setIsSuccess(true);
-        reset();
-        setTimeout(() => setIsSuccess(false), 5000);
-      } else {
-        throw new Error('Failed to send message');
-      }
-    } catch (error) {
-      console.error('Form submission error:', error);
+      await sendMessage(data);
+      setIsSuccess(true);
+      reset();
+      setTimeout(() => setIsSuccess(false), 5000);
+    } catch {
       alert('There was an error sending your message. Please try again or contact me directly via email.');
     } finally {
       setIsSubmitting(false);
@@ -64,9 +50,7 @@ export default function Contact({ page, isEmbedded = false }: { page?: PageRecor
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {page && <PageHeader page={page} />}
-
-      <div className={`${isEmbedded ? 'p-0' : 'rounded-3xl border border-white/20 bg-white/40 p-8 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-black/40'}`}>
+      <div className="rounded-3xl border border-white/20 bg-white/40 p-8 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-black/40">
         {isSuccess ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -161,13 +145,5 @@ export default function Contact({ page, isEmbedded = false }: { page?: PageRecor
     </motion.div>
   );
 
-  if (isEmbedded) return <div className="p-6">{content}</div>;
-
-  return (
-    <section id="contact" className="py-20">
-      <div className="container mx-auto max-w-3xl px-4">
-        {content}
-      </div>
-    </section>
-  );
+  return content;
 }

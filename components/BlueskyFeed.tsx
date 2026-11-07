@@ -1,85 +1,34 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
-import PageHeader from './PageHeader';
-import type { PageRecord } from '@/lib/content/pages';
 import { MessageSquare, BookOpen, Image as ImageIcon, ExternalLink, Share2, Clock } from 'lucide-react';
-import { formatPostText } from '@/lib/utils/text';
+import PostText from './PostText';
+import { useRemote } from '@/lib/remote';
+import { HANDLE, loadAuthorFeed, postsWithImages, postsWithTag, type Post } from '@/lib/sources/bluesky';
 
-const HANDLE = "meaas.bsky.social";
+const NO_POSTS: Post[] = [];
 
-interface BlueskyPost {
-  post: {
-    uri: string;
-    cid: string;
-    author: {
-      handle: string;
-      displayName: string;
-      avatar: string;
-    };
-    record: {
-      text: string;
-      createdAt: string;
-    };
-    embed?: {
-      images?: Array<{
-        thumb: string;
-        fullsize: string;
-        alt: string;
-      }>;
-    };
-    likeCount?: number;
-    repostCount?: number;
-    replyCount?: number;
-  };
-  reply?: any;
-}
-
-export default function BlueskyFeed({ page, limit }: { page?: PageRecord; limit?: number }) {
-  const [posts, setPosts] = useState<BlueskyPost[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function BlueskyFeed({ limit }: { limit?: number }) {
+  const remote = useRemote(loadAuthorFeed);
+  const posts = remote.status === 'ready' ? remote.data : NO_POSTS;
   const [activeTab, setActiveTab] = useState<'all' | 'blog' | 'media'>('all');
 
-  useEffect(() => {
-    async function fetchFeed() {
-      try {
-        const res = await fetch(`https://public.api.bsky.app/xrpc/app.bsky.feed.getAuthorFeed?actor=${HANDLE}&limit=30`);
-        const data = await res.json();
-        // Filter out replies to keep it clean as per user strategy
-        const filteredPosts = data.feed.filter((f: BlueskyPost) => !f.reply);
-        setPosts(filteredPosts);
-      } catch (error) {
-        console.error('Failed to fetch Bluesky feed:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchFeed();
-  }, []);
-
-  const getFilteredPosts = () => {
-    if (activeTab === 'blog') {
-      return posts.filter(p => p.post.record.text.includes('#blog'));
-    }
-    if (activeTab === 'media') {
-      return posts.filter(p => p.post.embed?.images);
-    }
+  const visiblePosts = (() => {
+    if (activeTab === 'blog') return postsWithTag(posts, '#blog');
+    if (activeTab === 'media') return postsWithImages(posts);
     return posts;
-  };
+  })();
 
-  const renderPost = (item: BlueskyPost, isMini = false) => {
-    const p = item.post;
-    const postId = p.uri.split('/').pop();
-    const postUrl = `https://bsky.app/profile/${HANDLE}/post/${postId}`;
-    const date = new Date(p.record.createdAt).toLocaleDateString();
+  const renderPost = (post: Post, isMini = false) => {
+    const date = new Date(post.createdAt).toLocaleDateString();
 
     return (
       <motion.a
-        key={p.cid}
-        href={postUrl}
+        key={post.cid}
+        href={post.url}
         target="_blank"
         rel="noopener noreferrer"
         initial={{ opacity: 0, y: 10 }}
@@ -91,16 +40,16 @@ export default function BlueskyFeed({ page, limit }: { page?: PageRecord; limit?
         <div className="flex items-center gap-3 mb-4">
           <div className="relative w-12 h-12 shrink-0">
             <Image 
-              src={p.author.avatar} 
-              alt={p.author.displayName} 
+              src={post.author.avatar} 
+              alt={post.author.displayName} 
               fill 
               className="rounded-full border-2 border-white dark:border-gray-700 object-cover shadow-sm"
               referrerPolicy="no-referrer"
             />
           </div>
           <div className="flex-1 min-w-0">
-            <div className="font-bold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{p.author.displayName}</div>
-            <div className="text-xs text-gray-500 truncate">@{p.author.handle}</div>
+            <div className="font-bold text-gray-900 dark:text-white truncate group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">{post.author.displayName}</div>
+            <div className="text-xs text-gray-500 truncate">@{post.author.handle}</div>
           </div>
           <div className="text-xs text-gray-400 flex items-center gap-1.5 bg-gray-50 dark:bg-white/5 px-2 py-1 rounded-lg">
             <Clock className="w-3.5 h-3.5" />
@@ -109,12 +58,12 @@ export default function BlueskyFeed({ page, limit }: { page?: PageRecord; limit?
         </div>
 
         <p className={`text-gray-700 dark:text-gray-300 whitespace-pre-wrap break-words leading-relaxed ${isMini ? 'text-sm line-clamp-3' : 'text-[17px]'}`}>
-          {formatPostText(p.record.text)}
+          <PostText text={post.text} />
         </p>
 
-        {!isMini && p.embed?.images && (
+        {!isMini && post.images.length > 0 && (
           <div className="mt-5 grid grid-cols-1 gap-2 rounded-2xl overflow-hidden border border-gray-100 dark:border-gray-800 shadow-inner">
-            {p.embed.images.map((img, idx) => (
+            {post.images.map((img, idx) => (
               <div key={idx} className="relative w-full aspect-video">
                 <Image 
                   src={img.thumb} 
@@ -131,10 +80,10 @@ export default function BlueskyFeed({ page, limit }: { page?: PageRecord; limit?
         <div className="mt-5 flex items-center justify-between pt-4 border-t border-gray-50 dark:border-white/5">
           <div className="flex items-center gap-6 text-gray-500 dark:text-gray-400 text-sm">
             <span className="flex items-center gap-1.5 group-hover:text-blue-500 transition-colors">
-              <MessageSquare className="w-4 h-4" /> {p.replyCount || 0}
+              <MessageSquare className="w-4 h-4" /> {post.replyCount || 0}
             </span>
             <span className="flex items-center gap-1.5 group-hover:text-green-500 transition-colors">
-              <Share2 className="w-4 h-4" /> {p.repostCount || 0}
+              <Share2 className="w-4 h-4" /> {post.repostCount || 0}
             </span>
           </div>
           <div className="text-xs font-bold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all translate-x-2 group-hover:translate-x-0">
@@ -145,12 +94,9 @@ export default function BlueskyFeed({ page, limit }: { page?: PageRecord; limit?
     );
   };
 
-  const pageHeader = page && <PageHeader page={page} />;
-
-  if (loading) {
+  if (remote.status === 'pending') {
     return (
-      <div className="p-6 max-w-3xl mx-auto">
-        {pageHeader}
+      <div className="max-w-3xl mx-auto">
         <div className="flex flex-col gap-6">
           {[1, 2, 3].map(i => (
             <div key={i} className="h-48 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-3xl" />
@@ -160,14 +106,12 @@ export default function BlueskyFeed({ page, limit }: { page?: PageRecord; limit?
     );
   }
 
-  const mainPosts = limit ? getFilteredPosts().slice(0, limit) : getFilteredPosts().slice(0, 10);
+  const mainPosts = visiblePosts.slice(0, limit ?? 10);
   const bottomPosts = limit ? [] : posts.slice(10, 20);
 
   return (
-    <div className={`p-6 space-y-10 max-w-3xl mx-auto ${limit ? 'p-0' : ''}`}>
+    <div className="space-y-10 max-w-3xl mx-auto">
       <main className="space-y-10">
-        {pageHeader}
-
         {/* Tabs - Hide if limited */}
         {!limit && (
           <div className="flex justify-center sticky top-20 z-20">

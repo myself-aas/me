@@ -1,22 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
-import PageHeader from './PageHeader';
-import type { PageRecord } from '@/lib/content/pages';
+import { useRemote } from '@/lib/remote';
+import { loadWorks, type Publication } from '@/lib/sources/orcid';
 import { BookOpen, ExternalLink, FileText, Share2, Linkedin, Link as LinkIcon, Filter, ArrowUpDown, Quote, Copy, Check } from 'lucide-react';
 
-interface Publication {
-  title: string;
-  year: string;
-  url: string;
-  source: string;
-  authors?: string;
-  impactFactor?: number;
-  type?: string;
-  doi?: string;
-}
+const NO_WORKS: Publication[] = [];
 
 const manualPublications: Publication[] = [
   {
@@ -69,62 +60,16 @@ const manualPublications: Publication[] = [
   },
 ];
 
-export default function Publications({
-  page,
-  isEmbedded = false,
-  limit,
-}: {
-  page?: PageRecord;
-  isEmbedded?: boolean;
-  limit?: number;
-}) {
-  const [orcidPubs, setOrcidPubs] = useState<Publication[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function Publications({ limit }: { limit?: number }) {
+  const remote = useRemote(loadWorks);
+  const orcidPubs = remote.status === 'ready' ? remote.data : NO_WORKS;
+
   const [sortBy, setSortBy] = useState<'year' | 'impactFactor'>('impactFactor');
   const [filterType, setFilterType] = useState<string>('All');
   const [filterYear, setFilterYear] = useState<string>('All');
   const [activeShare, setActiveShare] = useState<number | null>(null);
   const [activeCite, setActiveCite] = useState<number | null>(null);
   const [copiedCitation, setCopiedCitation] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchOrcid = async () => {
-      try {
-        const res = await fetch('https://pub.orcid.org/v3.0/0009-0003-5734-1519/works', {
-          headers: { Accept: 'application/json' },
-        });
-        if (!res.ok) throw new Error('Failed to fetch ORCID data');
-        const data = await res.json();
-        
-        if (data && data.group) {
-          const fetchedPubs: Publication[] = data.group.map((group: any) => {
-            const workSummary = group['work-summary'][0];
-            const extIds = workSummary['external-ids']?.['external-id'] || [];
-            const doiObj = extIds.find((id: any) => id['external-id-type'] === 'doi');
-            const doi = doiObj ? doiObj['external-id-value'] : undefined;
-
-            return {
-              title: workSummary.title?.title?.value || 'Untitled',
-              year: workSummary['publication-date']?.year?.value || 'Unknown',
-              url: workSummary.url?.value || (doi ? `https://doi.org/${doi}` : '#'),
-              source: workSummary['journal-title']?.value || 'ORCID',
-              type: workSummary.type || 'Journal Article',
-              doi: doi,
-              impactFactor: 0, // ORCID doesn't provide IF natively
-              authors: 'Ashif Ahmed Shuvo et al.',
-            };
-          });
-          setOrcidPubs(fetchedPubs);
-        }
-      } catch (error) {
-        console.error('Failed to fetch ORCID data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchOrcid();
-  }, []);
 
   // Merge ORCID pubs with manual ones, avoiding duplicates by title
   const combinedPubs = [...orcidPubs];
@@ -207,11 +152,9 @@ export default function Publications({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      {page && <PageHeader page={page} />}
-
       {/* Controls: Filter & Sort - Hide if limited */}
       {!limit && (
-        <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row glass-card p-4 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm flex-wrap ${isEmbedded ? 'mx-4' : ''}`}>
+        <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row glass-card p-4 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm flex-wrap `}>
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
               <Filter className="h-4 w-4 text-gray-500" aria-hidden="true" />
@@ -264,7 +207,7 @@ export default function Publications({
         </div>
       )}
       
-      {loading ? (
+      {remote.status === 'pending' ? (
         <div className="text-center text-gray-500 py-10">Loading publications...</div>
       ) : (
         <div className="grid grid-cols-1 gap-6">
@@ -417,17 +360,5 @@ export default function Publications({
     </motion.div>
   );
 
-  return (
-    <>
-      {isEmbedded ? (
-        <div className="p-6">{content}</div>
-      ) : (
-        <section id="publications" className="bg-gray-100 py-20 dark:bg-gray-900/50 min-h-screen">
-          <div className="container mx-auto max-w-5xl px-4">
-            {content}
-          </div>
-        </section>
-      )}
-    </>
-  );
+  return content;
 }

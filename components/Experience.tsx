@@ -2,8 +2,6 @@
 
 import { motion } from 'motion/react';
 import Link from 'next/link';
-import PageHeader from './PageHeader';
-import type { PageRecord } from '@/lib/content/pages';
 import { Briefcase, GraduationCap, ExternalLink } from 'lucide-react';
 
 const experiences = [
@@ -73,15 +71,7 @@ const education = [
   },
 ];
 
-export default function Experience({
-  page,
-  isEmbedded = false,
-  limit,
-}: {
-  page?: PageRecord;
-  isEmbedded?: boolean;
-  limit?: number;
-}) {
+export default function Experience({ limit }: { limit?: number }) {
   const displayedExperiences = limit ? experiences.slice(0, limit) : experiences;
   const displayedEducation = limit ? education.slice(0, limit) : education;
 
@@ -92,8 +82,6 @@ export default function Experience({
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {page && <PageHeader page={page} />}
-
       <div className="grid grid-cols-1 gap-12">
         {/* Experience Column */}
         <div className="glass-card p-8 rounded-3xl">
@@ -156,13 +144,5 @@ export default function Experience({
     </motion.div>
   );
 
-  if (isEmbedded) return <div className="p-6">{content}</div>;
-
-  return (
-    <section id="experience" className="py-20">
-      <div className="container mx-auto max-w-5xl px-4">
-        {content}
-      </div>
-    </section>
-  );
+  return content;
 }

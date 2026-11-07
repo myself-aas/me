@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import BlueskyFeed from '@/components/BlueskyFeed';
+import Section from '@/components/Section';
 import JsonLd from '@/components/JsonLd';
 import { pageMetadata } from '@/lib/seo';
 import { PAGES } from '@/lib/content/pages';
@@ -10,7 +11,9 @@ export default function FeedPage() {
   return (
     <>
       <JsonLd nodes={PAGES['/feed'].schema ?? []} />
-      <BlueskyFeed page={PAGES['/feed']} />
+      <Section page={PAGES['/feed']} width="medium">
+        <BlueskyFeed />
+      </Section>
     </>
   );
 }

@@ -1,37 +1,24 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Github, Star, GitFork, Code, Search, X, ExternalLink, Share2, Mail, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
-import PageHeader from './PageHeader';
-import type { PageRecord } from '@/lib/content/pages';
+import { useRemote } from '@/lib/remote';
+import { loadProjects, type Project } from '@/lib/sources/github';
 
-interface Project {
-  id: number;
-  name: string;
-  description: string;
-  html_url: string;
-  homepage: string | null;
-  stargazers_count: number;
-  forks_count: number;
-  language: string;
-  topics: string[];
-}
+const NO_PROJECTS: Project[] = [];
 
-export default function GitHubProjects({
-  page,
-  isEmbedded = false,
-  limit,
-}: {
-  page?: PageRecord;
-  isEmbedded?: boolean;
-  limit?: number;
-}) {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function GitHubProjects({ limit }: { limit?: number }) {
+  const remote = useRemote(loadProjects);
+  const projects = remote.status === 'ready' ? remote.data : NO_PROJECTS;
+
+  const languages = useMemo(
+    () => ['All', ...Array.from(new Set(projects.map((repo) => repo.language).filter(Boolean)))],
+    [projects],
+  );
+
   const [filter, setFilter] = useState<string>('All');
-  const [languages, setLanguages] = useState<string[]>(['All']);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [shareMenuOpen, setShareMenuOpen] = useState<number | null>(null);
@@ -40,28 +27,6 @@ export default function GitHubProjects({
     const handleClickOutside = () => setShareMenuOpen(null);
     document.addEventListener('click', handleClickOutside);
     return () => document.removeEventListener('click', handleClickOutside);
-  }, []);
-
-  useEffect(() => {
-    fetch('https://api.github.com/users/myself-aas/repos?sort=updated')
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to fetch GitHub projects');
-        return res.json();
-      })
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setProjects(data);
-          const uniqueLanguages = Array.from(
-            new Set(data.map((repo: any) => repo.language).filter(Boolean))
-          ) as string[];
-          setLanguages(['All', ...uniqueLanguages]);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error('Failed to fetch GitHub projects:', err);
-        setLoading(false);
-      });
   }, []);
 
   const filteredProjects = projects.filter(project => {
@@ -73,26 +38,19 @@ export default function GitHubProjects({
 
   const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
 
-  const pageHeader = page && <PageHeader page={page} />;
-
-  if (loading) {
+  if (remote.status === 'pending') {
     return (
-      <div className="p-6 md:p-12">
-        {pageHeader}
-        <p className="py-10 text-center text-gray-500" role="status">
-          Loading projects from GitHub…
-        </p>
-      </div>
+      <p className="py-10 text-center text-gray-500" role="status">
+        Loading projects from GitHub…
+      </p>
     );
   }
 
   const content = (
     <>
-      {pageHeader}
-
       {/* Search Bar - Only show if not limited (i.e., on main projects page) */}
       {!limit && (
-        <div className={`mx-auto mb-8 max-w-md ${isEmbedded ? 'px-4' : ''}`}>
+        <div className="mx-auto mb-8 max-w-md">
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
               <Search className="h-5 w-5 text-gray-400" />
@@ -111,7 +69,7 @@ export default function GitHubProjects({
 
       {/* Filter Buttons - Only show if not limited */}
       {!limit && (
-        <div className={`mb-8 flex flex-wrap justify-center gap-2 ${isEmbedded ? 'px-4' : ''}`}>
+        <div className="mb-8 flex flex-wrap justify-center gap-2">
           {languages.map((lang) => (
             <motion.button
               key={lang}
@@ -176,11 +134,11 @@ export default function GitHubProjects({
                 <div className="flex items-center gap-3 text-[10px] text-gray-500 dark:text-gray-400">
                   <span className="flex items-center gap-1">
                     <Star className="h-3 w-3" />
-                    {project.stargazers_count}
+                    {project.stars}
                   </span>
                   <span className="flex items-center gap-1">
                     <GitFork className="h-3 w-3" />
-                    {project.forks_count}
+                    {project.forks}
                   </span>
                 </div>
                 <div className="flex items-center gap-2">
@@ -203,14 +161,14 @@ export default function GitHubProjects({
                     {shareMenuOpen === project.id && (
                       <div className="absolute right-0 bottom-full mb-2 w-32 rounded-xl border border-white/20 bg-white/90 p-2 shadow-lg backdrop-blur-md dark:border-white/10 dark:bg-black/90 z-20">
                         <a
-                          href={`mailto:?subject=Check out this project: ${project.name}&body=Check out this project: ${project.html_url}`}
+                          href={`mailto:?subject=Check out this project: ${project.name}&body=Check out this project: ${project.url}`}
                           className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
                           onClick={(e) => e.stopPropagation()}
                         >
                           <Mail className="h-3 w-3" /> Email
                         </a>
                         <a
-                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(project.html_url)}`}
+                          href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(project.url)}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="flex items-center gap-2 rounded-lg px-3 py-2 text-xs text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
@@ -232,15 +190,7 @@ export default function GitHubProjects({
 
   return (
     <>
-      {isEmbedded ? (
-        <div className="p-6">{content}</div>
-      ) : (
-        <section id="projects" className="py-20">
-          <div className="container mx-auto max-w-6xl px-4">
-            {content}
-          </div>
-        </section>
-      )}
+      {content}
 
       {/* Modal */}
       <AnimatePresence>
@@ -305,11 +255,11 @@ export default function GitHubProjects({
                     <div className="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-400">
                       <span className="flex items-center gap-1">
                         <Star className="h-4 w-4" />
-                        {selectedProject.stargazers_count} Stars
+                        {selectedProject.stars} Stars
                       </span>
                       <span className="flex items-center gap-1">
                         <GitFork className="h-4 w-4" />
-                        {selectedProject.forks_count} Forks
+                        {selectedProject.forks} Forks
                       </span>
                     </div>
                   </div>
@@ -317,7 +267,7 @@ export default function GitHubProjects({
 
                 <div className="flex flex-wrap gap-4">
                   <a
-                    href={selectedProject.html_url}
+                    href={selectedProject.url}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="flex items-center gap-2 rounded-xl bg-gray-900/90 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 dark:bg-white/90 dark:text-gray-900 dark:hover:bg-gray-100 transition-all backdrop-blur-sm"
