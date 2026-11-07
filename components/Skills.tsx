@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Link from 'next/link';
 import { Code2, Cpu, Database, Cloud, Palette, Microscope, Globe, Wrench, Leaf, X } from 'lucide-react';
 
 const skillCategories = [
@@ -74,10 +75,41 @@ export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boo
       transition={{ duration: 0.5 }}
     >
       {!isEmbedded && (
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Technical Skills</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Comprehensive toolkit across AI, Agriculture, and Software Engineering</p>
-        </div>
+        <header className="mb-12">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Technical Skills</h1>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">Comprehensive toolkit across AI, Agriculture, and Software Engineering</p>
+          </div>
+          <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            <p>
+              This is the toolbox rather than a claim of mastery: nine groups covering the languages I write,
+              the architectures I have trained, the libraries I reach for first, the statistics behind the results,
+              and the domain knowledge that makes the models useful in a field instead of a notebook.
+            </p>
+            <p>
+              Python and PyTorch carry most of the modelling work, with R for the analysis and reporting that
+              journals expect. The vision stack is deliberately broad, from U-Net and DeepLabV3+ for segmentation
+              through Swin and Vision Transformers to plain ResNet baselines, because a simple model that trains on a
+              small labelled set often beats an elegant one that needs ten times the annotations. Each list also names
+              the libraries I have actually shipped with, not the ones I have merely read about.
+            </p>
+            <p>
+              On the domain side: near infrared spectroscopy, remote sensing indices, agrometeorological variables
+              and the IoT hardware that collects them. I list the specific instruments and tools below each category
+              so that a reviewer can check a claim rather than take the summary at face value. Select a category to
+              see the full list, the way I would describe it to a collaborator who asked what I can actually finish on
+              my own. If you want to see the work these skills produced, start with the{" "}
+              <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
+                publications
+              </Link>{" "}
+              and{" "}
+              <Link href="/experience" className="text-blue-600 hover:underline dark:text-blue-400">
+                experience
+              </Link>{" "}
+              pages.
+            </p>
+          </div>
+        </header>
       )}
       
       <div className="grid grid-cols-1 gap-4">
@@ -149,12 +181,12 @@ export default function Skills({ isEmbedded = false, limit }: { isEmbedded?: boo
               className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-black/80"
             >
               <div className="flex items-center justify-between border-b border-white/20 px-6 py-4 dark:border-white/10">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-3">
                   <div className="rounded-lg bg-blue-100/50 p-2 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400 backdrop-blur-sm">
                     {selectedCategory.icon}
                   </div>
                   {selectedCategory.title}
-                </h3>
+                </h2>
                 <button
                   onClick={() => setSelectedCategory(null)}
                   className="rounded-full p-2 text-gray-500 hover:bg-white/50 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-black/50 dark:hover:text-gray-200 transition-colors"

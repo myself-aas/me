@@ -1,0 +1,8 @@
+Contact: mailto:shuvo.1807016@bau.edu.bd
+Contact: https://myself-aas.github.io/me/contact
+Expires: 2027-12-31T23:59:00.000Z
+Preferred-Languages: en, bn
+Canonical: https://myself-aas.github.io/me/.well-known/security.txt
+Policy: https://myself-aas.github.io/me/terms
+# Please report suspected vulnerabilities privately before disclosing them.
+# This is a static site; there is no server-side application to test.

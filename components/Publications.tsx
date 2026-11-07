@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import Link from 'next/link';
 import { BookOpen, ExternalLink, FileText, Share2, Linkedin, Link as LinkIcon, Filter, ArrowUpDown, Quote, Copy, Check } from 'lucide-react';
 
 interface Publication {
@@ -197,12 +198,47 @@ export default function Publications({ isEmbedded = false, limit }: { isEmbedded
       transition={{ duration: 0.5 }}
     >
       {!isEmbedded && (
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Publications & Writings</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
-            Automatically synced with ORCID (0009-0003-5734-1519)
-          </p>
-        </div>
+        <header className="mb-12">
+          <div className="text-center">
+            <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Publications &amp; Writings</h1>
+            <p className="mt-2 text-gray-600 dark:text-gray-400">
+              Automatically synced with ORCID (0009-0003-5734-1519)
+            </p>
+          </div>
+          <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            <p>
+              This list is mirrored from my public ORCID record, so it matches what a search committee or journal
+              editor would find if they looked me up there. Each entry carries the citation, the venue, the year and,
+              where the journal reports one, the impact factor.
+            </p>
+            <p>
+              The work sits at the meeting point of food engineering, agrometeorology and machine learning: near
+              infrared and spectral methods for quality assessment, computer vision for crop and plant phenotyping,
+              and statistical modelling of environmental data that affects what a field actually yields. Several
+              entries are conference papers or preprints, which is normal for a field that moves faster than a
+              journal cycle.
+            </p>
+            <p>
+              Impact factor is a property of the journal, not of the paper, so treat that column as a rough signal of
+              reach rather than a measure of quality; several of the smaller venues are the more interesting reads.
+              Conference entries usually have a DOI but no volume or issue, which is why those fields are blank.
+              Preprints are labelled as such and may later appear under a different venue.
+            </p>
+            <p>
+              Filter by publication type or year when you are looking for something specific, or sort by impact
+              factor when you want the most cited venues first. If a paper is paywalled and you need a copy for
+              review, ask through the{" "}
+              <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
+                contact page
+              </Link>{" "}
+              and I will send the accepted manuscript. The code behind most of these results is on the{" "}
+              <Link href="/projects" className="text-blue-600 hover:underline dark:text-blue-400">
+                projects page
+              </Link>
+              .
+            </p>
+          </div>
+        </header>
       )}
 
       {/* Controls: Filter & Sort - Hide if limited */}
@@ -210,8 +246,12 @@ export default function Publications({ isEmbedded = false, limit }: { isEmbedded
         <div className={`mb-8 flex flex-col items-center justify-between gap-4 sm:flex-row glass-card p-4 rounded-2xl border border-white/20 dark:border-white/10 shadow-sm flex-wrap ${isEmbedded ? 'mx-4' : ''}`}>
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-2">
-              <Filter className="h-4 w-4 text-gray-500" />
+              <Filter className="h-4 w-4 text-gray-500" aria-hidden="true" />
+              <label htmlFor="publication-type-filter" className="sr-only">
+                Filter publications by type
+              </label>
               <select
+                id="publication-type-filter"
                 value={filterType}
                 onChange={(e) => setFilterType(e.target.value)}
                 className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
@@ -222,8 +262,11 @@ export default function Publications({ isEmbedded = false, limit }: { isEmbedded
               </select>
             </div>
             <div className="flex items-center gap-2 border-l border-white/20 dark:border-white/10 pl-4">
-              <span className="text-sm text-gray-500">Year:</span>
+              <label htmlFor="publication-year-filter" className="text-sm text-gray-500">
+                Year:
+              </label>
               <select
+                id="publication-year-filter"
                 value={filterYear}
                 onChange={(e) => setFilterYear(e.target.value)}
                 className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
@@ -236,8 +279,12 @@ export default function Publications({ isEmbedded = false, limit }: { isEmbedded
           </div>
           
           <div className="flex items-center gap-2">
-            <ArrowUpDown className="h-4 w-4 text-gray-500" />
+            <ArrowUpDown className="h-4 w-4 text-gray-500" aria-hidden="true" />
+            <label htmlFor="publication-sort" className="sr-only">
+              Sort publications
+            </label>
             <select
+              id="publication-sort"
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as 'year' | 'impactFactor')}
               className="bg-transparent text-sm font-medium text-gray-700 focus:outline-none dark:text-gray-300 cursor-pointer"
@@ -279,9 +326,9 @@ export default function Publications({ isEmbedded = false, limit }: { isEmbedded
                       ) : null}
                     </div>
                     
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight mb-2">
+                    <h2 className="text-lg font-semibold text-gray-900 dark:text-white leading-tight mb-2">
                       {pub.title}
-                    </h3>
+                    </h2>
                     
                     {pub.authors && (
                       <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">

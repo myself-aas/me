@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'motion/react';
+import Link from 'next/link';
 import { MessageSquare, BookOpen, Image as ImageIcon, ExternalLink, Share2, Clock } from 'lucide-react';
 import { formatPostText } from '@/lib/utils/text';
 
@@ -142,12 +143,57 @@ export default function BlueskyFeed({ limit }: { limit?: number }) {
     );
   };
 
+  const pageHeader = !limit && (
+    <header className="text-center">
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Research Feed</h1>
+      <p className="mt-2 text-gray-600 dark:text-gray-400">
+        Short updates, notes and links, published first on Bluesky.
+      </p>
+      <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+        <p>
+          A project rarely arrives as a finished paper. Between submissions there are experiments that failed, figures
+          worth keeping, datasets that behaved differently than expected and papers from other groups worth passing
+          on. This page collects those notes in the order they were posted, pulled live from the public Bluesky API,
+          so it doubles as a log of what the week actually looked like, mistakes included.
+        </p>
+        <p>
+          Threads tagged as blog posts walk through a problem and how I approached it, usually with a chart or a
+          sample image from the model under test. The visual gallery collects posts that carry media, which is the
+          quickest way to see what the computer vision work actually looks like on real field photographs: dusty
+          leaves, uneven shade, overlapping canopy and all the noise a clean benchmark dataset leaves out. When a
+          post names a number, treat it as provisional until the code is published.
+        </p>
+        <p>
+          Nothing here is peer reviewed, and early results can change once more folds of data are added. Anything
+          that survives review ends up on the{" "}
+          <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
+            publications page
+          </Link>{" "}
+          instead; the code behind an experiment usually lands on the{" "}
+          <Link href="/projects" className="text-blue-600 hover:underline dark:text-blue-400">
+            projects page
+          </Link>
+          . Posts are unlisted and unfiltered, so a passing note about a conference deadline sits next to a chart
+          from a model run; that is deliberate, since the timeline is more honest than a curated highlights page.
+          If a thread raises a question, reply to it there, or send a message through the{" "}
+          <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
+            contact form
+          </Link>
+          .
+        </p>
+      </div>
+    </header>
+  );
+
   if (loading) {
     return (
-      <div className="flex flex-col gap-6 p-6 max-w-3xl mx-auto">
-        {[1, 2, 3].map(i => (
-          <div key={i} className="h-48 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-3xl" />
-        ))}
+      <div className="p-6 max-w-3xl mx-auto">
+        {pageHeader}
+        <div className="flex flex-col gap-6">
+          {[1, 2, 3].map(i => (
+            <div key={i} className="h-48 bg-gray-100 dark:bg-gray-800 animate-pulse rounded-3xl" />
+          ))}
+        </div>
       </div>
     );
   }
@@ -158,23 +204,31 @@ export default function BlueskyFeed({ limit }: { limit?: number }) {
   return (
     <div className={`p-6 space-y-10 max-w-3xl mx-auto ${limit ? 'p-0' : ''}`}>
       <main className="space-y-10">
+        {pageHeader}
+
         {/* Tabs - Hide if limited */}
         {!limit && (
           <div className="flex justify-center sticky top-20 z-20">
             <div className="flex gap-2 p-1.5 bg-white/80 dark:bg-black/80 backdrop-blur-xl border border-gray-100 dark:border-gray-800 rounded-2xl shadow-lg">
-              <button 
+              <button
+                type="button"
+                aria-pressed={activeTab === 'all'}
                 onClick={() => setActiveTab('all')}
                 className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'all' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
               >
                 All Threads
               </button>
-              <button 
+              <button
+                type="button"
+                aria-pressed={activeTab === 'blog'}
                 onClick={() => setActiveTab('blog')}
                 className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'blog' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
               >
                 Research Blogs
               </button>
-              <button 
+              <button
+                type="button"
+                aria-pressed={activeTab === 'media'}
                 onClick={() => setActiveTab('media')}
                 className={`px-6 py-2.5 rounded-xl text-sm font-bold transition-all ${activeTab === 'media' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-500 hover:text-gray-700 dark:hover:text-gray-300'}`}
               >
@@ -210,7 +264,7 @@ export default function BlueskyFeed({ limit }: { limit?: number }) {
           <div className="pt-12 border-t border-gray-100 dark:border-gray-800">
             <div className="flex items-center gap-4 mb-8">
               <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800" />
-              <h3 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Research Archive</h3>
+              <h2 className="text-xs font-black text-gray-400 uppercase tracking-[0.2em]">Research Archive</h2>
               <div className="h-px flex-1 bg-gray-100 dark:bg-gray-800" />
             </div>
             <div className="flex flex-col gap-6">

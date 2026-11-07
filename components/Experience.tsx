@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import { Briefcase, GraduationCap, ExternalLink } from 'lucide-react';
 
 const experiences = [
@@ -81,15 +82,48 @@ export default function Experience({ isEmbedded = false, limit }: { isEmbedded?:
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      {!isEmbedded && <h2 className="mb-12 text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Experience & Education</h2>}
+      {!isEmbedded && (
+        <header className="mb-12">
+          <h1 className="text-center text-3xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Experience &amp; Education
+          </h1>
+          <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+            <p>
+              A chronological view of where the work has been done. On the research side that means agricultural
+              engineering and agrometeorology at Bangladesh Agricultural University, long days in the field with
+              instruments under a Bangladesh summer, and the modelling that turns those readings into something a
+              grower or a research station can act on.
+            </p>
+            <p>
+              The industry entries come from structured programmes run with employers such as British Airways and
+              Accenture, where the tasks were commercial rather than academic: cleaning messy spreadsheets, building a
+              model against a deadline, and explaining the result to people who would never read the code. Each entry
+              with a certificate links to the issuer&apos;s own PDF so a claim can be checked without taking my word for
+              it.
+            </p>
+            <p>
+              The education column lists the degrees in progress and completed, from the B.Sc. in Food Engineering
+              through the current M.Sc. in AgroMeteorology. For what came out of that work, see the{" "}
+              <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
+                publications page
+              </Link>
+              ; for the tools used to produce it, the{" "}
+              <Link href="/skills" className="text-blue-600 hover:underline dark:text-blue-400">
+                skills page
+              </Link>
+              .
+            </p>
+          </div>
+        </header>
+      )}
       
       <div className="grid grid-cols-1 gap-12">
         {/* Experience Column */}
         <div className="glass-card p-8 rounded-3xl">
-          <div className="mb-8 flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
-            <Briefcase className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+          <h2 className="mb-8 flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
+            <Briefcase className="h-6 w-6 text-blue-600 dark:text-blue-400" aria-hidden="true" />
             Experience
-          </div>
+          </h2>
           <div className="space-y-8 border-l-2 border-white/20 pl-6 dark:border-white/10">
             {displayedExperiences.map((item, index) => (
               <div key={index} className="relative">
@@ -104,8 +138,8 @@ export default function Experience({ isEmbedded = false, limit }: { isEmbedded?:
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    Certificate of Completion
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    Certificate of completion — {item.title}
                   </a>
                 )}
               </div>
@@ -115,10 +149,10 @@ export default function Experience({ isEmbedded = false, limit }: { isEmbedded?:
 
         {/* Education Column */}
         <div className="glass-card p-8 rounded-3xl">
-          <div className="mb-8 flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
-            <GraduationCap className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+          <h2 className="mb-8 flex items-center gap-3 text-2xl font-semibold text-gray-900 dark:text-white">
+            <GraduationCap className="h-6 w-6 text-blue-600 dark:text-blue-400" aria-hidden="true" />
             Education
-          </div>
+          </h2>
           <div className="space-y-8 border-l-2 border-white/20 pl-6 dark:border-white/10">
             {displayedEducation.map((item, index) => (
               <div key={index} className="relative">
@@ -133,8 +167,8 @@ export default function Experience({ isEmbedded = false, limit }: { isEmbedded?:
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                   >
-                    <ExternalLink className="h-4 w-4" />
-                    Certificate of Completion
+                    <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                    Certificate of completion — {item.title}
                   </a>
                 )}
               </div>

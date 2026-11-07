@@ -64,9 +64,9 @@ const BlueskyWidget = () => {
   return (
     <div className="p-4 glass-card rounded-2xl mb-4 border border-blue-100/20 dark:border-blue-900/20">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold text-sm flex items-center gap-2 text-blue-600 dark:text-blue-400">
+        <h2 className="font-bold text-sm flex items-center gap-2 text-blue-600 dark:text-blue-400">
           <TrendingUp className="w-4 h-4" /> Latest Updates
-        </h3>
+        </h2>
         <a href={`https://bsky.app/profile/${HANDLE}`} target="_blank" rel="noopener noreferrer">
           <ExternalLink className="w-3 h-3 text-gray-400 hover:text-blue-500" />
         </a>
@@ -129,7 +129,7 @@ const YouTubeWidget = () => {
 
   return (
     <div className="p-4 glass-card rounded-2xl mb-4">
-      <h3 className="font-bold text-sm mb-3">YouTube Content</h3>
+      <h2 className="font-bold text-sm mb-3">YouTube Content</h2>
       <div className="space-y-3">
         {videos.map(video => (
           <a 
@@ -187,7 +187,7 @@ const MetMuseumWidget = () => {
 
   return (
     <div className="p-4 glass-card rounded-2xl mb-4">
-      <h3 className="font-bold text-sm mb-3">Met Museum Spotlight</h3>
+      <h2 className="font-bold text-sm mb-3">Met Museum Spotlight</h2>
       <div className="relative w-full h-40 mb-3">
         <Image 
           src={artwork.primaryImageSmall} 
@@ -250,7 +250,7 @@ const WeatherWidget = () => {
   return (
     <div className="p-4 glass-card rounded-2xl mb-4">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="font-bold text-sm">Weather</h3>
+        <h2 className="font-bold text-sm">Weather</h2>
         <Cloud className="w-4 h-4 text-blue-500" />
       </div>
       <div className="flex items-center gap-3">
@@ -296,7 +296,7 @@ const HDXWidget = () => {
   return (
     <div className="p-4 glass-card rounded-2xl mb-4">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="font-bold text-sm">Humanitarian Data</h3>
+        <h2 className="font-bold text-sm">Humanitarian Data</h2>
         <Globe className="w-4 h-4 text-orange-500" />
       </div>
       <div className="space-y-3">
@@ -338,7 +338,7 @@ const AnalyticsWidget = () => {
   return (
     <div className="p-4 glass-card rounded-2xl mb-4">
       <div className="flex items-center justify-between mb-2">
-        <h3 className="font-bold text-sm">Site Analytics</h3>
+        <h2 className="font-bold text-sm">Site Analytics</h2>
         <BarChart3 className="w-4 h-4 text-purple-500" />
       </div>
       <div className="space-y-2">
@@ -374,7 +374,7 @@ const RecommendedResearchers = () => {
 
   return (
     <div className="p-4 glass-card rounded-2xl mb-4">
-      <h3 className="font-bold text-sm mb-4 tracking-tight">Recommended Researchers</h3>
+      <h2 className="font-bold text-sm mb-4 tracking-tight">Recommended Researchers</h2>
       <div className="space-y-4">
         {researchers.map((user) => (
           <div key={user.handle} className="flex items-center justify-between">
@@ -444,9 +444,9 @@ const BlueskyArchiveWidget = () => {
 
   return (
     <div className="p-4 glass-card rounded-2xl mb-4">
-      <h3 className="font-bold text-sm mb-4 flex items-center gap-2">
+      <h2 className="font-bold text-sm mb-4 flex items-center gap-2">
         <BookOpen className="w-4 h-4 text-blue-500" /> Research Archive
-      </h3>
+      </h2>
       
       <div className="space-y-4">
         <div>
@@ -495,7 +495,8 @@ export default function RightSidebar() {
             </svg>
           </div>
           <input
-            type="text"
+            type="search"
+            aria-label="Search the portfolio"
             className="block w-full pl-10 pr-3 py-2 border border-white/20 dark:border-white/10 rounded-xl bg-white/40 dark:bg-black/40 text-sm placeholder-gray-500 focus:ring-2 focus:ring-blue-500 focus:bg-white/60 dark:focus:bg-black/60 transition-all backdrop-blur-md"
             placeholder="Search Portfolio"
           />

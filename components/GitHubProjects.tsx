@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Github, Star, GitFork, Code, Search, X, ExternalLink, Share2, Mail, Linkedin } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import Link from 'next/link';
 
 interface Project {
   id: number;
@@ -62,16 +63,61 @@ export default function GitHubProjects({ isEmbedded = false, limit }: { isEmbedd
 
   const displayedProjects = limit ? filteredProjects.slice(0, limit) : filteredProjects;
 
-  if (loading) return <div className="py-10 text-center text-gray-500">Loading projects...</div>;
+  const pageHeader = !isEmbedded && (
+    <header className="mb-12">
+      <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Featured Projects</h1>
+      <p className="mt-2 text-gray-600 dark:text-gray-400">
+        Open source contributions and personal projects
+      </p>
+      <div className="mt-4 space-y-3 text-left text-sm leading-relaxed text-gray-600 dark:text-gray-400">
+        <p>
+          Everything listed here is public code. The cards are loaded live from the GitHub API when the page opens,
+          so the list reflects whatever was pushed most recently rather than a snapshot that goes stale: stars,
+          forks, primary language and topics all come straight from each repository record.
+        </p>
+        <p>
+          The work clusters around applied machine learning for agriculture and the tooling that supports it. You
+          will find segmentation and detection experiments for crop and disease recognition, notebooks that walk
+          through a dataset or a training run, small utilities for sensor and weather data, and this website itself,
+          which is a Next.js static export deployed to GitHub Pages.
+        </p>
+        <p>
+          Each card shows the language GitHub reports as primary, which is not always the language the interesting
+          part is written in: a Python training script can sit behind a TypeScript demo. Where a repository has a
+          paper or a write-up attached, the description links to it. Repositories that are archived or no longer
+          maintained stay in the list so the record is complete, but the card will show the last push date.
+        </p>
+        <p>
+          Use the search field to filter by repository name or description, or pick a language to narrow the list.
+          Selecting a card opens the full description, topics and links to the repository and its homepage. If a
+          project looks relevant to something you are working on, the{" "}
+          <Link href="/contact" className="text-blue-600 hover:underline dark:text-blue-400">
+            contact page
+          </Link>{" "}
+          is the fastest way to reach me, and the{" "}
+          <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">
+            publications page
+          </Link>{" "}
+          covers the peer-reviewed side of the same work.
+        </p>
+      </div>
+    </header>
+  );
+
+  if (loading) {
+    return (
+      <div className="p-6 md:p-12">
+        {pageHeader}
+        <p className="py-10 text-center text-gray-500" role="status">
+          Loading projects from GitHub…
+        </p>
+      </div>
+    );
+  }
 
   const content = (
     <>
-      {!isEmbedded && (
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Featured Projects</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">Open source contributions and personal projects</p>
-        </div>
-      )}
+      {pageHeader}
 
       {/* Search Bar - Only show if not limited (i.e., on main projects page) */}
       {!limit && (
@@ -81,7 +127,8 @@ export default function GitHubProjects({ isEmbedded = false, limit }: { isEmbedd
               <Search className="h-5 w-5 text-gray-400" />
             </div>
             <input
-              type="text"
+              type="search"
+              aria-label="Search projects by name, description or language"
               className="block w-full pl-10 pr-3 py-3 border border-white/20 rounded-xl leading-5 bg-white/50 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition duration-150 ease-in-out dark:bg-black/50 dark:border-white/10 dark:text-white shadow-sm backdrop-blur-sm"
               placeholder="Search projects..."
               value={searchQuery}
@@ -130,10 +177,10 @@ export default function GitHubProjects({ isEmbedded = false, limit }: { isEmbedd
               className="flex cursor-pointer flex-col justify-between rounded-2xl border border-white/20 bg-white/40 p-5 shadow-sm transition-all hover:shadow-md backdrop-blur-md dark:border-white/10 dark:bg-black/40 overflow-hidden"
             >
               <div className="overflow-hidden">
-                <h3 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white">
+                <h2 className="flex items-center gap-2 text-lg font-semibold text-gray-900 dark:text-white">
                   <Github className="h-4 w-4 shrink-0" />
                   <span className="line-clamp-2 leading-tight">{project.name}</span>
-                </h3>
+                </h2>
                 <p className="mt-2 text-xs text-gray-600 dark:text-gray-400 line-clamp-3 break-words">
                   {project.description || 'No description provided.'}
                 </p>
@@ -242,10 +289,10 @@ export default function GitHubProjects({ isEmbedded = false, limit }: { isEmbedd
               className="relative w-full max-w-2xl overflow-hidden rounded-3xl border border-white/20 bg-white/80 shadow-2xl backdrop-blur-xl dark:border-white/10 dark:bg-black/80"
             >
               <div className="flex items-center justify-between border-b border-white/20 px-6 py-4 dark:border-white/10">
-                <h3 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
                   <Github className="h-6 w-6" />
                   {selectedProject.name}
-                </h3>
+                </h2>
                 <button
                   onClick={() => setSelectedProject(null)}
                   className="rounded-full p-2 text-gray-500 hover:bg-white/50 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-black/50 dark:hover:text-gray-200 transition-colors"

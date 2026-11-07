@@ -9,11 +9,12 @@ export default function Hero() {
     <div className="flex flex-col border-b border-gray-200 dark:border-gray-800 bg-white/40 dark:bg-black/40 backdrop-blur-md">
       {/* Cover Photo */}
       <div className="h-32 sm:h-48 w-full bg-slate-100 dark:bg-slate-900 relative overflow-hidden">
-        <Image 
-          src="https://ghchart.rshah.org/myself-aas.svg" 
-          alt="GitHub Contribution Graph" 
-          fill 
-          className="object-contain opacity-40 dark:opacity-30"
+        <Image
+          src="https://ghchart.rshah.org/myself-aas.svg"
+          alt="GitHub contribution graph for myself-aas"
+          width={1200}
+          height={360}
+          className="h-full w-full object-contain opacity-40 dark:opacity-30"
           priority
         />
         {/* Gradient Overlay */}
@@ -25,11 +26,12 @@ export default function Hero() {
         <div className="flex justify-between items-start pt-4">
           {/* Avatar */}
           <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl border-4 border-white/50 dark:border-black/50 bg-gray-200/50 dark:bg-gray-800/50 -mt-14 sm:-mt-18 relative z-10 shadow-xl overflow-hidden backdrop-blur-sm">
-            <Image 
-              src="https://github.com/myself-aas.png" 
-              alt="Ashif Ahmed Shuvo" 
-              fill 
-              className="object-cover"
+            <Image
+              src="https://github.com/myself-aas.png"
+              alt="Portrait of Ashif Ahmed Shuvo"
+              width={144}
+              height={144}
+              className="h-full w-full object-cover"
               priority
             />
           </div>
@@ -79,6 +81,7 @@ export default function Hero() {
             <div className="flex items-center gap-4">
               <a 
                 href="mailto:shuvo.1807016@bau.edu.bd" 
+                aria-label="Email Ashif Ahmed Shuvo"
                 className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-400 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
                 title="Email"
               >
@@ -88,6 +91,7 @@ export default function Hero() {
                 href="https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en&oi=sra" 
                 target="_blank" 
                 rel="noopener noreferrer" 
+                aria-label="Google Scholar profile (opens in a new tab)"
                 className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-400 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
                 title="Google Scholar"
               >
@@ -97,6 +101,7 @@ export default function Hero() {
                 href="https://orcid.org/0009-0003-5734-1519" 
                 target="_blank" 
                 rel="noopener noreferrer" 
+                aria-label="ORCID record (opens in a new tab)"
                 className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-green-600 dark:hover:text-green-400 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
                 title="ORCID"
               >
@@ -106,6 +111,7 @@ export default function Hero() {
                 href="https://github.com/myself-aas" 
                 target="_blank" 
                 rel="noopener noreferrer" 
+                aria-label="GitHub profile (opens in a new tab)"
                 className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
                 title="GitHub"
               >
@@ -115,6 +121,7 @@ export default function Hero() {
                 href="https://www.linkedin.com/in/me-aas" 
                 target="_blank" 
                 rel="noopener noreferrer" 
+                aria-label="LinkedIn profile (opens in a new tab)"
                 className="p-3 rounded-2xl bg-white/40 dark:bg-white/5 text-gray-600 dark:text-gray-400 hover:text-blue-700 dark:hover:text-blue-500 border border-white/20 dark:border-white/10 backdrop-blur-md transition-all hover:scale-110 shadow-sm"
                 title="LinkedIn"
               >

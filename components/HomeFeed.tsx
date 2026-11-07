@@ -61,7 +61,7 @@ const PortfolioSection = ({
             href={viewMoreHref}
             className="inline-flex items-center gap-2 text-sm font-bold text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 transition-colors group"
           >
-            {viewMoreLabel} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            {viewMoreLabel} <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" aria-hidden="true" />
           </Link>
         </div>
       )}
@@ -80,12 +80,12 @@ export default function HomeFeed() {
             Welcome to my research portfolio. I am dedicated to bridging the gap between advanced artificial intelligence and practical applications in precision agriculture. My work focuses on developing robust computer vision models and data-driven systems that empower sustainable farming practices.
           </p>
           <div className="mt-8 flex flex-wrap gap-4">
-            <a href="/publications" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-black font-bold hover:opacity-90 transition-all">
-              View Publications <ArrowRight className="w-4 h-4" />
-            </a>
-            <a href="/projects" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-800 font-bold hover:bg-gray-50 dark:hover:bg-gray-900 transition-all">
+            <Link href="/publications" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-black font-bold hover:opacity-90 transition-all">
+              View Publications <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            </Link>
+            <Link href="/projects" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-gray-200 dark:border-gray-800 font-bold hover:bg-gray-50 dark:hover:bg-gray-900 transition-all">
               Explore Projects
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -99,7 +99,7 @@ export default function HomeFeed() {
         icon={TrendingUp} 
         id="skills"
         viewMoreHref="/skills"
-        viewMoreLabel="Query More"
+        viewMoreLabel="Explore all technical skills"
       >
         <div className="flex flex-col">
           <ProfileDetails isEmbedded={true} />
@@ -114,7 +114,7 @@ export default function HomeFeed() {
         icon={Folder} 
         id="projects"
         viewMoreHref="/projects"
-        viewMoreLabel="Project Universe"
+        viewMoreLabel="Browse all research projects"
       >
         <GitHubProjects isEmbedded={true} limit={3} />
       </PortfolioSection>
@@ -124,7 +124,7 @@ export default function HomeFeed() {
         icon={BookOpen} 
         id="publications"
         viewMoreHref="/publications"
-        viewMoreLabel="Complete Records"
+        viewMoreLabel="See all publications"
       >
         <Publications isEmbedded={true} limit={3} />
       </PortfolioSection>
@@ -134,7 +134,7 @@ export default function HomeFeed() {
         icon={Briefcase} 
         id="experience"
         viewMoreHref="/experience"
-        viewMoreLabel="Evolution of Work"
+        viewMoreLabel="See full experience and education"
       >
         <Experience isEmbedded={true} limit={3} />
       </PortfolioSection>
@@ -144,7 +144,7 @@ export default function HomeFeed() {
         icon={TrendingUp} 
         id="feed"
         viewMoreHref="/feed"
-        viewMoreLabel="Initialize Full View"
+        viewMoreLabel="Read the full research feed"
       >
         <BlueskyFeed limit={3} />
       </PortfolioSection>

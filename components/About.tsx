@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'motion/react';
+import Link from 'next/link';
 import { GraduationCap, Target, Lightbulb, Award } from 'lucide-react';
 
 export default function About({ isEmbedded = false }: { isEmbedded?: boolean }) {
@@ -40,7 +41,7 @@ export default function About({ isEmbedded = false }: { isEmbedded?: boolean }) 
         transition={{ duration: 0.5 }}
         className="max-w-3xl"
       >
-        {!isEmbedded && <h2 className="mb-8 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">About My Journey</h2>}
+        {!isEmbedded && <h1 className="mb-8 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">About My Journey</h1>}
         
         <div className={`space-y-6 ${isEmbedded ? 'text-base' : 'text-lg'} text-gray-600 dark:text-gray-300 leading-relaxed font-serif`}>
           <p className="first-letter:text-5xl first-letter:font-bold first-letter:mr-3 first-letter:float-left first-letter:text-blue-600">
@@ -51,6 +52,12 @@ export default function About({ isEmbedded = false }: { isEmbedded?: boolean }) 
           </p>
           <p>
             My ultimate goal is to pursue a PhD where I can further explore the intersection of artificial intelligence and agricultural sciences, developing innovative solutions to address global food security and sustainability challenges.
+          </p>
+          <p>
+            Day to day that means building models that survive real field conditions: uneven lighting, overlapping leaves, cheap cameras and small labelled datasets. I work mostly in Python and PyTorch, using segmentation and detection architectures for crop and disease recognition, and I pair those models with sensor and weather data so the output answers a practical question a grower or researcher can act on.
+          </p>
+          <p>
+            Alongside modelling I care about reproducibility. Datasets, training scripts and evaluation notebooks are published where the work allows, so a result can be checked rather than trusted. I also spend time on the unglamorous part: labelling guidelines that two annotators can apply the same way, and evaluation that reports per-class error instead of a single flattering average. The <Link href="/projects" className="text-blue-600 hover:underline dark:text-blue-400">projects page</Link> lists the open repositories and the <Link href="/publications" className="text-blue-600 hover:underline dark:text-blue-400">publications page</Link> collects the peer-reviewed output.
           </p>
         </div>
       </motion.div>
@@ -69,7 +76,7 @@ export default function About({ isEmbedded = false }: { isEmbedded?: boolean }) 
             <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 backdrop-blur-sm ${item.color}`}>
               <item.icon className="w-6 h-6" />
             </div>
-            <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{item.title}</h3>
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-2">{item.title}</h2>
             <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{item.text}</p>
           </motion.div>
         ))}

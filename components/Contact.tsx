@@ -64,7 +64,7 @@ export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }
     >
       {!isEmbedded && (
         <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Get in Touch</h2>
+          <h1 className="text-3xl font-bold tracking-tight text-gray-900 dark:text-white">Get in Touch</h1>
           <p className="mt-2 text-gray-600 dark:text-gray-400">
             Have a question or want to work together? Send me a message.
           </p>
@@ -79,11 +79,19 @@ export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }
             className="flex flex-col items-center justify-center py-12 text-center"
           >
             <CheckCircle2 className="mb-4 h-16 w-16 text-green-500" />
-            <h3 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">Message Sent!</h3>
+            <h2 className="mb-2 text-2xl font-bold text-gray-900 dark:text-white">Message Sent!</h2>
             <p className="text-gray-600 dark:text-gray-400">Thank you for reaching out. I&apos;ll get back to you soon.</p>
           </motion.div>
         ) : (
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" aria-label="Contact Ashif Ahmed Shuvo">
+            <input
+              type="text"
+              name="_gotcha"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="hidden"
+            />
             <div>
               <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-900 dark:text-gray-300">
                 Name
@@ -92,6 +100,8 @@ export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }
                 {...register('name')}
                 type="text"
                 id="name"
+                autoComplete="name"
+                enterKeyHint="next"
                 className="block w-full rounded-xl border border-white/20 bg-white/50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900/50 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 backdrop-blur-sm"
                 placeholder="John Doe"
               />
@@ -106,6 +116,9 @@ export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }
                 {...register('email')}
                 type="email"
                 id="email"
+                autoComplete="email"
+                inputMode="email"
+                enterKeyHint="next"
                 className="block w-full rounded-xl border border-white/20 bg-white/50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900/50 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 backdrop-blur-sm"
                 placeholder="john@example.com"
               />
@@ -120,6 +133,8 @@ export default function Contact({ isEmbedded = false }: { isEmbedded?: boolean }
                 {...register('message')}
                 id="message"
                 rows={5}
+                autoComplete="off"
+                enterKeyHint="send"
                 className="block w-full rounded-xl border border-white/20 bg-white/50 p-3 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-white/10 dark:bg-gray-900/50 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500 backdrop-blur-sm"
                 placeholder="Your message here..."
               ></textarea>
