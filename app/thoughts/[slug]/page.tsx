@@ -5,6 +5,7 @@ import { ArrowLeft, Calendar, Clock, BookOpen, Sparkles } from 'lucide-react';
 import { getAllThoughts, getThoughtBySlug, getRelatedThoughts } from '@/lib/thoughts';
 import { pageMetadata } from '@/lib/seo';
 import ThoughtContent from './ThoughtContent';
+import SubscribeThoughts from '@/components/SubscribeThoughts';
 import CopyLinkButton from '@/components/CopyLinkButton';
 import { formatDate } from '@/lib/utils';
 
@@ -201,6 +202,9 @@ export default async function ThoughtPage({ params }: Props) {
             </div>
           </section>
         )}
+
+        {/* Subscribe Component */}
+        <SubscribeThoughts />
 
         {/* Navigation Footer */}
         <footer className="mt-14 border-t border-rule pt-8">
