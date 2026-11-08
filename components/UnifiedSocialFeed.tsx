@@ -3,10 +3,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Image from 'next/image';
-import { MessageSquare, Share2, Clock, ExternalLink, Globe, Layers, Filter } from 'lucide-react';
+import { MessageSquare, Share2, Clock, ExternalLink } from 'lucide-react';
 import PostText from './PostText';
 import { useRemote } from '@/lib/remote';
 import { HANDLE, loadAuthorFeed, postsWithImages, postsWithTag, type Post } from '@/lib/sources/bluesky';
+import { formatDate } from '@/lib/utils';
 
 const NO_POSTS: Post[] = [];
 
@@ -38,7 +39,7 @@ export default function UnifiedSocialFeed({
   })();
 
   const renderPost = (post: Post, isMini = false) => {
-    const date = new Date(post.createdAt).toLocaleDateString();
+    const date = formatDate(post.createdAt, 'short');
 
     return (
       <motion.div

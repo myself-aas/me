@@ -31,6 +31,12 @@ export const personSchema = {
     'https://www.linkedin.com/in/me-aas',
     'https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en',
     'https://orcid.org/0009-0003-5734-1519',
+    'https://www.researchgate.net/profile/Ashif-Shuvo',
+    'https://x.com/myself_aas',
+    'https://www.kaggle.com/ashifahmedshuvo',
+    'https://huggingface.co/me-aas',
+    'https://bsky.app/profile/myself-aas.bsky.social',
+    'https://discord.com',
   ],
 };
 

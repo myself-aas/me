@@ -128,7 +128,7 @@ export default function Contact() {
 
             <div className="pt-4 border-t border-rule mt-4">
               <a 
-                href="/me/Ashif_Ahmed_Shuvo_Resume.pdf" 
+                href="/Ashif_Ahmed_Shuvo_Resume.pdf" 
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex w-full items-center justify-center gap-2 rounded-[2px] border border-signal px-5 py-3 text-center font-sans text-[0.875rem] text-signal transition-colors hover:bg-signal hover:text-paper"

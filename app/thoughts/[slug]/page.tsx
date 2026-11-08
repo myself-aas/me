@@ -5,6 +5,8 @@ import { ArrowLeft, Calendar, Clock, BookOpen, Sparkles } from 'lucide-react';
 import { getAllThoughts, getThoughtBySlug, getRelatedThoughts } from '@/lib/thoughts';
 import { pageMetadata } from '@/lib/seo';
 import ThoughtContent from './ThoughtContent';
+import CopyLinkButton from '@/components/CopyLinkButton';
+import { formatDate } from '@/lib/utils';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -75,31 +77,30 @@ export default async function ThoughtPage({ params }: Props) {
 
         {/* Article Header */}
         <header className="mb-10 border-b border-rule pb-8">
-          <div className="flex flex-wrap items-center gap-3 text-xs text-ink-soft mb-4">
-            <span className="flex items-center gap-1">
-              <BookOpen className="h-3.5 w-3.5 text-signal" />
-              <span>Thought</span>
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <Calendar className="h-3.5 w-3.5" />
-              {thought.date
-                ? new Date(thought.date).toLocaleDateString('en-US', {
-                    month: 'long',
-                    day: 'numeric',
-                    year: 'numeric',
-                  })
-                : 'Undated'}
-            </span>
-            {thought.readingTime && (
-              <>
-                <span>•</span>
-                <span className="flex items-center gap-1">
-                  <Clock className="h-3.5 w-3.5" />
-                  {thought.readingTime}
-                </span>
-              </>
-            )}
+          <div className="flex flex-wrap items-center justify-between gap-3 text-xs text-ink-soft mb-4">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="flex items-center gap-1">
+                <BookOpen className="h-3.5 w-3.5 text-signal" />
+                <span>Thought</span>
+              </span>
+              <span>•</span>
+              <span className="flex items-center gap-1">
+                <Calendar className="h-3.5 w-3.5" />
+                {formatDate(thought.date, 'long')}
+              </span>
+              {thought.readingTime && (
+                <>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">
+                    <Clock className="h-3.5 w-3.5" />
+                    {thought.readingTime}
+                  </span>
+                </>
+              )}
+            </div>
+
+            {/* Copy Article Link Button */}
+            <CopyLinkButton />
           </div>
 
           <h1 className="font-serif text-3xl sm:text-4xl font-[560] leading-tight text-ink mb-6">
@@ -154,15 +155,7 @@ export default async function ThoughtPage({ params }: Props) {
                     <div>
                       <div className="flex items-center gap-2 text-[11px] text-ink-soft mb-2">
                         <Calendar className="h-3 w-3 text-signal" />
-                        <span>
-                          {related.date
-                            ? new Date(related.date).toLocaleDateString('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                year: 'numeric',
-                              })
-                            : 'Undated'}
-                        </span>
+                        <span>{formatDate(related.date, 'short')}</span>
                         {related.readingTime && (
                           <>
                             <span>•</span>

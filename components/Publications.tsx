@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import Link from 'next/link';
 import { ORCID_ID, ORCID_PROFILE, type Publication } from '@/lib/sources/orcid';
 import { BookOpen, ExternalLink, FileText, Share2, Linkedin, Link as LinkIcon, Filter, ArrowUpDown, Quote, Copy, Check } from 'lucide-react';
+import { formatDate } from '@/lib/utils';
 
 const manualPublications: Publication[] = [
   {
@@ -56,6 +57,16 @@ const manualPublications: Publication[] = [
     impactFactor: 0,
     type: 'Dataset',
     doi: '10.17632/ZK4HZHTCDD.2'
+  },
+  {
+    title: 'Retail Market Price Dataset for Wheat Flour and Macroeconomic Indicators in Bangladesh',
+    year: '2026',
+    url: 'https://data.mendeley.com/datasets/5m4d33mxrs/1',
+    source: 'Mendeley Data',
+    authors: 'Ashif Ahmed Shuvo, Subrina Afrin Monika, Mahadi Abser Turza, Md. Asif Iqbal, Ismat Ara Begum, Mohammad Jahangir Alam',
+    impactFactor: 0,
+    type: 'Dataset',
+    doi: '10.17632/5M4D33MXRS.1'
   },
   {
     title: 'CatalystLab: AI-Powered Research Brainstorming and Parallel Literature Discovery Platform',
@@ -218,12 +229,7 @@ export default function Publications({
               >
                 ORCID {ORCID_ID}
               </a>{' '}
-              on{' '}
-              {new Date(readAt).toLocaleDateString('en-GB', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric',
-              })}
+              on {formatDate(readAt, 'gb')}
               : {combinedPubs.length} {combinedPubs.length === 1 ? 'work' : 'works'} on the record —{' '}
               everything ORCID publishes. Works set to limited visibility stay private and cannot
               appear here.

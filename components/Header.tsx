@@ -4,6 +4,8 @@ import { Moon, Sun, Github, Linkedin, Mail, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'motion/react';
+import { SocialIcon } from './SocialLinks';
+import { SOCIAL_PROFILES } from '@/lib/socials';
 
 /** The contents of the record, in the order a reader moves through it. */
 const CONTENTS = [
@@ -82,30 +84,25 @@ export default function Header() {
             <Mail className="h-4 w-4" aria-hidden="true" />
             <span className="hidden xl:block">Contact</span>
           </Link>
-          <div className="flex items-center gap-4 py-3">
-            <a
-              href="https://github.com/myself-aas"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="GitHub profile (opens in a new tab)"
-              className="text-ink-soft transition-colors hover:text-ink"
-            >
-              <Github className="h-4 w-4" aria-hidden="true" />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/me-aas"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="LinkedIn profile (opens in a new tab)"
-              className="text-ink-soft transition-colors hover:text-ink"
-            >
-              <Linkedin className="h-4 w-4" aria-hidden="true" />
-            </a>
+          <div className="flex flex-wrap items-center gap-2 py-3">
+            {SOCIAL_PROFILES.filter(p => p.id !== 'email').map((profile) => (
+              <a
+                key={profile.id}
+                href={profile.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={`${profile.name} (${profile.handle})`}
+                aria-label={`${profile.name} profile`}
+                className="text-ink-soft transition-colors hover:text-signal p-1 hover:bg-band rounded-[2px]"
+              >
+                <SocialIcon id={profile.id} className="h-3.5 w-3.5" />
+              </a>
+            ))}
             <button
               type="button"
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               aria-label="Switch between light and dark theme"
-              className="ml-auto text-ink-soft transition-colors hover:text-ink"
+              className="ml-auto text-ink-soft transition-colors hover:text-signal p-1"
             >
               {!mounted ? (
                 <span className="block h-4 w-4" />
@@ -222,25 +219,22 @@ export default function Header() {
                   </Link>
                 </div>
                 
-                <div className="mt-auto pt-8 border-t border-rule flex items-center gap-6">
-                  <a
-                    href="https://github.com/myself-aas"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ink-soft hover:text-ink transition-colors flex items-center gap-2"
-                  >
-                    <Github className="h-5 w-5" />
-                    <span className="text-sm">GitHub</span>
-                  </a>
-                  <a
-                    href="https://www.linkedin.com/in/me-aas"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-ink-soft hover:text-ink transition-colors flex items-center gap-2"
-                  >
-                    <Linkedin className="h-5 w-5" />
-                    <span className="text-sm">LinkedIn</span>
-                  </a>
+                <div className="mt-auto pt-6 border-t border-rule">
+                  <div className="datum mb-3">Profiles & Networks</div>
+                  <div className="grid grid-cols-2 gap-2">
+                    {SOCIAL_PROFILES.filter(p => p.id !== 'email').map((profile) => (
+                      <a
+                        key={profile.id}
+                        href={profile.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-ink-soft hover:text-signal transition-colors flex items-center gap-2 p-1.5 rounded-[2px] hover:bg-band"
+                      >
+                        <SocialIcon id={profile.id} className="h-4 w-4 shrink-0 text-signal" />
+                        <span className="text-xs font-medium truncate">{profile.name}</span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
               </div>
             </motion.nav>

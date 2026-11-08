@@ -54,18 +54,6 @@ export default function ProfileDetails() {
           ))}
         </ul>
       </figure>
-
-      <div className="mt-6">
-        <h2 className="text-lg font-bold mb-2">Important Links</h2>
-        <div className="flex flex-col gap-2">
-          <a href="https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en&oi=sra" target="_blank" rel="noopener noreferrer" className="text-signal hover:underline">
-            Google Scholar profile
-          </a>
-          <a href="https://github.com/myself-aas" target="_blank" rel="noopener noreferrer" className="text-signal hover:underline">
-            GitHub profile
-          </a>
-        </div>
-      </div>
     </div>
   );
 }

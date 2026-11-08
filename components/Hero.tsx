@@ -15,31 +15,20 @@ import { motion, useReducedMotion } from 'motion/react';
 const RECORDS = [
   {
     label: 'Field',
-    value: 'Food engineering, then agro-meteorology at Bangladesh Agricultural University',
+    value: 'Agrometeorology (M.Sc.) & Food Engineering (B.Sc.) at Bangladesh Agricultural University',
   },
   {
     label: 'Instruments',
-    value: 'RGB cameras, weather-station series, satellite indices, PyTorch',
+    value: 'RGB cameras, spatio-temporal series, satellite indices, PyTorch, NIR spectroscopy',
   },
   {
     label: 'Records',
-    value: 'Five papers and preprints, public repositories, a research log on Bluesky',
+    value: 'Peer-reviewed journals (Smart Agricultural Technology), SSRN preprints, Mendeley datasets, GitHub platforms',
   },
   {
     label: 'Coordinates',
     value: '24.75° N, 90.40° E · Mymensingh, Bangladesh',
   },
-];
-
-const LINKS = [
-  { label: 'Write to me', href: '/contact', external: false },
-  { label: 'Résumé', href: '/me/Ashif_Ahmed_Shuvo_Resume.pdf', external: true },
-  {
-    label: 'Google Scholar',
-    href: 'https://scholar.google.com/citations?user=ROhDpNAAAAAJ&hl=en',
-    external: true,
-  },
-  { label: 'ORCID', href: 'https://orcid.org/0009-0003-5734-1519', external: true },
 ];
 
 export default function Hero() {
@@ -77,10 +66,9 @@ export default function Hero() {
           animate={reduceMotion ? undefined : { opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
         >
-          Uneven light, overlapping leaves, cheap cameras, small labelled sets: that is the working
-          condition for the models I build. The same habit goes into predicting the price of wheat
-          flour or the weight of cattle from a photograph — the output has to answer a question
-          someone can act on.
+          Agrometeorologist & Food Engineer specializing in computer vision, spatio-temporal modeling,
+          and machine learning for precision agriculture and food systems. From predicting commodity prices
+          to on-device bovine weight estimation, my focus is building actionable models for real-world field conditions.
         </motion.p>
 
         <dl className="mt-10 border-b border-rule">
@@ -106,29 +94,22 @@ export default function Hero() {
           ))}
         </dl>
 
-        <ul className="mt-9 flex flex-wrap items-baseline gap-x-7 gap-y-3">
-          {LINKS.map((link) => (
-            <li key={link.label}>
-              {link.external ? (
-                <a
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rail-link text-ink underline decoration-rule underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
-                >
-                  {link.label}
-                </a>
-              ) : (
-                <Link
-                  href={link.href}
-                  className="rail-link text-signal underline decoration-signal/40 underline-offset-4 transition-colors hover:decoration-signal"
-                >
-                  {link.label}
-                </Link>
-              )}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-9 flex items-center gap-5 pt-2 border-t border-rule/40">
+          <Link
+            href="/contact"
+            className="rail-link text-signal font-medium underline decoration-signal/40 underline-offset-4 transition-colors hover:decoration-signal"
+          >
+            Write to me
+          </Link>
+          <a
+            href="/Ashif_Ahmed_Shuvo_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="rail-link text-ink underline decoration-rule underline-offset-4 transition-colors hover:text-signal hover:decoration-signal"
+          >
+            Résumé
+          </a>
+        </div>
       </div>
 
       <div className="border-t border-rule px-5 py-4 md:px-10">

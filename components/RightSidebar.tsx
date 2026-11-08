@@ -8,15 +8,17 @@ import {
   FileText
 } from 'lucide-react';
 import PostText from './PostText';
+import NewsletterSubscription from './NewsletterSubscription';
 import { useRemote } from '@/lib/remote';
-import { HANDLE, loadAuthorFeed, postsWithImages, postsWithTag } from '@/lib/sources/bluesky';
+import { HANDLE, loadAuthorFeed } from '@/lib/sources/bluesky';
+import { formatDate } from '@/lib/utils';
 
 // --- Resume Widget ---
 const ResumeWidget = () => {
   return (
     <div className="border-t border-rule py-4">
       <a 
-        href="/me/Ashif_Ahmed_Shuvo_Resume.pdf" 
+        href="/Ashif_Ahmed_Shuvo_Resume.pdf" 
         target="_blank"
         rel="noopener noreferrer"
         className="flex items-center justify-center gap-2 w-full py-3 rounded-[2px] border-2 border-signal text-signal font-bold hover:bg-signal hover:text-paper transition-all "
@@ -53,7 +55,7 @@ const BlueskyWidget = () => {
               <PostText text={post.text} />
             </p>
             <div className="flex items-center justify-between text-[9px] text-ink-soft">
-              <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+              <span>{formatDate(post.createdAt, 'short')}</span>
               <span className="flex items-center gap-1"><MessageSquare className="w-2 h-2" /> {post.replyCount}</span>
             </div>
           </div>
@@ -92,6 +94,7 @@ export default function RightSidebar() {
       </div>
 
       <ResumeWidget />
+      <NewsletterSubscription variant="compact" />
       <BlueskyWidget />
     </aside>
   );

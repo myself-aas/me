@@ -58,7 +58,7 @@ export default function About() {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {highlights.map((item, index) => (
+        {highlights.map((item) => (
           <div key={item.title} className="border border-rule bg-band p-6">
             <div className={`w-12 h-12 rounded-[2px] flex items-center justify-center mb-4 ${item.color}`}>
               <item.icon className="w-6 h-6" />
